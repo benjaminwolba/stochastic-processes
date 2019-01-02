@@ -1,0 +1,2026 @@
+%-------------------------------------------------------------------------
+%	Lecture Notes Stochastic Processes, Benjamin Wolba
+%-------------------------------------------------------------------------
+
+\documentclass{notebook}
+
+\ihead{\headmark}									% header: chapter name inside
+\setheadsepline{0.5pt}													% insert line of 0.5 pt width
+\cfoot{Made with \LaTeX{} by Benjamin Wolba}
+	
+%\addbibresource{Ref_Lagrange.bib} 										    % integration of .bib-file
+
+\title{\color{bluebase} Lecture Notes on Stochastic Processes}  
+\author{PD Dr. Benjamin M. Friedrich}                 
+
+\begin{document}
+	
+\frontmatter
+
+\maketitle
+
+\tableofcontents
+
+\mainmatter
+
+\chapter{Diffusion \& Random Walk}
+
+\section{Random Walker}
+
+The random walk can be used to model a variety of different phenomena just like
+%
+\begin{itemize}
+	\item{the motion of a particle during diffusion}
+	\item{the spread of mosquito infestation in a forest}
+	\item{propagation of sound waves in a heterogeneous material}
+	\item{money flow}
+\end{itemize}
+%
+
+%
+\begin{mdframed}[style=default, frametitle={Model: Random Walker}]
+	%
+	A random walker can be considered as particle moving in steps of length $l$, while choosing each time a random, uncorrelated direction. Uncorrelated means that
+	%
+	\begin{equation}
+	\expval{\vec{x}_n \cdot \vec{x}_m} = l^2 \delta_{nm}
+	\end{equation}
+	%
+	for averaging over a certain probability distribution.
+	%
+\end{mdframed}
+%
+
+Thus, the displacement of a random walker after $n$ steps is given by
+%
+\begin{equation}
+\vec{x} = \sum^N_{n = 1}{\vec{x}_n} \quad \mathrm{with} \quad \expval{\vec{x}} = \vec{0}
+\end{equation}
+%
+The mean square displacement $(\Delta \vec{x})^2$ equals the variance $\sigma^2$
+%
+\begin{align*}
+	\sigma^2 &= \expval{\vec{x}^2} - \expval{\vec{x}}^2 = \expval{\vec{x}^2} = (\Delta \vec{x})^2 \\ 
+	&= \expval{\left( \sum^N_{n = 1}{\vec{x}_n} \right)^2} = \sum^N_{n, m = 1}\expval{\vec{x}_n \cdot \vec{x}_m} = N l^2
+\end{align*}
+%
+As we have $(\Delta \vec{x})^2 \sim N$ and $\Delta t \sim N $, the relation $ \frac{(\Delta \vec{x})^2}{\Delta t} $
+is a constant in the continuum limit, which is quite unusual that a square term in the numerator appears.  
+
+\section{Continuum Limit: Diffusion Equation}
+
+We now consider the step sizes $\Delta \vec{y}$ of a random walker becoming infinitesimally small, with $p(\Delta \vec{y})$ being the probability for step $\Delta \vec{y}$:
+%
+\begin{gather}
+	\expval{\Delta \vec{y}_i} = \int{\dd[d]{\Delta y} \left[ \Delta y_i \, p(\Delta \vec{y}) \right]} = 0 \\
+	\expval{\Delta \vec{y}_i \, \Delta \vec{y}_j} = \int{\dd[d]{\Delta y} \left[ \Delta y_i \, \Delta y_j \, p(\Delta \vec{y}) \right]} = \expval{(\Delta \vec{y})^2} \frac{\delta_{ij}}{d}
+\end{gather}
+%
+for $i, j = 1, 2, \, \dots, \, d$ vector components.
+
+We can express the probability for a displacement of $\vec{x}$ after N steps $p_N(\vec{x})$ through the elementary relation
+%
+\begin{equation}
+P_N(\vec{x}) = \int{\dd[d]{\Delta y} P_{N-1}(\vec{x} - \Delta \vec{y}) P(\Delta \vec{y})}
+\end{equation}
+%
+Now we do a Taylor expansion of $P_N(\vec{x})$
+%
+\begin{align*}
+	P_N(\vec{x}) &\approx \int{\dd[d]{\Delta y} P(\Delta \vec{y}) \left[ 
+		P_{N-1}(\vec{x}) - \Delta y_i \partial_i P_{N-1}(\vec{x}) + \frac{1}{2}  \Delta y_i \Delta y_j \partial_i \partial_j P_{N-1}(\vec{x}) \right]} \\
+	&= P_{N-1}(\vec{x}) + \frac{\expval{(\Delta \vec{y})^2}}{2 d} \nab^2 P_{N-1}(\vec{x})	
+\end{align*}
+%
+We can define a continuum probability density $p(\vec{x},t)$ after the time $t = N \Delta t$
+%
+\begin{equation}
+p(\vec{x},t) = p(\vec{x}, N \Delta t) := P_N(\vec{x})
+\end{equation}
+%
+and now we can take the limit
+%
+\begin{equation}
+\pdv{p}{t} = \lim_{\Delta t \to 0} \frac{P_N(\vec{x}) - P_{N-1}(\vec{x})}{\Delta t} = D \nab^2 p \quad \mathrm{with} \quad D = \frac{\expval{(\Delta \vec{y})^2}}{2 d \Delta t}
+\end{equation}
+%
+This continuum limit exists, if $D$ can be treated as a constant, i.e. if $\frac{\expval{(\Delta \vec{y})^2}}{\Delta t}$ is finite for $\Delta t \to 0$. The resulting equation is known as the diffusion equation.
+
+\newpage
+%
+\begin{theorem}[Diffusion Equation]
+	The diffusion equation for a probability density $p(\vec{x}, t)$ reads
+	%
+	\begin{equation}
+	\pdv{p(\vec{x}, t)}{t} = D \nab^2 p(\vec{x}, t)
+	\end{equation}
+	%
+	which we can also rewrite with the the definition of a current $\vec{J} = -D \nab p$
+	%
+	\begin{equation}
+	\pdv{p}{t} = - \nab \cdot \vec{J}
+	\end{equation}
+	%
+\end{theorem}
+%
+
+\subsection*{Solving the diffusion equation}
+
+The diffusion equation can be solved e.g. by doing a Fourier transformation of both sides
+%
+\begin{equation}
+\pdv{p}{t} =  D \vec{k}^2 p
+\end{equation}
+%
+leading to the k-space solution
+%
+\begin{equation}
+p(\vec{k},t) = \F(p(\vec{x},t)) = \exp(-D k^2 t)
+\end{equation}
+%
+A Fourier transform backwards gives the fundamental solution (Green's function)
+%
+\begin{equation}
+p(\vec{x},t) = \frac{1}{(4 \pi k t)^{d/2}} \exp(-\frac{x^2}{4 k t})
+\end{equation}
+%
+with the mean square spread $\sigma^2 \sim k t$
+
+\newpage
+\section{Random Force Model}
+
+Another way to approach diffusion is by considering a colloidal particle suspended in a fluid experiencing random forces $f(t)$ due to the interaction with the fluid molecules. 
+
+%
+\begin{mdframed}[style=default, frametitle={Model: Random Forces}]
+	%
+	The motion of a particle under random forces $f(t)$ in one dimension can be described by Newtons law
+	%
+	\begin{equation}
+	m \ddot{x} + \gamma \dot{x} = f(t)
+	\end{equation}
+	%
+	For long time scales $\tau_m >> \frac{m}{\gamma}$, inertia is negligible and we just have $\gamma \dot{x} = f(t)$. The random force is characterized through
+	%
+	\begin{itemize}
+		\item{$\expval{f(t)} = 0$ (by symmetry)}
+		\item{a vanishing correlation $\expval{f(t)f(t+\tau)} \to 0$ for $\tau \to \tau_m$}
+	\end{itemize}
+	%
+	for averaging over a certain probability distribution.
+	%
+\end{mdframed}
+%
+An important property of the random force is stationarity
+%
+\begin{equation}
+\frac{1}{\gamma^2}\int_{-\infty}^{\infty}{\dd{\tau} \expval{f(t)f(t+\tau)}} = 2D
+\end{equation}
+%
+with $[D] = \si{\meter \squared \per \second}$
+%
+\begin{theorem}[Concept: Diffusion]
+	%
+	Diffusion is a net movement of particles from a region of high to a region of low concentration due to random motion of the single particles. 
+	%
+\end{theorem}
+%
+
+\subsection*{Formal Solution}
+
+A formal solution to the equation of motion without taking inertia into account reads
+%
+\begin{equation}
+x(t) = x(0) + \frac{1}{\gamma} \int_0^t{\dd{t_1} f(t_1)}
+\end{equation}
+%
+
+For $\Delta x = x(t) - x(0)$ we get for the mean deviation
+%
+\begin{equation}
+\expval{\Delta x(t)} = \frac{1}{\gamma} \int_0^t{\dd{t_1} \expval{f(t_1)}} = 0
+\end{equation}
+%
+by symmetry and for the mean square deviation
+%
+\begin{align*}
+	\expval{\Delta x^2} &= \frac{1}{\gamma^2} \expval{\left( \int_0^t{\dd{t_1} f(t_1)} \right) \left( \int_0^t{\dd{t_2} f(t_2)} \right)} \\
+	&= \frac{1}{\gamma^2} \int_0^t \dd{t_1} \int_0^t{\dd{t_2} \expval{f(t_1) f(t_2)}} \\
+	&= \frac{1}{\gamma^2} \int_0^t \dd{t_1} \int_{-t_1}^{t+t_1}{\dd{\tau} \expval{f(t_1) f(t_1 + \tau)}}\\
+	&= \frac{1}{\gamma^2} \int_0^t \dd{t_1} \int_{-\infty}^{\infty}{\dd{\tau} \expval{f(t_1) f(t_1 + \tau)}} + \O{D \tau_m}\\		
+	&= \frac{1}{\gamma^2} \int_0^t{\dd{t_1} \gamma^2 2 D} = 2 D t
+\end{align*}
+%
+
+\subsection*{Calculating $D = D(T)$}
+
+In order to calculate $D(T)$ we do a trick and add an elastic spring to the model
+%
+\begin{equation}
+k x + \gamma \dot{x} = f(t)
+\end{equation}
+%
+So at first we might ask what happens in reaction to a pulse response?
+%
+\begin{equation}
+k x + \gamma \dot{x} = \rho_0 \delta(t) \quad \mathrm{with} \quad x(t) = 0 \, | \, t < 0
+\end{equation}
+%
+The solution to this scenario is given by
+%
+\begin{equation}
+x(t) = \rho_0 \chi(t), \quad \chi(t) = \frac{1}{\gamma} \exp(-\frac{t}{\sigma}) \Theta(t), \quad \sigma = \frac{\gamma}{k}
+\end{equation}
+%
+We get back to the full problem, where the formal solutions reads
+%
+\begin{equation}
+x(t) =  \int_0^{\infty}{\dd{\tau} f(t - \tau) \chi(\tau)}
+\end{equation}
+%
+with $\expval{x(t)} = 0$ by symmetry and 
+
+\begin{align*}
+	\expval{\Delta x^2} &= \frac{1}{\gamma^2} \expval{\left( \int_0^{\infty}{\dd{\tau_1} f(t-\tau_1) \chi(\tau_1)} \right) \left( \int_0^{\infty}{\dd{\tau_2} f(t-\tau_2) \chi(\tau_2)} \right)} \\
+	&= \int_0^{\infty} \dd{\tau_1} \int_0^{\infty} \dd{\tau_2} \expval{f(t-\tau_1) f(t-\tau_2)} \underbrace{\chi(\tau_1) \chi(\tau_2)}_{= \frac{1}{\gamma^2} \exp(- \frac{\tau_1 + \tau_2}{\sigma})} \\
+	&= \int_0^{\infty} \dd{\tau_1} \int_{-\tau_1}^{\infty} \dd{\tau} \expval{f(t-\tau_1) f(t-\tau_1 - \tau)}  \frac{1}{\gamma^2} \exp(- \frac{2\tau_1 + \tau}{\sigma}) \\
+	&= \int_0^{\infty} \dd{\tau_1} \int_{-\infty}^{\infty} \dd{\tau} \expval{f(t-\tau_1) f(t-\tau_1 - \tau)}  \frac{1}{\gamma^2} \exp(- \frac{2\tau_1 + \tau}{\sigma}) + \O{D\tau_m} \\
+	&= \frac{1}{\gamma^2} \int_0^{\infty} \dd{\tau_1} \exp(- \frac{2\tau_1}{\sigma}) \int_{-\infty}^{\infty} \dd{\tau} \expval{f(t-\tau_1) f(t-\tau_1 - \tau)} \underbrace{\exp(- \frac{\tau}{\sigma})}_{\approx 1, \, \tau_m << \sigma} \\
+	&= \frac{1}{\gamma^2} \frac{\sigma}{2} 2 D \gamma^2 = \frac{\gamma}{k}D
+\end{align*}
+%
+At this point we would like to make use of the equipartition theorem
+%
+\begin{equation}
+\expval{\frac{k}{2}x^2} = \frac{k_B T}{2}
+\end{equation}
+%
+As we have 
+%
+\begin{equation}
+\expval{\frac{k}{2}x^2} = \frac{k}{2} \frac{\gamma}{k}D = \frac{k_B T}{2}
+\end{equation}
+%
+we obtain the Stokes-Einstein-relation
+%
+\begin{equation}
+D = \frac{k_B T}{\gamma}
+\end{equation}
+%
+\begin{remark}[Repetition: Equipartition Theorem]
+	In thermal equilibrium, the systems energy, given by a Hamiltonian $H$, is distributed on its degrees of freedom $x_n$ via
+	%
+	\begin{equation}
+	\expval{x_m \pdv{H}{x_n}} = \delta_{mn} k_B T
+	\end{equation}
+	%
+	This holds for a microcanonical and canonical ensemble and relates temperature to the systems average energies.
+\end{remark}
+
+
+\chapter{Probability Theory}
+
+\section{Mathematical Foundations}
+
+\begin{theorem}[Concept: Probability]
+	%
+	Let $X$ be a set of states, then we have the following axioms of probability:
+	%
+	\begin{itemize}
+		\item{is a function $0 \leq P(A) \leq 1$ for some $A \subseteq X$}
+		\item{$P(A) + P(B) = P(A \cup B) - P(A \cap B)$}
+	\end{itemize}
+	%
+\end{theorem}
+
+The probability density is analogously a function $p(x) : \R \to \R^+$ and it relates to the probability itself by
+%
+\begin{equation}
+P(A) = \int_A{\dd{x} p(x)}
+\end{equation}
+%
+for $A \subseteq X$. If $[x] = \si{\meter}$, then $[p] = \si{\per \meter}$. Note that it is also called probability density function $\mathrm{PDF}(x) = p(x)$ and the cumulative density function is given by
+%
+\begin{equation}
+\mathrm{CDF}(x) = \int^x_{-\infty}{\dd{x'} p(x')}
+\end{equation}
+%
+Important properties of probability distributions are its moments and its cumulants.
+
+\begin{theorem}[Moments]
+	%
+	The moments of a probability distributions $p(x)$ are given by
+	%
+	\begin{equation}
+	\mu_n = \expval{x^n} = \int^{\infty}_{-\infty}{x^n p(x)}
+	\end{equation}
+	%
+	with the characteristic function
+	%
+	\begin{equation}
+	\expval{\exp(t x)} = \sum^{\infty}_{n = 0}{\mu_n \frac{t^n}{n!}}
+	\end{equation}
+	%
+\end{theorem}
+
+\begin{theorem}[Cumulants]
+	%
+	The cumulants are given by the mean value $k_1 = \mu_1$, the variance $k_2 = \mu_2 - \mu^2_1$ and higher order cumulants such as $ k_3 = \mu_3 - 3 \mu_2 \mu_1 + 2 \mu_1^3$. More generally we have
+	%
+	\begin{equation}
+	\ln \expval{\exp(t x)} = \sum^{\infty}_{n = 0}{k_n \frac{t^n}{n!}}
+	\end{equation}
+	%
+\end{theorem}
+
+
+
+\section{Probability in Physics}
+
+Usually, probability is regarded as relative frequency of an event $A$ occuring $N_A$ times for the total number of measurements being $N$
+%
+\begin{equation}
+P(A) = \lim_{N \to \infty}{\frac{N_A}{N}}
+\end{equation}
+%
+Practically, a probability is determined by
+%
+\begin{itemize}
+	\item{the experiment being repeated very often with the same initial macrostate}
+	\item{replacing the physical system by an idealized model for stochastic simulations}
+\end{itemize}
+%
+(Talk by Jan Nagel: Gott würfelt nicht. Oder doch? --> Uncertainty in initial conditions leads to a dice producing a stochastic behavior.)
+
+\subsection*{Example Weather Forecast}
+
+For an event R $=$ "rain tomorrow" we know that it is raining 116 out of 365 days in Dresden: $P(R \, | \, \mathrm{Dresden}) = \frac{116}{365} = 18 \%$. Our forecast is getting more accurate if we consider also seasonal changes and thus specific the month being October with 8 days of rain out of 31 in total: $P(R \, | \, \mathrm{Dresden, October}) = \frac{8}{31} = 25.8 \%$
+
+Another approach is based on persistence of conditions, i.e. to make a rain prediction for tomorrow based on the weather today. E.g. according to Caskey 1963 we have $P(R \, | \, \mathrm{current \, local \, weather}) = x$ and $P(R \, | \, \mathrm{rain \, today}) = 44 \%$, $P(R \, | \, \mathrm{dry \, today}) = 17 \%$
+
+Last but not least we can sample macrostate that is consistent with measurement data an calculate the probabilities for rain from deterministic models (Navier-Stokes-equations / mathematical forecasting) $P(R \, | \, \mathrm{current \, global \, weather})$.
+
+\section{Important Probability Distributions}
+
+\subsection*{Normal Distribution}
+
+The normal distribution is given by
+%
+\begin{equation}
+p(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp[- \frac{(x- \mu)^2}{2 \sigma^2}] = N(\mu, \sigma^2)
+\end{equation}
+%
+with the moments and cumulants being
+%
+\begin{gather*}
+	\mu_1 = \mu, \, \mu_2 = \mu^2 + \sigma^2, \, \mu_3 = \mu^3 + 3 \mu \sigma^2 \\
+	k_1 = \mu, \, k_2 = \sigma^2, \, k_j = 0 \quad \mathrm{for} \quad j \geq 3
+\end{gather*}
+%
+
+\subsection*{Bernoulli Distribution}
+
+For a Bernoulli trial you have two outcomes with probabilities $p$ and $1 - p$. If you now perform $n$ independent trials you will get $k$ times the first outcome with probability
+%
+\begin{equation}
+P(k,n) = \binom{n}{k} p^k (1 - p)^{n - k}
+\end{equation}
+%
+with $\expval{k} = n p$ and $\expval{k^2} - \expval{k}^2 = n p (1 - p)$. In many practical cases one can do a normal approximation by $p(k,n) = N(np, n p (1 - p))$.
+
+\subsection*{Poisson Distribution}
+
+We consider the continuous time limit of the Binomial distribution. Therefore we introduce a time $t_j = \frac{j}{n} T = j \dd{t}$ with $\dd{t} = \frac{T}{n}$ and $\lambda = np$ being the total number of expected events. The event rate is given by $r = \frac{\lambda}{T} = \frac{p}{\dd{t}}$ with $[r] = \si{\per \second}$. 
+
+Now take the limit $n \to \infty$ with $\lambda = \mathrm{const}$ and $p = \frac{\lambda}{n}$, so we get the Poisson distribution
+%
+\begin{equation}
+p(k,\lambda) = \exp(-\lambda) \frac{\lambda^k}{k!}
+\end{equation}
+%
+with $\mu = \expval{k} = \lambda$, $\sigma^2 = \expval{k^2} - \expval{k}^2 = \lambda$. An approximation is $p(k,\lambda) = N(\lambda, \lambda)$ for very large $\lambda$.
+
+\begin{remark}[Remark: Why is the concept of time being used here?]
+	The poisson distribution is an example of a stochastic Poisson process 
+	%
+	\begin{equation}
+	f(t) = \sum^{\infty}_{-\infty}{\delta(t - t_j)}
+	\end{equation}
+	%
+	and so $k = \int^T_0{f(t)} $.	
+\end{remark}
+
+
+
+\subsection*{Power-law distribution}
+
+E.g. the jump distribution of animals pursuing food foraging (Levy walk) or to describe the distribution of Facebook contacts ($\alpha = 2.2$) are described by a power-law distribution of the form
+%
+\begin{equation}
+p(x) \sim x^{- \alpha} \quad \mathrm{for} \quad x \gg 1
+\end{equation}
+%
+It has some unpleasant properties such as $\sigma = \infty $ for $\alpha < 3$.
+
+
+
+\newpage
+\section{Normal Approximation}
+
+\subsection*{Proof I Using Stirling's Approximation}
+
+We would like to approximate the Bernoulli distribution
+%
+\begin{equation}
+p(k,n) = \binom{n}{k} p^k (1 - p)^{n - k}
+\end{equation}
+%
+by means of a normal distribution. Therefore we introduce a small deviation $\varepsilon$ such that $q = 1-p$, $k = np + n \varepsilon$ and $p(k,n) \approx 0$ for $\varepsilon \gg \frac{1}{\sqrt{N}}$.
+
+Trick number one in order to continue is to use Stirling's approximation 
+%
+\begin{equation}
+n! \approx \sqrt{2\pi n} \, \left( \frac{n}{e} \right)^n
+\end{equation}
+%
+which leads us to
+%
+\begin{align*}
+	p(k,n) &= \frac{\sqrt{2\pi n}}{\sqrt{2\pi k}\sqrt{2\pi (n-k)}} \frac{n^n}{k^k (n-k)^{n-k}} p^k q^{n-k}  \\
+	&= \left[\frac{1}{\sqrt{2 \pi p q n}} + \O{\varepsilon} \right] \left( \frac{np}{k} \right)^k \left( \frac{nq}{n-k} \right)^{(n-k)}	
+\end{align*}
+%
+To do the second trick and apply $x^k = \exp(k \ln(x))$ we need to evaluate the following two expressions
+%
+\begin{gather*}
+	\ln(\frac{np}{k}) = \ln(\frac{p}{p-\varepsilon}) = -\ln(1+\frac{\varepsilon}{p}) \approx - \frac{\varepsilon}{p} + \frac{1}{2} \left( \frac{\varepsilon}{q} \right)^2 \\ \\
+	\ln(\frac{nq}{n-k}) = \hdots \approx \frac{\varepsilon}{p} - \frac{1}{2} \left( \frac{\varepsilon}{q} \right)^2
+\end{gather*}
+%
+
+which means
+
+%
+\begin{align*}
+	\left( \frac{np}{k} \right)^k \left( \frac{nq}{n-k} \right)^{n-k} &\approx \exp(k \left[ - \frac{\varepsilon}{p} + \frac{1}{2} \left( \frac{\varepsilon}{q} \right)^2 \right] + (n-k) \left[ \frac{\varepsilon}{p} - \frac{1}{2} \left( \frac{\varepsilon}{q} \right)^2 \right]) \\
+	&= 0 \cdot \varepsilon - \frac{1}{2} n \frac{\varepsilon^2}{p} - \frac{1}{2} n \frac{\varepsilon^2}{q} + \O{\varepsilon^3} \\
+	&= - \frac{1}{2} \frac{\varepsilon^2(p+q)}{pq} = -\frac{1}{2} \frac{(k-np)^2}{npq}
+\end{align*}
+%
+Thus
+%
+\begin{equation}
+p(k,n) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp(-\frac{(k-np)^2}{2 \sigma^2})
+\end{equation}
+%
+with $\sigma^2 = npq$
+
+\subsection*{Proof II Using the Central-Limit-Theorem}
+
+\begin{theorem}[Central-Limit-Theorem]
+	%
+	Consider sequence of $x_1, ... x_n$ independent, identically distributed, random variables with mean $\mu$ and variance $\sigma^2$. We define the empirical mean by
+	%
+	\begin{equation}
+	\bar{x} = \frac{1}{n}(x_1 + \dots + x_n) = \mathrm{empirical \, mean}
+	\end{equation}
+	%
+	We normalize it to a random variable with expectation value zero
+	%
+	\begin{equation}
+	z = \frac{\bar{x}-\mu}{\sigma/\sqrt{n}}
+	\end{equation}
+	%
+	Then the probability distribution $p(z) \to N(0,1)$ for large $n$ ("convergence in distribution") or equivalently $CDF(z) \to Erf(z)$ for almost all $z \in \R$	
+\end{theorem}
+
+As a second, more elegant proof we consider $n$ independent random variables $x_j$ with $j = 1,...,n$ and
+%
+\begin{equation}
+x_j = \begin{cases} 1 \, | \, \mathrm{with \, probability \,} p \\ 0 \, | \, \mathrm{with \, probability \, } q = 1 - p \end{cases}
+\end{equation}
+%
+As we define the empirical mean via
+%
+\begin{equation}
+\bar{x} = \frac{1}{n}(x_1 + \dots + x_n) = \mathrm{empirical \, mean}
+\end{equation}
+%
+with $k = n\bar{x}$ we get $p(k,n) = p(\bar{x}) \sim N(np,npq)$ by the Central-Limit-Theorem. The idea of the proof is to compute the cumulants of $x_j$
+%
+\begin{equation}
+k_1 = \mu, \, k_2 = \sigma^2 \dots
+\end{equation}
+%
+and then to show that the cumulants of $z_j$ are given by
+%
+\begin{equation}
+k_1 = 0, \, k_2 = 1, \, k_3 \sim \frac{1}{\sqrt{n}}, \, k_4 \sim \frac{1}{n} \dots
+\end{equation}
+%
+and
+%
+\begin{equation}
+\lim_{n \to \infty} \ln \expval{zt} = \lim_{n \to \infty} \sum_{l=0}^{\infty} k_l t^l = 1 - \frac{1}{2} t^2 
+\end{equation}
+%
+then we have $z \to N(0,1)$. To show this behavior of the cumulants we take a look at the functions
+%
+\begin{equation}
+C_x(t) = \expval{xt} \quad \mathrm{with} \quad C_{\alpha x}(t) = C_x(\alpha t), \, \alpha \in \R
+\end{equation}
+%
+with $\expval{(\alpha x)^j} = \alpha^j \expval{x^j}$ and $k_{\alpha x, j} = \alpha^j k_{x,j}$ for all cumulants, i.e. $\forall j \in \N$. Use this for $\bar{x}, z$:
+%
+\begin{gather*}
+	C_{\bar{x}}(t) = C_{x_1}\left( \frac{t}{n} \right) C_{x_2}\left( \frac{t}{n} \right) \dots C_{x_n}\left( \frac{t}{n} \right) = C\left(\left( \frac{t}{n} \right)^n \right) \\ \\
+	C_z(t) = C_{\bar{x}}(\frac{t}{\sigma/\sqrt{n}}) \exp(-\frac{\mu t}{\sigma/\sqrt{n}}) = C_x((\frac{t}{\sigma/\sqrt{n}})^n) \exp(-\frac{\mu t}{\sigma/\sqrt{n}})
+\end{gather*}
+%
+giving us
+%
+\begin{equation}
+\ln(C_z(t)) = n \ln(C_x \left( \frac{t}{\sigma/\sqrt{n}} \right)) - \frac{\mu t}{\sigma/\sqrt{n}}
+\end{equation}
+%
+and so we get
+%
+\begin{equation}
+k_{z,j} = n \left( \frac{1}{\sigma \sqrt{n}} \right)^j k_{x,j}
+\end{equation}
+%
+
+
+\newpage
+\section{Stochastic Processes}
+
+\begin{theorem}[Stochastic Process]
+	%
+	A stochastic process is a random function $f(t):\R \to \R$, i.e. a family of random variables parameterized by $t$.
+	%
+\end{theorem}
+
+\underline{Terminology}
+
+\begin{itemize}
+	\item{conditional probability density: $p(f(t_2) = f_2 | f(x_1) = f_1)$}
+	\item{Markov property: For $t_3 > t_2 > t_1$ it holds that $p(f(t_3) = f_3 | f(x_2) = f_2, f(x_1)=f_1) = p(f(t_3) = f_3 | f(x_2) = f_2)$ $\forall t_j, f_j$, example: diffusion, counter-example: random draw from an urn without replacements}
+	\item{Martingales: Markov processes with the property $\expval{f(t_2) | f(t_1) = t_1} = f_1$, example: diffusion, counter-example: diffusion with drift}
+\end{itemize}
+
+\subsection*{Example: Poisson Process}
+%
+\begin{theorem}[Poisson Process]
+	For a Poisson process events occur independently with rate $r$ at random times $t_j$
+	%
+	\begin{equation}
+	f(t) = \sum_{j = -\infty}^{\infty}{\delta(t-t_j)}
+	\end{equation}
+	%
+	The property $x = \int_0^T f(t) $ counts events and yields a Poisson distribution for $\lambda = rt$. The waiting times $t = t_{j+1} - t_j$ are exponentially distributed, i.e. $p(t) = r \exp(-rt)$. 
+\end{theorem}
+%
+The last property can be proven by taking a look at the CDF for which we have 
+%
+\begin{equation*}
+	P(t \geq \theta + \dd{t}) = P(t \geq \theta) - r \dd{t} P(t \geq \theta)
+\end{equation*}
+%
+so that
+%
+\begin{equation*}
+	\dv{t} P(t \geq \theta) = - r \dd{t} P(t \geq \theta)  \quad \Rightarrow \quad P(t \geq \theta) \sim \exp(-r t)
+\end{equation*}
+%
+
+
+\subsection*{Example: Gaussian White Noise}
+
+%
+\begin{theorem}[Poisson Process]
+	Gaussian White Noise is described by a function $\xi(t):\R \to \R$ with the following properties
+	%
+	\begin{itemize}
+		\item[i)]{$\expval{\xi(t)} = 0$}
+		\item[ii)]{$\expval{\xi(t) \xi(t')} = 2D \delta(t-t')$}
+		\item[iii)]{$\int_{t_1}^{t_2} \dd{t} \xi(t) \sim N(0,2D[t_2-t_1])$}
+	\end{itemize}
+	%
+	Gaussian white noise can be considered as the idealization of thermal random forces, corresponding to $\tau_c \to 0$
+\end{theorem}
+%
+
+\begin{remark}[Remark: Gaussian White Noise and Mathematics]
+	Strictly speaking, $\xi$ itself cannot be defined mathematically. Instead mathematicians define a so-called Wiener process 
+	%
+	\begin{equation}
+	W(t) = \int_0^t{\dd{t'} \xi(t')}
+	\end{equation}
+	%	 
+	so that $W(t)$ exists and is continuous with probability 1.
+\end{remark}
+
+
+
+
+\chapter{Langevin Equation and Fokker-Planck Equation}
+
+\section{Langevin equation}
+
+
+Langevin theory describes non-equilibrium systems by postulating a stochastic process, thus adding a noise term to fundamental equations. In its original form, Langevin theory was used to describe Brownian motion, e.g. of a particle suspended in a fluid.
+
+\begin{theorem}[Definition of the Langevin equation]
+	%
+	The Langevin equation is a stochastic differential equation for the particle velocity
+	%
+	\begin{equation}
+	\dot{x} = \underbrace{f(x)}_{\mathrm{drift}} + \underbrace{\sqrt{2D} \, \xi(t)}_{\mathrm{random \, noise}}
+	\end{equation}
+	%
+	\begin{itemize}
+		\item $\xi(t)$ represents Gaussian white noise 
+		\item{it describes diffusion in an effective potential $U(x) = - \int_0^{x}{\dd{x'} f(x')}$}
+	\end{itemize}
+	%
+\end{theorem}
+
+\subsection*{Generalization}
+%
+\begin{equation}
+\dot{x}_i =f_i(\vec x) + \sum_{j=1}^m g_{ij}(\vec x) \xi_j(t)
+\end{equation}
+%
+with $i = 1, \dots, n$ and $\xi_j(t)$ being independent Gaussian white noise functions $\expval{\xi_j(t) \xi_l(t')} = \delta_{jl} \delta(t - t')$
+
+\underline{Example 1: Double-well Potential}
+
+\underline{Example 2: Escape over a Barrier}
+
+
+\subsection*{Numerics for the Langevin Equation}
+
+\begin{theorem}[Euler Scheme]
+	The Langevin equation $\dot{x} = f(x) + \sqrt{2D} \, \xi(t)$ leads, using the Euler scheme, to the following update-rule
+	%
+	\begin{equation}
+	\hat{x}_{n+1} = \hat{x}_n + f(\hat{x}_n) \dd{t} + \sqrt{2 D \dd{t}} N_n
+	\end{equation}
+	%
+	with $D = D_0$, $t_i = i \dd{t}$, $x_i = x(t_i)$, $N_n \sim N(0,1)$ and $|\hat{x}_n - x_n| \sim \O{\dd{t}^{3/2}}$
+\end{theorem}
+
+\section{Fokker-Planck-Equation}
+
+\subsection*{Derivation of Fokker-Planck-Equation}
+
+\begin{remark}[Repetition: Ordinary Diffusion]
+	For the example of ordinary diffusion
+	%
+	\begin{equation}
+	\dot{x} = \xi(t), \, x(0) = 0 \quad \mathrm{with} \quad \expval{x(t)} = 0 \, \expval{x^2(t)} = 2 D t
+	\end{equation}
+	%
+	the probability density is given by
+	%
+	\begin{equation}
+	p(x,t) = \frac{1}{(2 \pi)} \frac{1}{2 D t} \exp(-\frac{x^2}{4 D t})
+	\end{equation}
+	%
+	fullfilling the Diffusion equation
+	%
+	\begin{equation}
+	\pdv{p(x,t)}{t} = D \pdv[2]{p(x,t)}{x}
+	\end{equation}
+	%
+\end{remark}
+
+Considering the general case $\dot{x} = f(x) + \sqrt{2D} \, \xi(t)$ we would like to find an operator $\hat{L}$ such that
+%
+\begin{equation}
+\pdv{p(x,t)}{t} = \hat{L} p(x,t)
+\end{equation}
+%
+Therefore we discretize time and take a look how a sub-ensemble of $p(x,t)$ at $x_n$ will evolve during a time step from $p(x,t_n)$ to $p(x,t_{n+1})$. For this we are using the Markov-Property: 
+%
+\begin{align*}
+	p(x,t_{n+1}|x_0,t_0) &= \int{\dd{x}_n p(x,t_{n+1},x_n,t_n|x_0,t_0)} \\
+	&= \int{\dd{x}_n p(x,t_{n+1}|x_n,t_n)} \, p(x_n,t_n|x_0,t_0) \\
+	&= \int{\dd{x}_n N(x_n+f(x_n), 2D \dd{t}) p(x_n,t_n|x_0,t_0)}
+\end{align*}
+%
+This is already an implicit solution in terms of a convolution of the probability density with a family of normal distributions, but it is of few practical use. 
+%
+\begin{remark}[A Remark about Units]
+	Unlike probabilities, probability densities for positions have units of inverse length! Therefore we are integrating over a two-point probability density have units of inverse length squared
+	%
+	\begin{align*}
+		[p(x,t_{n+1}|x_0,t_0)] &= \si{\per \meter} \\
+		[p(x,t_{n+1},x_n,t_n|x_0,t_0)] &= \si{\per \meter \squared}
+	\end{align*}
+	%	 
+\end{remark}
+%
+So let us define the following abbreviations in order to evaluate this convolution further 
+%
+\begin{align*}
+	p(x,t_n) = \int \dd x_n I(x_n, y) |_{y = x-x_n} \quad &\mathrm{with} \quad I(x_n,y) = p(x_n) n(x_n,y), \\ 
+	&\mathrm{and} \quad n(x_n,y) = N(f(x_n) \dd t, 2 D \dd t)
+\end{align*}
+%
+The integrand $I(x,y)$ will contribute only for small $y = \O{\dd t}$, which means $x_n \approx x$, so we can Taylor expand $I(x_n,y)$ in $x_n$ around $x$:
+%
+\begin{equation}
+I(x_n,y) = I(x,y) + \pdv{I(x_n,y)}{x_n} \big|_{x_n = x} (x_n-x) + \pdv[2]{I(x_n,y)}{x_n} \big|_{x_n = x} \frac{(x_n-x)^2}{2}
+\end{equation}
+%
+Inserting this into the convolution integral leads to
+%
+\begin{align*}
+	p(x,t_{n+1}) &= \int{\dd{y} I(x,y)|_{x_n = x-y}} \\
+	&= \int\dd y \left( p(x) n(x,y) - \pdv{x} (p(x) \, n(x,y) \, y ) + \pdv[2]{x} (p(x) \, n(x,y) \, \frac{y^2}{2})\right) \\
+	&= p(x) \int \dd{y} n(x,y) - \pdv{x} \left(p(x) \int \dd{y} n(x,y) \, y \right) + \pdv[2]{x} \left(p(x) \int \dd{y} n(x,y) \, \frac{y^2}{2} \right)
+\end{align*}
+%
+The integrals that are occuring in this step are know as Kramers-Moyal coefficients:
+%
+\begin{align*}
+	&\int \dd{y} n(x,y) = 1 \\
+	&\int \dd{y} n(x,y) \, y = f(x) \dd{t} \\
+	&\int \dd{y} n(x,y) \, \frac{y^2}{2} = D \dd{t} + \frac{1}{2}[f(x)]^2 = D \dd{t} + \O{\dd{t}^2}
+\end{align*}
+%
+which give us
+%
+\begin{equation}
+p(x,t_{n+1}) = p(x,t_n) - \pdv{x} [p(x,t_n) f(x) \dd{t}] + \pdv[2]{x}[p(x,t_n) D]\dd{t}
+\end{equation}
+%
+and thus
+%
+\begin{equation}
+\frac{p(x,t_{n+1}) - p(x,t_n)}{\dd{t}} =  -\pdv{x} [p(x,t_n) f(x)] + \pdv[2]{x}[p(x,t_n) D]
+\end{equation}
+%
+Taking the time step to zero, we have finally derived the Fokker-Planck equation.
+%
+\begin{theorem}[Fokker-Planck equation]
+	The Fokker-Planck equation is a partial differential equation, which reads
+	%
+	\begin{equation}
+	\pdv{t} p(x,t) = -\pdv{x}[p(x,t) \, f] + D \pdv[2]{x} p(x,t)
+	\end{equation}
+	%
+\end{theorem}
+%
+The structure of the Fokker-Planck equation is similar to the Schrödinger equation, i.e. solution methods from QM can be borrowed (take a look at the Risken book!). 
+
+\subsection*{Application to the Diffusion Potential}
+
+We consider the diffusion potential $U(x)$ (now we care about physical units!)
+%
+\begin{equation}
+\dot{x} = - \frac{1}{\gamma} \pdv{U}{x} + \xi
+\end{equation}
+%
+and look for the steady state $\pdv{U}{t} = 0$. Hence, the Fokker-Planck equation reads
+%
+\begin{align*}
+	0 &= \nab [(\frac{1}{\gamma} \nab U) p] + D \nab^2 p 
+	= \nab [\frac{1}{\gamma} \nab U p + D \nab p] \\
+	\Rightarrow c &= \frac{1}{\gamma} \nab U p + D \nab p
+\end{align*}
+%
+thus, if $c = 0$, we get
+%
+\begin{equation}
+\pdv{x} \ln p = \frac{\nab p}{p} = - \frac{1}{\gamma} \frac{\nab U}{p}
+\end{equation}
+%
+and 
+%
+\begin{equation}
+p \sim \exp(-\frac{U}{\gamma D}) = \exp(-\frac{U}{k_B T})
+\end{equation}
+%
+with $D = \frac{k_B T}{\gamma}$, i.e. we recover the Boltzmann distribution. If $c$ would not be zero, the solution could not be normalized. Another explanation, why $c = 0$, is based on the Fokker-Planck-equation being interpreted as conservation equation 
+%
+\begin{equation}
+\dot{p} = - \nab J \quad \mathrm{with} \quad J = \frac{1}{\gamma} \nab U p + D \nab p
+\end{equation}
+%
+of the current $J$. At equilibrium, the current must vanish and thus we have
+%
+\begin{equation}
+\lim_{t \to \infty} J = c = 0
+\end{equation}
+%
+
+\subsection*{Eigenvalue Spectrum of $\hat{L}$}
+
+The probability density can be expressed in terms of eigenfunctions of the operator $\hat{L}$
+%
+\begin{equation}
+\hat{L} \phi_n(x) = \lambda_n \phi_n(x)
+\end{equation}
+%
+through
+%
+\begin{equation}
+p(x,t) = \sum a_n \phi_n(x) \exp(\lambda_n t)
+\end{equation}
+%
+If $\lambda_0 = 0$, then this corresponds to a steady state $\phi_0$ and the slowest decaying mode determines hopping rates.
+
+But why are the $\lambda_n$ real? We have $\hat{L} \neq \hat{L}^*$, which means $\hat{L}$ is not Hermitian.
+%
+\begin{equation}
+\expval{\hat{L}g,h}= \int \dd{x} (\hat{L}g)h = \int \dd{x} g \hat{L}^*h = \expval{g,\hat{L}^* h} \quad \forall g(x), h(x)
+\end{equation}
+%
+so by partial integration we see that
+%
+\begin{equation}
+\hat{L}^*h = f \pdv{h}{x} + D \pdv[2]{h}{x}
+\end{equation}
+%
+If $f(x) = - \pdv{U(x)}{x}$ we can define a Hermitian operator via
+%
+\begin{equation}
+A = T^{-1} L T \quad \mathrm{with} \quad T = \exp(+\frac{\beta U}{2}), \, \beta = \frac{1}{D}
+\end{equation}
+%
+The newly constructed operator is self-adjoint $\hat{A} = \hat{A}^*$ and thus all eigenvalues are real. $\hat{A}$ and $\hat{L}$ do have the same eigenvalues. 
+
+\begin{theorem}[Backward Fokker-Planck Equation]
+	$p = p(x_1,t|x_0,0) = p(x_1,0|x_0,-t)$, which gives the backward Fokker-Planck equation
+	%
+	\begin{equation}
+	\dot{p} = \hat{L}_{x_1} p = \hat{L}^*_{x_0} p = \left[ + f(x) \pdv{x_0} + D \pdv[2]{x_0} \right] p(x_1,0 \, | \, x_0,-t)
+	\end{equation}
+	%
+\end{theorem}
+
+\subsection*{Boundary Conditions Matter}
+
+\underline{1) Reflecting Boundary Conditions (No-Flux / Robin B.C.)}
+
+The probability current $\dot{p} = -J$ vanishes
+%
+\begin{equation}
+J(x_1) = J(x_2) = 0
+\end{equation}
+%
+and
+%
+\begin{equation}
+\int_{x_1}^{x_2} \dd{x} p(x,t) = 1
+\end{equation}
+%
+so the steady-state distribution $p^*(x) = \phi_0(x)$ exists. This is similar for a confinement potential $\lim_{x \to x_1, x_2} U(x) \to \infty$ \\
+
+\underline{2) Absorbing Boundary Conditions}
+
+We have $p(x_2,t) = 0$ (Dirichlet Boundary Conditions) and therefore
+%
+\begin{equation}
+0 > \dv{t} \int \dd{x} p(x,t) = \int \dd{x} \dv{p(x,t)}{t} = \int_{-\infty}^{x_2} -\pdv{J}{x} = -J(x_2)
+\end{equation}
+%
+So no steady-state solution exists (non-trivial / normalizable to one) and all eigenvalues are strictly negative.
+
+\begin{remark}[Boundary Conditions and Functional Analysis]
+	Changing the boundary conditions changes also the eigenvalues and the adjoint operator (boundary terms might pop up) and thus you will get each time a different operator in terms of functional analysis. 
+\end{remark}
+
+\chapter{Dynkin Equation}
+
+\section{Mean First Passage Times and Dynkin Equation}
+
+We consider diffusion in some potential landscape $\gamma \dot{x} = - \pdv{U}{x} + \xi(t)$ with initial conditions $p(x,0) = \delta(x-x_1)$ and boundary conditions $p(x_2,t) = 0$.
+
+\begin{theorem}[Mean First Passage Time (MFPT)]
+	%
+	\begin{equation}
+	\tau(x_2|x_1) = \int_0^{\infty} \dd{t} t J(x_2,t|x_1,0)
+	\end{equation}
+	%
+\end{theorem}
+
+Our aim is to derive an equation for $\tau$. If $\Delta t$ is small and fix (and we ask which positions can we reach within $\Delta t$) we have
+%
+\begin{equation*}
+	\tau(x_2|x_1) = \Delta t + \int_{-\infty}^{x_2} \dd{x'} \tau(x_2|x') p(x',\Delta t|x_1,0)
+\end{equation*}
+%
+and we take the derivative with respect to $\Delta t$
+%
+\begin{equation*}
+	0 = 1 + \int_{-\infty}^{x_2} \dd{x'} \tau(x_2|x') \hat{L}_{x'} p = 1 + \int_{-\infty}^{x_2} \dd{x'} \hat{L}^*_{x'} \tau(x_2|x') p
+\end{equation*}
+%
+so if $\Delta t \to 0$ then $p(x',\Delta t|x_1,0) \to \delta(x-x_1)$
+and we get the Dynkin equation
+%
+\begin{equation}
+-1 = \hat{L}^*_{x_1} \tau(x_2|x_1)
+\end{equation}
+%
+
+\subsection*{Application to Diffusion}
+
+Let consider once again the example of diffusion
+%
+\begin{equation}
+\gamma \dot{x} = - \pdv{U}{x} + \xi(t) \quad \expval{\xi(t)\xi(t')} = 2D \delta(t-t')
+\end{equation}
+%
+with the initial condition $p(x,0) = \delta(x-x_1)$ and boundary conditions $p(x_2,t) = 0$. Let $v = \pdv{x_1} \tau(x_2,x_1)$ so the Dynkin equation reads
+%
+\begin{equation}
+-1 = D v' - \frac{U'}{\gamma}v
+\end{equation}
+%
+which we multiply with $\frac{1}{D}\exp(-\beta U)$
+%
+\begin{equation}
+-\frac{1}{D}\exp(-\beta U) = v'\exp(-\beta U) - \beta v \exp(-\beta U) = \dv{x_1}[v \exp(-\beta U)]
+\end{equation}
+%
+to get
+%
+\begin{equation}
+v = -\frac{1}{D}\exp(-\beta U) \left[ \int_{-\infty}^{x_1} \dd{x'} \exp(-\beta U) + c \right]
+\end{equation}
+%
+If we assume $\lim_{x\to -\infty} U(x) = +\infty$ then $|v| < \infty$, $c = 0$
+and with one more integration we get
+%
+\begin{equation}
+\tau(x_2,x_1) = \frac{1}{D} \int_{x_1}^{x_2} \exp(\beta U(x')) \left[ \int_{-\infty}^{x'} \dd{x''} \exp(-\beta U(x'')) \right]
+\end{equation}
+%
+the second integration constant must be zero due to $\tau(x_2,x_2) = 0$
+
+\section{Kramers Escape Rate Theory}
+
+We assume $\beta \Delta E \gg 1$ and calculate $\tau(x_2|x_1)$. $\int \dd{x''}$ is sizeable only nearby $x_a$, $\int \dd{x'}$ is sizeable only nearby $x_b$. We do a standard trick: quadratic expansion around $x_a$ and $x_b$
+%
+\begin{equation}
+U(x'') = U(x_a) + \frac{1}{2} U''(x_a) (x''-x_a)^2 + \dots
+\end{equation}
+%
+with $U''(x_a) = k_a = \gamma/\tau_a$, which introduces a time-scale and
+%
+\begin{equation}
+U(x') = U(x_b) + \frac{1}{2} U''(x_b) (x'-x_b)^2 + \dots
+\end{equation}
+%
+with $U''(x_b) = -k_b = -\gamma/\tau_b$. So lets evaluate our integrals
+%
+\begin{align*}
+	\int_{-\infty}^{x'} \dd{x''} \exp(-  \frac{1}{2} \beta U''(x_a) (x''-x_a)^2)
+	&\approx \int_{-\infty}^{\infty} \dd{x''} \exp(-  \frac{1}{2} \beta U''(x_a) (x'-x_a)^2) \\ 
+	&= \sqrt{2 \pi \sigma^2}
+\end{align*}
+%
+with $\sigma^2 = \frac{\tau_a}{\beta \gamma}$ and
+%
+\begin{align*}
+	\int_{-\infty}^{x'} \dd{x''} \exp(+\frac{1}{2} \beta U''(x_b) (x'-x_b)^2)
+	&\approx \int_{-\infty}^{\infty} \dd{x''} \exp(+\frac{1}{2} \beta U''(x_b) (x'-x_b)^2) \\ &= \sqrt{2 \pi \frac{\tau_b}{\beta \gamma}}
+\end{align*}
+%
+so
+%
+\begin{equation}
+\tau(x_2,x_1) = \frac{1}{D} \frac{2 \pi \sqrt{\tau_a \tau_b}}{\beta \gamma} \exp(\beta \Delta E) = 2 \pi \sqrt{\tau_a \tau_b} \exp(\beta \Delta E)
+\end{equation}
+%
+\begin{theorem}[Kramers escape]
+	%
+	\begin{equation}
+	r = \frac{1}{\tau(x_2,x_1)} \sim \underbrace{\exp(-\beta \Delta E)}_{\mathrm{Arrhenius factor}}
+	\end{equation}
+	%
+\end{theorem}
+%
+
+\section{Diffusion to Capture}
+
+As an example we consider a diffusing particle released between two absorbing plates. The question is: What is the probability of getting absorbed at either of the two plates?
+%
+\begin{align*}
+P(x, t=0) = \delta(x-x_0) \\
+P(x_1, t) = P(x_2, t) = 0
+\end{align*}
+%
+The probability of becoming absorbed at $x = x_1$ when starting at $x_0$ reads $\pi_1(x_0)$. We have $\pi_1(x_1) = 1$ and $\pi_1(x_2) = 0$.
+
+We will now consider a time step $\Delta t$ as we did for the derivation of the Dynkin equation in order to find an explicit expression for $\pi_1(x_0)$:
+%
+\begin{equation*}
+\pi_1(x_0) = \int_{x_1}^{x_2} \dd{x} \pi_1(x) P(x, \Delta t | x_0, 0)
+\end{equation*}
+%
+Now we take the partial derivative with respect to $\Delta t$ 
+%
+\begin{equation*}
+0 = \int_{x_1}^{x_2} \dd{x} \pi_1(x) \underbrace{\pdv{\Delta t} P(x, \Delta t | x_0, 0)}_{\hat{L} P}
+\end{equation*}
+%
+and perform partial integration
+%
+\begin{equation*}
+0 = \int_{x_1}^{x_2} \dd{x} \hat{L}^* \pi_1(x) \underbrace{P(x, \Delta t | x_0, 0)}_{\to \, \delta(x-x_0) \, \mathrm{for} \, \Delta t \to 0}
+\end{equation*}
+%
+so we obtain
+%
+\begin{equation*}
+0 = \hat{L}^* \pi_1(x)
+\end{equation*}
+%
+Thus, $\pi_1(x_0)$ must be a linear function and taking the boundary conditions into account we have $\pi_1(x_0) = \frac{x_2-x_0}{x_2-x_1}$.
+
+Another way to solve this is the method of images. So 
+%
+\begin{equation}
+P(x,t) = N(x_0, 2Dt) - N(2x_1-x_0, 2Dt) - N(2x_2 - x_0, 2Dt)
+\end{equation}
+%
+and $\pi_1$ could be calculated directly. (Stream of anti-particles is released and cancels at the boundary).
+
+\section{Polya's theorem}
+
+Diffusion in $\R^d$ to a d-dimensional absorbing ball and we ask for $p(R_0)$. For $d = 1$ and $d = 2$ we have $p(R_0) = 1$, but for the critical dimension $p(R_0) = \frac{R_1}{R_0}$
+
+Characteristic arrival time must scale with $\sqrt{R^2_0/D}$ with a power-law tail $\sim t^{-3/2} \exp(- (R_0-R_1)^2/4 D t)$ and the mean first passage time diverges.
+
+\chapter{Synchronization}
+
+\section{Active Oscillators}
+
+An example of an active oscillator is the 
+%
+\begin{theorem}[Van-der-Pol oscillator]
+	%
+	\begin{equation}
+	m \ddot{x} - \gamma (\frac{1}{4} \Lambda - x^2) \dot{x} + kx = 0
+	\end{equation}
+	%
+\end{theorem}
+%
+It is a special form of a 
+%
+\begin{theorem}[Hopf oscillator]
+	%
+	\begin{equation}
+	\dot{z} = i \omega_0 z + \mu(\Lambda - |z|^2)z \quad \mathrm{with} \quad z \in \C
+	\end{equation}
+	% 
+\end{theorem}
+%
+and a phase oscillator with $\dot{\varphi} = \omega_0$. 
+
+\subsection*{Hopf normal form of Van-der-Pol oscillator}
+
+We set $y = \dot{x}$, $\omega = \sqrt{k/m}$. The idea is to introduce $z \approx x - \frac{i}{\omega} y$, so we do the ansatz (in order to avoid quartic terms / the method is called Center Manifold technique)
+%
+\begin{align*}
+	z &= \sum_{k}^{\infty}\sum_{l}^{\infty}{d_{k,l}x^l y^{k-l}} \\
+	&= x - \frac{i}{\omega} y + d_{10}y + d_{33}x^3 + d_32 x^2 y + d_{31} xy^2 + d_{30} y^3 + \dots
+\end{align*}
+%
+The back transformation is given by
+%
+\begin{align*}
+	x &= \frac{z + \bar{z}}{2} + e_1 z^3 + e_2 z^2 \bar{z} + e_3 z \bar{z}^2 + e_4 \bar{z}^3 \dots \\
+	y &= i \omega \frac{z - \bar{z}}{2} + f_1 z^3 + f_2 z^2 \bar{z} \dots
+\end{align*}
+%
+so that
+%
+\begin{equation}
+\dot{z} = h(z, \bar{z}) = Fz + G z^2 \bar{z} + \mathrm{h.o.t.}
+\end{equation}
+%
+and for appropriate $d_{k,l}$ we have i) no quadratic terms, ii) no term in $\bar{z}$ and iii) no terms proportional to $z^3, z\bar{z}^2, \bar{z}^3$. We find that
+
+%
+\begin{align*}
+	F &= i \omega_0 + \frac{\gamma}{8m} \Lambda + \O{\Lambda^2} \\
+	G &= \frac{\gamma}{8m} + \O{\Lambda}
+\end{align*}
+%
+and we get
+%
+\begin{equation}
+\dot{z} = i (\omega_c - \omega_1 |z|^2)z + \mu(\Lambda - |z|^2)
+\end{equation}
+%
+with $\omega_c = \omega_0$, $\omega_1 = \O{\Lambda}$ and $\mu = \frac{\gamma}{8m}$
+
+\section{Hopf-oscillator with noise}
+
+We now add a noise term to the Hopf-oscillator
+%
+\begin{equation}
+\dot{z} = i \omega_0 z + \mu(\Lambda - |z|^2)z + (i \xi_{\varphi} + \xi_A) z
+\end{equation}
+%
+with 
+%
+\begin{equation*}
+	\expval{\xi_{\varphi}(t)\xi_{\varphi}(t')} = 2 D_{\varphi} \delta(t-t') \quad \expval{\xi_A(t)\xi_A(t')} = 2 D_A \delta(t-t') \quad
+	\expval{\xi_{\varphi}(t)\xi_A(t')} = 0
+\end{equation*}
+%
+and map $z$ on a phase $\varphi$ and amplitude $A$ via $z = A e^{i \varphi}$ so that
+%
+\begin{equation}
+\left( \frac{\dot{A}}{A} + i \dot{\varphi} \right) z = \dot{z} = \dots
+\end{equation}
+%
+and
+%
+\begin{equation}
+\frac{\dot{A}}{A} + i \dot{\varphi} = i \omega_0 + \mu(A_0^2- A^2) + i \xi_{\varphi} + \xi_A
+\end{equation}
+%
+Assuming $\Lambda > 0$ and $\Lambda = A_0^2$, we get a noisy phase oscillator
+%
+\begin{equation}
+\dot{\varphi} = \omega_0 + \xi_{\varphi}
+\end{equation}
+%
+and an Ornstein-Uhlenbeck process
+%
+%
+\begin{equation}
+%
+\begin{gathered}
+A = A_0 + a \\
+\dot{a} = \mu(A_0 + a)(-2 a A_0 + a^2) + \xi_A = -2\mu A_0 a + \xi_A + \O{a^2}
+\end{gathered}
+%
+\end{equation}
+%
+with the properties
+%
+\begin{equation*}
+	\expval{a(t)} = 0 \quad \expval{a(t)a(t')} = D_A \tau \exp{- \frac{|t-t'|}{\tau}} \quad \tau = \frac{1}{2 \mu A_0}
+\end{equation*}
+%
+\begin{remark}[Remark]
+	If we consider an ensemble average, the amplitude fluctuations will decay with $\tau$: 
+	%
+	\begin{equation*}
+		\bar{a}(t) = \expval{a(t)} \quad \mathrm{with} \quad \dv{d} \bar{a} = - \frac{\bar{a}}{\tau}
+	\end{equation*}
+	%
+\end{remark}
+
+\subsection*{Manifestation of Phase Noise}
+
+We define a phase correlation function
+%
+\begin{equation}
+C(t) = \expval{\exp(i \varphi(t_0)) \exp(-i \varphi(t_0 + t))}
+\end{equation}
+%
+with $|C(t) = \exp(-D_{\varphi} t)|$, so
+%
+\begin{equation*}
+	\frac{z(t_0)}{A_0} \frac{\bar{z}}{A_0} \approx \exp(\varphi(t_0)-\varphi(t_0+t)) \to \exp(i \omega_0 t) \quad \mathrm{if} \quad D_{\varphi} = 0
+\end{equation*}
+%
+And we can have a look at the power spectral density 
+%
+\begin{equation}
+S_y(\omega) = |\tilde{y}(\omega)|^2
+\end{equation}
+%
+with $y = \exp(i \varphi)$ and its Fourier transform $\tilde{y}(\omega)$. 
+
+\subsection*{Two coupled oscillators}
+
+Two oscillators are coupled by the coupling $c$ leading to the ODE system
+%
+\begin{equation}
+%
+\begin{gathered}
+\dot{\varphi}_L = \omega_L + c(\varphi_L - \varphi_R) \\
+\dot{\varphi}_R = \omega_R + c(\varphi_R - \varphi_L)
+\end{gathered}
+%
+\end{equation}
+%
+with a phase difference of $\delta = \varphi_L - \varphi_R$
+%
+\begin{equation}
+\dot{\delta} = \Delta \omega + c(\delta) - c(-\delta)
+\end{equation}
+%
+and $\Delta \omega = \omega_L - \omega_R$ and 
+%
+\begin{equation}
+c(\delta) = c(\delta + 2 \pi) = \sum_n{C_n' \cos(n \delta) + C_n'' \sin(n \delta)}
+\end{equation}
+%
+Only the odd coupling terms contribute to synchronization, often $c(\delta)$ is dominated by the first Fourier mode and we end up at the Adler equation ($\lambda = - 2 c_1''$)
+%
+\begin{equation}
+\dot{\delta} = \Delta \omega - \lambda \sin(\delta)
+\end{equation}
+%
+If $|\Delta \omega| < |\lambda|$, we have $\delta^* = \sin^{-1} \left( \frac{\Delta \omega}{\lambda} \right)$. The stability of the fixpoints is determined by by $\gamma \dot{\delta} = - \pdv{U}{\delta}$ and the effective potential $U = -\gamma \Delta \omega \delta - \gamma \lambda \cos(\delta)$. 
+
+Images missing!
+
+% Mapping synchronization to diffusion
+
+\subsection*{Synchronization in the Presence of Noise}
+
+If we consider two coupled oscillators
+%
+\begin{gather}
+	\dot{\varphi}_1 = \omega_1 - \frac{\lambda}{2} \sin(\varphi_1 - \varphi_2) + \xi_1(t) \\
+	\dot{\varphi}_2 = \omega_2 - \frac{\lambda}{2} \sin(\varphi_2 - \varphi_1) + \xi_2(t)
+\end{gather}
+%
+we get the Adler equation with $\delta = \varphi_1 - \varphi_2$ and Gaussian white noise $\xi$
+%
+\begin{equation}
+\dot{\delta} = \Delta \omega - \lambda \sin(\delta) + \xi
+\end{equation}
+%
+
+\begin{remark}[Remark: How to add two noise terms ]
+	%
+	\begin{equation*}
+		\xi(t) = \xi_L(t) - \xi_R(t)
+	\end{equation*}
+	%
+	with $\expval{\xi(t)} = 0$ and 
+	%
+	\begin{align*}
+		\expval{\xi(t)\xi(t')} &= \expval{\xi_L(t)\xi_L(t')} + \expval{\xi_R(t)\xi_R(t')} + \expval{\xi_L(t)\xi_R(t')} \\
+		&= 2D_L \delta(t-t') + 2D_R \delta(t-t') + 0 \\
+		&= 2 (D_L + D_R) \delta(t-t')
+	\end{align*}
+	%	
+\end{remark}
+%
+It is
+%
+\begin{equation}
+\gamma \dot{\delta} = - \pdv{U}{\delta} + \xi
+\end{equation}
+%
+and $U = - \Delta \omega \delta - \lambda \cos(\delta)$. So what is the effect of noise? The steady state probability density reads
+%
+\begin{equation}
+p^*(\delta) \sim \exp \left( -\frac{U(\delta)}{k_B T_{\mathrm{eff}}} \right) = \frac{1}{2 \pi I_0(ND)} \exp \left( -\frac{\lambda}{D} \cos(\delta) \right)
+\end{equation}
+%
+with $D = k_B T_{\mathrm{eff}} \gamma$ and $\Delta \omega = 0$. So the first effect of noise is, that steady states are smeared out. The second effect are phase slips that occur
+%
+\begin{eqnarray*}
+	\delta \approx 0 \longrightarrow \delta \approx 2 \pi \quad & \mathrm{with \; rate} \; G_+ \\
+	\delta \approx 0 \longrightarrow \delta \approx -2 \pi \quad & \mathrm{with \; rate} \; G_-
+\end{eqnarray*}
+%
+We can compute $G_{\pm}$ using Kramers escape rate theory
+%
+\begin{gather*}
+	\frac{\gamma}{\tau_a} = U''|_{\delta = \delta_a} \Rightarrow \tau_a = \frac{1}{\sqrt{\lambda^2 - \Delta \omega^2}} \\ \\
+	\frac{\gamma}{\tau_b} = U''|_{\delta = \delta_b} \Rightarrow \tau_b = \tau_a
+\end{gather*}
+%
+and so
+%
+\begin{equation}
+	G_+ = 2 \pi \tau_a \exp \left( \frac{- \Delta E}{D/\gamma} \right)
+\end{equation}
+%
+The calculation for $G_-$ goes analogously and we have
+%
+\begin{equation}
+	\frac{G_+}{G_-} = \exp(+ 2 \pi \Delta \omega / D)
+\end{equation}
+%
+and for $\Delta \omega = 0$ it is 
+%
+\begin{equation}
+	G_+ = G_- = \frac{\lambda}{2 \pi} \exp \left( - \frac{2 \lambda}{D} \right)
+\end{equation}
+%
+The theory can be also extended to many oscillators.
+
+\chapter{It$\bar{\mathrm{o}}$ versus Stratonovich Calculus}
+
+If we are given an ODE, e.g. $\dot{x} = f(x)$, what does this mean? To answer this question, we are going to take a constructive approach and interpret the ODE as a rule to construct the solution. So we estimate the values $x_i = x(i \dd{t})$ and then take the limit $\dd{t} \to 0$.
+
+\section{Numerical Motivation}
+
+\subsection*{Deterministic ODE} 
+
+For a deterministic ODE we have various options to chose scheme in order to solve them numerically. One could use either an explicit scheme like the Euler scheme 
+%
+\begin{equation}
+	x_i = x_{i-1} + f(x_{i-1}) \dd{t}
+\end{equation}
+%
+and implicit scheme 
+%
+\begin{equation}
+	x_i = x_{i-1} + f(x_i) \dd{t}
+\end{equation}
+%
+or a mixed scheme
+%
+\begin{equation}
+	x_i = x_{i-1} + \frac{1}{2} [f(x_{i-1}) + f(x_i)]
+\end{equation}
+%
+and all schemes will converge to the same limit.
+
+\subsection*{Stochastic Differential Equations} 
+
+Also for stochastic differential equations such as $\dot{x} = f(x) + \sqrt{2 D(x)} \xi$ we may chose either an explicit scheme (It$\bar{\mathrm{o}}$) 
+%
+\begin{equation}
+x_i = x_{i-1} + f(x_{i-1}) \dd{t} + \sqrt{2 D(x_{i-1})} N_i \sqrt{\dd{t}}
+\end{equation}
+%
+with $N_i \in N(0,1)$ or a mixed scheme (Stratonovich)
+%
+\begin{equation}
+x_i = x_{i-1} + \frac{1}{2} [f(x_{i-1}) + f(x_i)] \dd{t} + \frac{1}{2} [\sqrt{2 D(x_{i-1})} + \sqrt{2 D(x_i)}] N_i \sqrt{\dd{t}}
+\end{equation}
+%
+It is important to note, that this time both schemes are different. (A purely implicit scheme for SDE is not discussed, because such schemes are rarely used in practice.) We can see this by doing the expansion
+%
+\begin{equation}
+x_i = x_{i-1} + f(x_{i-1}) \dd{t} + \O{\dd{t}^{3/2}} + g(x_{i-1}) N_i \sqrt{\dd{t}} + g'(x_{i-1}) g(x_{i-1}) N_i^2 \dd{t}
+\end{equation}
+%
+with $\expval{N_i^2} = 1$, so that the last term can not be neglected!
+
+\section{Different Interpretations}
+
+Having a look at the chain rule, one can see that the It$\bar{\mathrm{o}}$ and Stratonovich interpretation are indeed two different sorts of calculus. In Stratonovich interpretation we get the ordinary chain rule
+%
+\begin{equation}
+\mathrm{(S)} \quad y = y(x), \quad \dot{y} = \pdv{y}{x} \dot{x}
+\end{equation}
+%
+By contrast, in It$\bar{\mathrm{o}}$ interpretation we have $\dot{x}_k = f_k + g_{kl} \xi_l$ with $\expval{\xi_k(t) \xi_l(t')} = \delta_{kl} \delta(t-t')$ and the It$\bar{\mathrm{o}}$ chain rule applies
+%
+\begin{equation}
+\mathrm{(I)} \quad y = y(x), \quad \dot{y} = \pdv{y}{x_j} \dot{x}_j + \frac{1}{2} \pdv[2]{y}{x_k}{x_l} g_{km} g_{ml}
+\end{equation}
+%
+
+\subsection*{Switching between It$\bar{\mathrm{o}}$ and Stratonovich}
+
+In It$\bar{\mathrm{o}}$ and Stratonovich calculus, respectively, we have
+%
+\begin{gather*}
+\mathrm{(S)} \quad \dot{x}_k = h^S_k + g_{kl} \xi_l \\
+\mathrm{(I)} \quad \dot{x}_k = h^I_k + g_{kl} \xi_l
+\end{gather*}
+%
+with $h^I_k = h^S_k + \frac{1}{2} \pdv{g_{kl}}{x_m} g_{ml}$. The Fokker Planck Equation reads for these cases
+%
+\begin{equation}
+\dot{P} = \pdv{x_k} \left[ -\left( h^{I/S}_k + \alpha \pdv{g_{kl}}{x_m} g_{ml} \right) P + \frac{1}{2} \pdv{x_m} \left( g_{kl} g_{ml} P \right) \right]
+\end{equation}
+%
+with $\alpha = 0$ for It$\bar{\mathrm{o}}$ and $\alpha = 1/2$ for Stratonovich calculus.
+
+\begin{theorem}[Wong-Zakai Theorem]
+	%
+	If $\dot{x} = f(x) + g(x) \xi$ is a SDE with coloured noise of finite correlation $\tau$, then taking $\tau \to 0$ yields a Stratonovich SDE with Gaussian white noise.
+	%
+\end{theorem}
+
+
+\subsection*{Example of Colored Noise (Ornstein-Uhlenberg process)}
+
+$\tau \dot{\xi} = - \xi + \eta$ and $\expval{\eta(t) \eta(t')} = \delta(t-t')$ $\Rightarrow$ $\expval{\eta(t) \eta(t')} \sim \exp(- \frac{-|t-t'|}{\tau})$
+
+\subsection*{Toy example I: Geometric Brownian Motion}
+
+We consider the example of $\mathrm{(I)} \quad \dot{x} = x \xi$, which corresponds to $\mathrm{(S)} \quad \dot{x} = x \xi - Dx$. Now we ask about the time evolution of the first moment $m(t) = \expval{x(t)}$? In It$\bar{\mathrm{o}}$ calculus we have
+%
+\begin{equation}
+	\dv{t} m(t) = \expval{\dot{x}} \overset{(I)}{=} \expval{x \xi} = \expval{x} \underbrace{\expval{\xi}}_{= 0} = 0
+\end{equation}
+%
+so $m(t) = m_0$. Note that $y = \ln(x)$ $\Rightarrow$ $\dot{y} = \xi - D$ $\Rightarrow$ $y(t) \sim N(-D t, D t)$
+
+\subsection*{Toy example II}
+
+Next, let's do something forbidden and take $\mathrm{(S)} \quad \dot{x} = x \xi$, which correspond to $\mathrm{(I)} \quad \dot{x} = x \xi + D x$. It is
+%
+\begin{equation}
+\dv{t} m(t) = \expval{\dot{x}} \overset{(I)}{=} \expval{x \xi + D x} = 0 + D m
+\end{equation}
+%
+in It$\bar{\mathrm{o}}$ calculus this time we get $m = m_0 \exp(Dt)$.
+
+\subsection*{Example: Rotational diffusion in 2D}
+
+We have $\dot{\varphi} = \xi$ and the unit vectors
+%
+\begin{equation*}
+\vec{e}_1 = \begin{pmatrix} \cos(\varphi) \\ \sin(\varphi) \end{pmatrix}, \quad 
+\vec{e}_2 = \begin{pmatrix} -\sin(\varphi) \\ \cos(\varphi) \end{pmatrix}
+\end{equation*}
+%
+and 
+%
+\begin{equation}
+\mathrm{(S)} \quad \dot{e}_1 = \xi \vec{e}_2, \quad \dot{e}_2 = \xi \vec{e}_1
+\end{equation}
+%
+In It$\bar{\mathrm{o}}$ calculus we have
+%
+\begin{equation*}
+\vec{e}_1 = \begin{pmatrix} x_1 \\ x_2 \end{pmatrix}, \quad 
+\vec{e}_2 = \begin{pmatrix} x_3 \\ x_4 \end{pmatrix}
+\end{equation*}
+%
+with
+%
+\begin{equation*}
+\dot{\vec{x}} = \vec{g} \xi, \quad 
+\vec{g} = \begin{pmatrix} x_3 \\ x_4 \\ -x_1 \\ -x_2 \end{pmatrix}
+\end{equation*}
+%
+and with $\sum_m \pdv{g_k}{x_m} g_m = 2 D(-\vec{x})$ it is
+%
+\begin{equation}
+\mathrm{(I)} \quad \dot{e}_1 = \xi \vec{e}_2 - D \vec{e}_1, \quad \dot{e}_2 = \xi \vec{e}_1 - D \vec{e}_2
+\end{equation}
+%
+
+\subsection*{Extended Example: persistent random walk (2D)}
+
+Consider $\vec{r} = v_0 \vec{e}_1$ where $(\vec{e}_1, \vec{e}_2)$ is subject to rotational diffusion. Our proposition is that
+%
+\begin{equation}
+	C(t) = \expval{\vec{e}_1(t) \cdot \vec{e}_1(t)} = \exp(- D t)
+\end{equation}
+%
+with persistence time $t_p = \frac{1}{D}$ and persistence length $l_p = v_0 t_p$. 
+
+Proof: 
+
+$\dv{t} C(t) = \expval{\vec{e}_1(t) \cdot \dot{\vec{e}}_1(t)} = ...$
+
+\section{Rotational Diffusion in 3D}
+
+As another example we consider rotational diffusion in 3D with the rotational diffusion coefficient (instance of the Fluctuation-Dissipation-Theorem!)
+%
+\begin{equation}
+	D_{\mathrm{rot}} = \frac{k_B T}{8 \pi \eta r^3}
+\end{equation}
+%
+and the parameterization
+%
+\begin{align*}
+	& \vec{h}_3 = (\cos(\psi), \sin(\psi) \cos(\vartheta), \sin(\psi) \sin(\vartheta))^T \\
+	& \vec{g}_1 = - \pdv{\vec{h}_3}{\psi} \quad \vec{g}_2 = - \vec{h}_3 \times \vec{g}_1 \\
+	& \vec{h}_1 = \cos(\varphi) \vec{g}_1 + \sin(\varphi) \vec{g}_2 \quad \vec{h}_2 = \vec{h}_3 \times \vec{h}_1
+\end{align*}
+%
+The equations of motion are given by the Frenet-Serret equations for Stratonovich calculus
+%
+\begin{eqnarray*}
+& \dot{\vec{h}}_3 = \xi_2 \vec{h}_1 - \xi_1 \vec{h}_2 \\
+(S) & \dot{\vec{h}}_1 = \xi_3 \vec{h}_2 - \xi_2 \vec{h}_3 \\
+& \dot{\vec{h}}_2 =   \xi_1 \vec{h}_3 -\xi_3 \vec{h}_1
+\end{eqnarray*}
+%
+with $\expval{\xi_i(t) \xi_j(t')} = \delta_{i,j} \delta(t-t') 2 D_{\mathrm{rot}}$ and
+%
+\begin{equation}
+\mathrm{(S)} \quad \dot{\psi} = \sin(\varphi) \xi_1 + \cos(\varphi) \xi_2
+\end{equation}
+%
+which is equivalent to
+%
+\begin{equation}
+\mathrm{(I)} \quad \dot{\psi} = \underbrace{\sin(\varphi) \xi_1 + \cos(\varphi) \xi_2}_{= \xi(t)} + D_{\mathrm{rot}} \cot(\psi)
+\end{equation}
+%
+in Ito calculus and
+%
+\begin{align*}
+\expval{\xi(t) \xi(t')} &= \expval{[\sin(\varphi(t)) \xi_1 + \cos(\varphi(t)) \xi_2] [\sin(\varphi(t')) \xi_1 + \cos(\varphi(t')) \xi_2]} \\
+&= \sin(\varphi(t))\sin(\varphi(t')) \expval{\xi_1(t) \xi_1(t')} + \cos(\varphi(t))\cos(\varphi(t')) \expval{\xi_2(t) \xi_2(t')} \\
+&= [\sin^2(\varphi) + \cos^2(\varphi)] 2 D_{\mathrm{rot}} \delta(t-t') = 2 D_{\mathrm{rot}} \delta(t-t')
+\end{align*}
+%
+We know that the steady state distribution must be isotropic, so let's check this. The question is: What is $P^*(\psi)$ for isotropic distribution of $\vec{h}_3$? We have the height $h = 1- \cos(\psi)$, so $A = 2 \pi r h$, $\dd{A} = 2 \pi \dd{h}$. Thus $P^*(h) = \frac{1}{2}$. Furthermore, it is $P^*(h) \dd{h} = P^*(\psi) \dd{\psi}$ with $\dd{h} = \sin(\psi) \dd{\psi}$ and so $P^*(h) = \frac{1}{2} \sin(\psi)$
+
+The equation of motion can be also rewritten introducing a potential $U$
+%
+\begin{equation}
+\mathrm{(I)} \quad \dot{\psi} = D_{\mathrm{rot}} \cot(\psi) + \xi = - \frac{1}{\gamma} \pdv{\psi} U + \xi
+\end{equation}
+%
+with $U = -  D_{\mathrm{rot}} \gamma \ln(\sin(\psi)) = k_B T \ln(\sin(\psi))$ and $\gamma = 8 \pi \eta r^3$. Thus 
+%
+\begin{equation}
+P^*(\psi) \sim \exp(-\frac{U}{k_B T}) \sim \exp(\ln(\sin(\psi))) \sim \sin(\psi)
+\end{equation}
+%
+
+An Interpretation of $U(\psi)$ is obtained be taking a look at the entropy $S = k_B \ln(\sin(\psi))$ and the free energy $F = -T S = - D_{\mathrm{rot}} \gamma \ln(\sin(\psi)) = U$. Here, knowing $\vec{h}_3$ corresponds to the microstate and knowing $h$ to the macro state.
+
+\section{How to derive a correct Langevin equation?}
+
+1) can be considered as a limit case of coloured noise $\tau_c \to 0$, then take Wong-Zakai-theorem
+
+2) small number fluctations (eg. for chemical reactions, so suppose you have $N$ particles with sort 1 to 2 with rate $r_2$ and 2 to 1 with rate $r_1$, so one can derive a continuum limit of a master equation)
+
+3) only thermal fluctuations $T = \mathrm{const}$ and then use $P^* \sim \exp(- \beta U)$
+
+\subsection*{Master Equation for a Two-State System}
+
+Let $P(n)$ be the probability, that $n$ entities are in state 2. Then, the Dynamic equation / Master equation for $P(n)$ is given by
+%
+\begin{align*}
+\dot{P}(n,t) &= r_1 (n+1) P(n+1, t) - r_1 n P(n,t) + r_2 (N - (n-1)) P(n-1,t) - r_2 (N - n) P(n,t) \\
+&= r_1 (E^+ - 1) n P + r_2 (E^- - 1)(N-n) P
+\end{align*}
+%
+with the shift operators $E^{\pm}$
+%
+\begin{equation*}
+	(E^+ f)(n) = f(n+1) \quad \mathrm{and} \quad (E^- f)(n) = f(n-1)
+\end{equation*}
+%
+In order to go to a continuum limit we let $x = \frac{n}{N}$ and treat $x$ as a continuous variable. Then we do a Taylor expansion of our fancy step operators
+%
+\begin{equation*}
+	(E^{\pm} f)(x) = f(x \pm \frac{1}{N}) = f(x) \pm f'(x) \frac{1}{N} + \frac{1}{2} f''(x) \frac{1}{N^2} + \dots
+\end{equation*}
+%
+which we feed back so that we get
+%
+\begin{align*}
+\dot{P}(x,t) &= r_1 \pdv{x}(x P) + \frac{r_1}{2 N} \pdv[2]{x}(x P) - r_2 \pdv{x} [(1-x) P] + \frac{r_2}{2 N} \pdv[2]{x}[(1-x)P] \\
+&= (r_1 + r_2) \pdv{x} [(x-x^*)P] + \frac{1}{2 N} \pdv[2]{x} [(r_1 + (r_1-r_2)x)P]
+\end{align*}
+%
+with $x^* = \frac{r_2}{r_1 + r_2}$. In the steady state we have $r_0 = r_1 = r_2$ and the master equation $\dot{P} = - \nab J$ with $J = 0$ at equilibrium, thus $P^*(x) \sim \exp(- \frac{(x- \frac{1}{2})^2}{2 \sigma^2})$ and $\sigma^2 = \frac{1}{4 N}$
+
+\subsection*{Langevin equation}
+
+%
+\begin{equation}
+\mathrm{(I)} \quad \dot{x} = (r_1 + r_2) (x^* - x) + \underbrace{\sqrt{\frac{r_1 x + r_2 (1-x)}{2 N}}}_{ = g(x)} \xi
+\end{equation}
+%
+%
+\begin{equation}
+\mathrm{(S)} \quad \dot{x} = (r_1 + r_2) (x^* - x) + \underbrace{\sqrt{\frac{r_1 x + r_2 (1-x)}{2 N}}}_{ = g(x)} \xi - \frac{1}{2} \frac{r_1 - r_2}{4 N}
+\end{equation}
+%
+so at $N \gg 1$ we have $x \approx x^*$ thus $g(x) \approx g(x^*)$ and $P^*(x) = N(x^*, \sigma^2)$, $\sigma^2 = \frac{1}{N} \frac{r_1 r_2}{(r_1 + r_2)^2}$
+
+\section{Numerical integration of nonlinear SDE}
+
+For the Ito SDE (I) $\dot{x} = f(x) + g(x) \xi(t)$, $\expval{\xi(t) \xi(t')} = \delta(t-t')$ we have the Euler-Maruyama scheme
+%
+\begin{eqnarray*}
+	& x_{t + \Delta t} = x_t + f(x_t) \Delta t + g(x_t) N_t, \quad & N_t \sim N(0, \Delta t) \\
+	& x_{t + \Delta t} = x_t + f(x_t) \Delta t + g(x_t) N'_t \sqrt{\dd{t}}, \quad & N'_t \sim N(0, 1)
+\end{eqnarray*}
+%
+For the Stratonovich SDE (S) $\dot{x} = f(x) + g(x) \xi(t)$ we have the Euler-Heun scheme
+%
+\begin{eqnarray*}
+	& x_{t + \Delta t} = x_t + f(x_t) \Delta t + \frac{1}{2} [g(x_t) + g(\bar{x}_t)] N_t, \quad & N_t \sim N(0,1) 
+\end{eqnarray*}
+%
+with $\bar{x}_t = x_t + g(x_t) N_t$
+
+\chapter{Fluctuation-Dissipation-Theorem}
+
+\section{Historical Examples}
+
+\subsection*{Example 1: Diffusion (Einstein 1905)}
+
+The relation found be Einstein for ordinary diffusion in 1905
+%
+\begin{equation}
+	D = \frac{k_B T}{\gamma}
+\end{equation}
+%
+is an instance of the fluctuation dissipation theorem. The diffusion coefficient $D$ captures the mean square displacement $\expval{x^2(t)} = 2 D t$ (fluctuations) and the right part captures the dissipated energy via the hydrodynamic mobility $\frac{1}{\gamma} = \frac{1}{6 \pi \eta a}$ so that the velocity is given by $v = \frac{1}{\gamma} F$.
+
+\subsection*{Example 2: Electrothermal noise (Johnson, Nyquist 1927)}
+
+\begin{minipage}{0.4\linewidth}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\linewidth]{Pics/shortedcircuit}
+		\label{fig:shortedcircuit}
+	\end{figure}
+\end{minipage}
+%
+\hspace*{0.05\linewidth}
+%
+\begin{minipage}{0.48\linewidth}
+	It was found that even a shorted circuit consisting of just one resistor does show a finite current, which is zero on average $\expval{I} = 0$, but has the fluctuation spectrum
+	%
+	\begin{equation}
+	S_I^{(\omega)} = 2 \frac{k_B T}{R \pi}
+	\end{equation}
+	%
+\end{minipage}
+%
+\\ 
+
+with $\hbar \omega \ll k_B T$. The inverse resistance plays the role of a linear response coefficient $I = \frac{1}{R} U$.
+
+
+\newpage
+\section{FDT for classical systems}
+
+%
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\linewidth]{Pics/derivationFDT}
+	\label{fig:derivationfdt}
+\end{figure}
+%
+Lets consider a system described by the Hamiltonian $H_1 = H_0 - f A$ for times $t < 0$, with the probability density $p_1(x) \sim \exp(- \beta H_1)$. At $t = 0$ we switch off the influence of the observable $A$, thus $p(x,t) \to \exp(-\beta H_0)$ for $t \to \infty$. The average of $A$ is given by $\expval{A} = \int{\dd{x} A(x) p(x,t)}$ and we have the microstate $x = (p_1, \dots, p_N, q_1, \dots, q_N)$. 
+
+\begin{theorem}[Fluctuation Dissipation Theorem]
+	%
+	The FDT relates the fluctuation spectrum on the left side to the dissipative response to an external field on the right side of
+	%
+	\begin{equation}
+	S_A(\omega) = \frac{2 k_B T}{\omega} \Im (\tilde{\chi}_A(\omega))
+	\end{equation}
+	%
+\end{theorem}
+
+In order to show that the Fluctuation Dissipation Theorem holds we need to key concepts:
+%
+\begin{itemize}
+	\item{Boltzman distribution $p_0 \sim \exp(- \beta H_0)$ with $\beta = \frac{1}{k_B T}$}
+	\item{time propagator $P(x_1, t_1 | x_0, t_0)$}
+\end{itemize}
+
+ 
+\subsection*{Fluctuation Spectrum}
+
+The auto-correlation function is given by
+%
+\begin{equation}
+	C_A(\tau) = \expval{A(t) A(t+\tau)} - \expval{A}^2
+\end{equation}
+%
+which is independent of $t$ at thermal equilibrium and it is an even function $C_A(\tau) = C_A(-\tau)$. It is related to the time propagator by 
+%
+\begin{equation}
+C_A(\tau) = \int \dd{x_0} \dd{x_1} A(x_0) A(x_1) p_0(x_0) P(x_1, t+\tau | x_0, t) - \expval{A}^2
+\end{equation}
+%
+
+The power spectral density is then the Fourier transform
+%
+\begin{equation}
+	S_A(\omega) = \tilde{C}_A(\omega) = \int \dd{\tau} C_A(\tau) e^{i \omega \tau}
+\end{equation}
+%
+in the non-unitary Fourier transform with angular frequency. 
+%
+\begin{theorem}[Wiener-Kinchin Theorem]
+	The Fourier transform exists and has the usual properties.
+\end{theorem}
+%
+Formally: $\expval{\tilde{A}(\omega) \tilde{A}^*(\omega')} = S_A(\omega) \delta(\omega - \omega')$, $\tilde{A}(\omega) $ is not mathematically strictly defined
+
+\subsection*{Linear Response Function}
+
+Let a system possess the Hamiltonian $H(x,t) = H_0(x) - A(x) f(t)$. Then, the linear response is expresses by
+%
+\begin{equation}
+	\expval{A(t)} = \expval{A}_0 + \int_{-\infty}^{\infty} \dd{\tau} \chi_A(\tau) f(t-\tau) + \O{f^2}
+\end{equation}
+%
+which defines the linear response function $\chi_A(\tau)$. Causality implies that $\chi_A(\tau) = 0$ for all $\tau < 0$.
+
+The Fourier transform reads
+%
+\begin{equation}
+\tilde{\chi}_A(\omega) = \int_{-\infty}^{\infty} \dd{\tau} \chi_A(\tau) e^{i \omega \tau}
+\end{equation}
+%
+
+\subsection*{Example: Oscillating Field}
+%
+\begin{equation}
+	f(t) = f_0 \cos(\omega t) = \Re f_0 e^{i \omega t}
+\end{equation}
+%
+then
+%
+\begin{equation}
+	\expval{A(t)} = \expval{A}_0 + [\Re \tilde{\chi_A(\omega)}] f_0 \cos(\omega t) - [Im \tilde{\chi_A(\omega)}] f_0 \sin(\omega t)
+\end{equation}
+%
+so $f(t)$ oscillates with the frequency of driving with amplitude $f_0 |\tilde{\chi_A(\omega)}|$ and with phase lag $\arg(\tilde{\chi_A(\omega)})$. The power performed by the external field is given by $R = - f(t) \dv{t} A(x(t))$ with the time-average $\expval{R} = \frac{1}{2} \omega f_0^2 \Im \tilde{\chi_A(\omega)}$. So the imaginary part $\Im \tilde{\chi}_A(\omega)$ characterises the dissipative response of the system.
+
+\subsection*{Derivation of the fluctuation-dissipation-theorem}
+
+Let $f(t) = f_0 \Theta(-t)$. We first compute the partition function $Z_1 = \int \dd{x} \exp{- \beta H_1}$ with 
+%
+\begin{equation}
+	f_1(x) = \frac{1}{Z_1} \exp{- \beta H_1} \approx p_0(x) [1 + \beta f_0(A(x) - \expval{A}_0)]
+\end{equation}
+%
+For $t \geq 0$ we have 
+%
+\begin{align*}
+\expval{A(t)} &= \int \dd{x} A(x) p(x,t) = \int \dd{x} A(x) \int \dd{x_0} P(x, t | x_0, t_0) p_1(x_0) \\
+&= \int \dd{x} A(x) \int \dd{x_0} P(x, t | x_0, t_0) p_0(x_0) [1 + \beta f_0 A(x) - \beta f_0  \expval{A}_0] \\
+&= \expval{A}_0 + \beta f_0 \expval{A(t) A(0)} -\beta f_0 \expval{A}^2_0 \\
+&= \expval{A}_0 + \beta f_0 C_A(t)
+\end{align*}
+%
+We also know that
+%
+\begin{equation}
+\expval{A(t)} = \expval{A}_0 + \int_{-\infty}^{\infty} \dd{\tau} \chi_A(\tau) f(t-\tau)
+\end{equation}
+%
+The derivative with respect to time reads
+%
+\begin{equation*}
+	\chi_A(t) = 
+	\begin{cases} 
+		\beta \dv{t} C_A(t) & for \quad t > 0 \\ 
+		0 & for \quad t < 0
+	\end{cases}
+\end{equation*}
+%
+
+%
+\begin{remark}[Remark: Even and Odd Functions]
+	%
+	Every function $F(t)$ can be separated into an even and an odd part
+	%
+	\begin{equation*}
+	F(t) = 
+	\begin{cases} 
+	F'(t) = \frac{1}{2} [F(t) + F(-t)] \, (\mathrm{even}) \quad \Rightarrow & \tilde{F}'(\omega) = \Re \tilde{F}(\omega) \\ 
+	F''(t) = \frac{1}{2} [F(t) - F(-t)] \, (\mathrm{odd}) \quad \Rightarrow & \tilde{F}'(\omega) = i \Im \tilde{F}(\omega)
+	\end{cases}
+	\end{equation*}
+	%
+	\underline{Caution:} The prime $'$ indicates the even part, not a derivative!
+	%
+\end{remark}
+%
+
+so $C_A(t)$ is even, thus $\dv{t} C_A(t)$ is odd and as we take only the odd parts 
+$\chi_A''(t) = \frac{1}{2} \beta \dv{t} C_A(t)$
+and so $i \Im \tilde{\chi}_A(\omega) = \frac{1}{2} \beta (+ i \omega) \delta_A(\omega)$
+
+In classical mechanics we have $\frac{1}{\beta} = k_B T$, in quantum mechanics we have $\hbar \omega = \coth \frac{\beta \hbar \omega}{2}$
+
+\subsection*{Example: Optical Trap}
+
+An optical trap can be described by 
+%
+\begin{equation}
+	k x + \gamma \dot{x} = \gamma \xi(t) \quad \mathrm{with} \quad \expval{\xi(t)} = 0
+\end{equation}
+%
+The fluctuation dissipation theorem is telling us that
+%
+\begin{equation}
+	S_x(\omega) = \frac{2 k_B T}{\omega} \Im \tilde{\chi}_x(\omega) = \frac{2 k_B T / \gamma}{(k/\gamma)^2 + \omega^2}
+\end{equation}
+%
+and one can measure $S_x(\omega)$ to estimate $k$. As a generalized example we consider
+%
+\begin{equation}
+	\sum_{k = 0}^n a_k x^{(k)}(t) = \xi(t)
+\end{equation}
+%
+for which we do a a Fourier transformation in order to get
+%
+\begin{equation}
+	\underbrace{\sum_{k = 0}^n a_k (i \omega)^k}_{= \tilde{\chi}^{-1}_A(\omega)} \tilde{\chi}(\omega) = \tilde{\xi}(\omega)
+\end{equation}
+%
+so
+%
+\begin{align*}
+	& \tilde{\chi}(t) = \tilde{\chi}_A(t) \tilde{\xi}(\omega) \\
+	& \chi(t) = \int_0^{\infty} \dd{\tau} \tilde{\chi_A}(\tau) \xi(t-\tau)
+\end{align*}
+%
+We have
+%
+\begin{align*}
+S_x(\omega) \delta(\omega - \omega') &= \expval{\tilde{\chi}(\omega)\tilde{\chi}^*(\omega')} \\ 
+&= \tilde{\chi}_A(\omega) \tilde{\chi}^*_A(\omega') \expval{\tilde{\xi}(\omega) \tilde{\xi}(\omega')} \\
+&= |\tilde{\chi}_A(\omega)|^2 2D \delta(\omega - \omega')
+\end{align*}
+%
+so 
+%
+\begin{equation}
+	S_x(\omega) = |\tilde{\chi}_A(\omega)|^2 2D = \frac{2 k_B T}{\omega} \Im \tilde{\chi}_A(\omega)
+\end{equation}
+%
+%
+\begin{equation}
+	2D = 2 k_B T \frac{\frac{1}{\omega} \Im \tilde{\chi}_A(\omega)}{|\tilde{\chi}_A(\omega)|^2}
+\end{equation}
+%
+For the special case $(a_{2k+1} = 0)$ except $a_1 = \gamma$ it is
+%
+\begin{equation}
+	\tilde{\chi}_A = \frac{1}{R(\omega) - i \omega \gamma} \quad \Rightarrow \quad \Im \tilde{\chi}_A = \frac{\omega \gamma}{R^2(\omega) + \omega^2 \gamma^2}
+\end{equation}
+%
+so $D = k_B T \gamma$
+
+\chapter{Equilibrium vs Non-Equilibrium}
+
+Living systems can violate the FDT, the FDT is a hallmark of equilibrium systems.
+
+\section{Detailed Balance}
+
+\begin{theorem}[Detailed Balance]
+	%
+	continuous state space (Fokker-Planck-Equation)
+	%
+	\begin{equation}
+		\dv{t} p(x,t) = \hat{L} p(x,t)
+	\end{equation}
+	%
+	discrete state space (Master Equation)
+	%
+	\begin{equation}
+		\dv{t} P_j(t) = P_i(t) L_{ij}
+	\end{equation}
+	%
+\end{theorem}
+
+We say the dynamics obeys the "'detailed balance"', if
+%
+\begin{itemize}
+	\item{there exists an equilibrium distribution $P^*$ and $P_j^*$, respectively}
+	\item{the joint probability is symmetric $P^*(x', \tau | x, 0) = P^*(x, \tau | x', 0)$ and $P^*(i, \tau | j, 0) = P^*(j, \tau | i, 0)$ / $L_{ji} P_j^* = L_{i,j} P_i^*$, respectively}
+\end{itemize}
+%
+This means that there is zero net current at equilibrium $i \rightleftharpoons j$. A simple example is the Boltzmann distribution for a canonical ensemble, where you have states $0, 1, 2, \dots$ with energies $E_0, E_1, E_2, \dots$ so
+%
+\begin{equation}
+	P_i^* = \frac{1}{Z} \exp(- \beta E_i)
+\end{equation}
+%
+and
+%
+\begin{equation}
+	\frac{L_{ji}}{L_{ij}} = \exp(- \beta (E_i - E_j))
+\end{equation}
+%
+A counter example would be a circular current $1 \rightarrow 2 \rightarrow 3 \rightarrow 1$ with rate $r$ giving
+%
+\begin{equation}
+	\hat{L} = \begin{pmatrix}
+	-r & r & 0 \\
+	0 & -r & r \\
+	r & 0 & -r
+	\end{pmatrix}
+\end{equation}
+%
+with eigenvalue $\lambda_1 = 0$ with corresponding eigenvector $ \vec{e}_1 = \left(\frac{1}{3}, \frac{1}{3}, \frac{1}{3} \right)^T $ and $\lambda_2 = \lambda^*_3 = \left(-\frac{3}{2} + i \frac{\sqrt{3}}{2} \right) r$ resulting in a net current at equilibrium, thus breaking detailed balance. 
+
+\subsection*{Proof of Detailed Balance for Hamiltonian Systems}
+
+We consider a system characterised by some Hamiltonian $H$ obeying the Hamilton equations
+%
+\begin{equation}
+\dot{p}_i = -\pdv{H}{q_i} \quad \dot{q}_i = \pdv{H}{p_i}
+\end{equation}
+%
+with the macroscopic observable $y = Y(q,p)$ and the detailed balance holds, if
+%
+\begin{itemize}
+	\item[(i)]{$H$ is even in $p_i$}
+	\item[(ii)]{$Y$ is even in $p_i$}
+\end{itemize}
+%
+Then the time propagator $T$ fulfills the condition
+%
+\begin{equation}
+	P(y',\tau | y, 0) = T_{\tau}(y'|y)P^*(y) = T_{\tau}(y|y')P^*(y') = P(y,\tau | y', 0)
+\end{equation}
+% 
+
+%
+\begin{remark}[Nota Bene]
+	We always have
+	%
+	\begin{equation}
+		T_{\tau}(y'|y)P^*(y) = T_{-\tau}(y|y')P^*(y)
+	\end{equation}
+	% 	
+	as we can play backwards the dynamics in time.
+\end{remark}
+%
+
+%
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{Pics/timereversal}
+	\label{fig:timereversal}
+\end{figure}
+%
+For the proof of this we make use of time reversal notation
+%
+\begin{equation}
+	\bar{t} = -t \quad \bar{q}_i = q_i \quad \bar{p}_i = -p_i
+\end{equation}
+%
+We start by looking at a trajectory in $(q,p)$-phase space and for every point $x' = (q', p')$ we apply time reversal $\bar{x}' = (\bar{q}', \bar{p}')$. By (i) we conclude that $H(x) = H(\bar{x})$ and thus $P^*(x) = P^*(\bar{x})$ (even in $p_i$ means in our case symmetric in time!). Also we have $X = Y^{-1}(y)$ and by (ii) $X = \bar{X}$ as $Y$ is even. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\linewidth]{Pics/detailedbalance}
+	\label{fig:detailedbalance}
+\end{figure}
+
+We can express the probability to observe $y'$ at time $\tau$ after observing $y$ at time $0$ by the integral over the phase space region $X \cap T_{-\tau}(X')$ of the equilibrium probabilities $P^*(x)$
+%
+\begin{equation*}
+T_{\tau}(y'|y) P^*(y) = P(y',\tau | y,0) = \int_{X \cap T_{-\tau}(X')} \dd{x} P^*(x) 	
+\end{equation*}
+%
+As we have $P^*(x) = P^*(\bar{x})$ we can also change area of integration within phase space to $\overline{X \cap T_{-\tau}(X')}$
+%
+\begin{equation*}
+\int_{X \cap T_{-\tau}(X')} \dd{x} P^*(x) = \int_{\overline{X \cap T_{-\tau}(X')}} \dd{x} P^*(x)
+\end{equation*}
+%
+From the diagram above we see that the states in the lower red circle $T_{\tau}(\bar{X}')$ are corresponding to the states in the upper blue circle $T_{-\tau}(X')$ under time reversal
+%
+\begin{equation}
+	\overline{T_{-\tau}(X')} = T_{\tau}(\bar{X}')
+\end{equation}
+%
+and so we have
+%
+\begin{equation}
+	\overline{X \cap T_{-\tau}(X')} = \bar{X} \cap \overline{T_{-\tau}(X')} = \bar{X} \cap T_{\tau}(\bar{X}') = X \cap T_{\tau}(X')
+\end{equation}
+% 
+in order to get
+%
+\begin{equation}
+\int_{\overline{X \cap T_{-\tau}(X')}} \dd{x} P^*(x) 
+	= \int_{X \cap T_{\tau}(X')} \dd{x} P^*(x) 
+	= P(y, \tau | y', 0) = T_{\tau}(y|y') P^*(y')
+\end{equation}
+%
+So at equilibrium we cannot distinguish whether a dynamics is played forward or backward in time.
+
+\section{Increase of Relative Entropy}
+
+We consider a Master equation for a Markov chain
+%
+\begin{equation}
+	P_j^{(n+1)} = \sum_i{P_i^n \, T_{ij}}
+\end{equation}
+%
+with the probability $P_i^n$ to be in state i at time $t = t_n$ and a matrix of transition probabilities $\left( T_{ij} \right)$ fulfilling $\sum T_{ij} = 1$. For a stationary distribution with $P_j^* > 0$ so that $P_j^* = \sum_i P_i^* \, T_{ij}$ for all $j$ we define the relative entropy (Kullberg-Leibler Divergence) as
+%
+\begin{equation}
+	D_n = K L(P^n||P^{-k}) = \sum P_i^n \ln \left( \frac{P_i^n}{P_i^*} \right)
+\end{equation}
+%
+%
+\begin{theorem}[Theorem]
+	$D_{n+1} \leq D_n$
+\end{theorem}
+%
+This theorem is a direct consequence of convexity of $D_n$. For $P_i^* = \frac{1}{N}$ one finds that $D_n = -\sum P_i \ln(P_i) - \ln(N)$, so the entropy increases with time.
+
+
+\end{document}
