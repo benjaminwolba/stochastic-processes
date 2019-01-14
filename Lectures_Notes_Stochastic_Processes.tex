@@ -2,7 +2,7 @@
 %	Lecture Notes Stochastic Processes, Benjamin Wolba
 %-------------------------------------------------------------------------
 
-\documentclass{notebook}
+\documentclass{/home/ben/Templates/notebook}
 
 \ihead{\headmark}									% header: chapter name inside
 \setheadsepline{0.5pt}													% insert line of 0.5 pt width
@@ -1061,7 +1061,7 @@ Characteristic arrival time must scale with $\sqrt{R^2_0/D}$ with a power-law ta
 
 \section{Active Oscillators}
 
-An example of an active oscillator is the 
+An active oscillator is a non-conservative oscillator, e.g. energy is lost through damping. An example is the 
 %
 \begin{theorem}[Van-der-Pol oscillator]
 	%
@@ -1075,10 +1075,13 @@ It is a special form of a
 %
 \begin{theorem}[Hopf oscillator]
 	%
+	An active oscillator with non-linear damping of the form
+	%
 	\begin{equation}
 	\dot{z} = i \omega_0 z + \mu(\Lambda - |z|^2)z \quad \mathrm{with} \quad z \in \C
 	\end{equation}
 	% 
+	It is used e.g. to describe the limit cycle of electric circuits involving a vacuum tube or in biology to model the activation potential of neurons.
 \end{theorem}
 %
 and a phase oscillator with $\dot{\varphi} = \omega_0$. 
@@ -1859,21 +1862,30 @@ For the special case $(a_{2k+1} = 0)$ except $a_1 = \gamma$ it is
 %
 so $D = k_B T \gamma$
 
-\chapter{Equilibrium vs Non-Equilibrium}
+\chapter{A Link to Statistical Physics}
 
-Living systems can violate the FDT, the FDT is a hallmark of equilibrium systems.
+Living systems can violate the fluctuation-dissipation theorem, the fluctuation-dissipation theorem is a hallmark of equilibrium systems.
 
 \section{Detailed Balance}
 
+A system that can reach equilibrium and which then has a zero net current obeys to so-called detailed balance. It means, that it is not possible to distinguish whether a dynamics is played forwards or backwards in time. It defines reversible Markov chains.
+
 \begin{theorem}[Detailed Balance]
 	%
-	continuous state space (Fokker-Planck-Equation)
+	We say the dynamics obeys the "detailed balance", if
+	%
+	\begin{itemize}
+		\item{there exists an equilibrium distribution $P^*$ and $P_j^*$, respectively}
+		\item{the joint probability is symmetric $P^*(x', \tau | x, 0) = P^*(x, \tau | x', 0)$ and $P^*(i, \tau | j, 0) = P^*(j, \tau | i, 0)$ / $L_{ji} P_j^* = L_{i,j} P_i^*$, respectively}
+	\end{itemize}
+	%
+	Its behaviour is governed for continuous state space by the Fokker-Planck equation
 	%
 	\begin{equation}
 		\dv{t} p(x,t) = \hat{L} p(x,t)
 	\end{equation}
 	%
-	discrete state space (Master Equation)
+	and for discrete state space by the Master equation
 	%
 	\begin{equation}
 		\dv{t} P_j(t) = P_i(t) L_{ij}
@@ -1881,14 +1893,11 @@ Living systems can violate the FDT, the FDT is a hallmark of equilibrium systems
 	%
 \end{theorem}
 
-We say the dynamics obeys the "'detailed balance"', if
-%
-\begin{itemize}
-	\item{there exists an equilibrium distribution $P^*$ and $P_j^*$, respectively}
-	\item{the joint probability is symmetric $P^*(x', \tau | x, 0) = P^*(x, \tau | x', 0)$ and $P^*(i, \tau | j, 0) = P^*(j, \tau | i, 0)$ / $L_{ji} P_j^* = L_{i,j} P_i^*$, respectively}
-\end{itemize}
-%
-This means that there is zero net current at equilibrium $i \rightleftharpoons j$. A simple example is the Boltzmann distribution for a canonical ensemble, where you have states $0, 1, 2, \dots$ with energies $E_0, E_1, E_2, \dots$ so
+This means that there is zero net current at equilibrium $i \rightleftharpoons j$. So for example if the transition matrix is symmetric a system obeys detailed balance.
+
+\subsection*{Example: Boltzmann distribution}
+
+A simple example is the Boltzmann distribution for a canonical ensemble, where you have states $0, 1, 2, \dots$ with energies $E_0, E_1, E_2, \dots$ so
 %
 \begin{equation}
 	P_i^* = \frac{1}{Z} \exp(- \beta E_i)
@@ -2021,6 +2030,185 @@ with the probability $P_i^n$ to be in state i at time $t = t_n$ and a matrix of 
 \end{theorem}
 %
 This theorem is a direct consequence of convexity of $D_n$. For $P_i^* = \frac{1}{N}$ one finds that $D_n = -\sum P_i \ln(P_i) - \ln(N)$, so the entropy increases with time.
+
+\newpage
+
+\section{Equilibrium vs Non-Equilibrium}
+
+\subsection*{Signs of Equilibrium}
+
+\begin{itemize}
+	\item FDT
+	\item detailed balance $L_{ji}P_j^* = L_{ij}P_i^*$
+	\item equipartition theorem
+\end{itemize}
+
+All of these constrain the Langevin equation to approach thermal equilibrium. At equilibrium we have the Boltzmann distribution as a maximum entropy distribution. 
+
+Let us consider a macrostate $y$ with microstates $x = Y^{-1}(y)$. For every probability distribution you can think of we can define the entropy
+%
+\begin{equation}
+	S = \int p(x|y) \ln(p(x|y))
+\end{equation}
+%
+that is the relative information of $x$ with respect to $y$ (dimensionless / natural units / units of bits). So $\frac{S}{\ln(2)}$ is the average number of yes / no questions to infer $x$ if only $y$ is known.
+
+In information theory you define a piece of information as 1 nat = $\ln(2)^{-1}$ bits. Rescaling by $\ln(2)$ is equivalent to defining the entropy instead using the binary logarithm.
+
+\subsection*{Properties of Non-Equilibrium Systems}
+
+\begin{itemize}
+	\item non-generic steady states possible (e.g. circular currents)
+	\item small number of non-equilibrium fluctuation theorems is available
+\end{itemize}
+
+\subsection*{Derivation of the Boltzmann distribution}
+
+Lets consider a system with $\expval{E} = U$ for the canonical ensemble, which is contact with some heath bath of temperature $T$. As a trick we map the it to a microcanonical ensemble of $N$ independent systems with $N_i$ system in an energy state $E_i$. 
+
+Now we have two constraints:
+%
+\begin{itemize}
+	\item[i)]  $\sum_i N_i = N$
+	\item[ii)] $\sum_i N_i E_i = N U$
+\end{itemize}
+%
+
+Then we introduce the weight function $W$ from statistical physics and count how many compatible microstates there are for a given set $\{ N_i \}$. Doing simple combinatorics we get
+%
+\begin{equation}
+	W = \frac{N!}{N_1! N_2! \dots}
+\end{equation}
+%
+The macrostate with maximum $W$ is most probable, but we need to take into account the constraints. So the way to go is to introduce Lagrange multipliers. We know that 
+%
+\begin{equation}
+	0 = \dd{\ln(W)} = \sum_i \pdv{\ln(W)}{N_i} \dd{N_i} + \alpha \sum \dd{N_i} - \beta \sum E_i \dd{N_i}
+\end{equation}
+%
+so
+%
+\begin{equation}
+ \pdv{\ln(W)}{N_i} + \alpha - \beta E_i = 0
+\end{equation}
+%
+with
+%
+\begin{equation}
+\pdv{\ln(W)}{N_i} \overset{\mathrm{Stirling}}{=} \pdv{N_j \ln(N_j)}{N_i} - \sum_j \pdv{N \ln(N)}{N_i} = \dots = - \ln(\frac{N_i}{N})
+\end{equation}
+%
+so $p_i = \frac{N_i}{N} = \exp(\alpha - \beta E_i)$. You can play this game also for the grand canonical ensemble with a third condition for the mean particle number.
+
+\section{Thermal Fluctuations: Space-dependent Diffusion}
+
+Our diffusion coefficient now depends on the position $D = D(x)$ and we write down a Langevin equation
+%
+\begin{equation}
+	\gamma \dot{x} = - \pdv{U}{x} + \gamma \xi(t)
+\end{equation}
+%
+and we have Gaussian white noise with a position-dependent noise strength $\expval{\xi(t)\xi(t')} = 2 D(x) \delta(t-t')$. So far we can't tell whether to use Stratonovich or Ito calculus.
+
+Starting with the Einstein relation $D = \frac{k_B T}{\gamma}$ we can distinguish two cases: 
+
+\begin{itemize}
+	\item[i)] $\gamma = \gamma(x)$ and $T = T_0$ (equilibrium system, just passive obstacles by $\gamma$!)
+	\item[ii)] $\gamma = \gamma_0$ and $T = T(x)$ (non-equilibrium system!)
+\end{itemize}
+
+\subsection*{$\alpha$-calculus}
+
+$(\alpha) \, \dot{x} = f(x) + \alpha g(x)$ with $\alpha = 0$ for Ito and $\alpha = \frac{1}{2}$ for Stratonovich. This determines what the Fokker-Planck equation looks like
+%
+\begin{equation}
+	\dot{P} = \pdv{x} \left[ -(f + \frac{\alpha}{2} \pdv[2]{g}{2})P + \frac{1}{2} \pdv{x} (g^2 P) \right]
+\end{equation}
+%
+
+\subsection*{Case i): Equilibrium System}
+
+For case i) it can be shown that $\alpha = 1$ is correct (isothermal interpretation) (see Lau \& Lubensky paper PRE).
+%
+\begin{equation}
+\dot{P} = \pdv{x} \left[ -(f + \pdv[2]{g}{2})P + \frac{1}{2} \pdv{x} (g^2 P) \right]
+\end{equation}
+%
+with $f = - \frac{1}{\gamma} \pdv{U}{x}$, $g = \sqrt{2D}$ so
+%
+\begin{equation}
+\dot{P} = - \nab(fP) + \nab(D(x)\nab P)
+\end{equation}
+%
+so this is the correct generalization of Fick's law for equilibrium systems with $\gamma = \gamma(x)$. So at the steady state we must have $\dot{P}^* = 0$ and $fP) + D(x)\nab P = \mathrm{const}$ and we get the Boltzmann distribution $P^* \sim \exp(-\beta U)$.
+
+\begin{remark}[Nota Bene]
+In Ito interpretation with $\alpha = 0$ we would have obtained the Fokker-Planck equation 
+%
+\begin{equation}
+\dot{P} = - \nab(fP) + \nab^2(D P)
+\end{equation}
+%
+which gives rise to different physics and different steady state distributions. So it is really important where to write $D$!
+\end{remark}
+
+\subsection*{Case ii): Position-dependent Temperature}
+
+These systems behave non-generically and are characterized by thermophoreses (Sorret effect) and the Fokker-Planck equation
+%
+\begin{equation}
+\dot{P} = - \nab(f -D_T \nab T)P + \nab(D(x)\nab P)
+\end{equation}
+%
+with the Sorret coefficient $S_T = \frac{D_T}{D}$, which depends on molecular interaction potentials. The Sorret effect is an example of an non-equilibrium phenomenon. 
+
+\section{Entropy Production}
+
+A hallmark of non-equilibrium systems is entropy production, which we know from the second law of thermodynamics $\expval{\Delta S} \geq 0$.
+
+As an example lets consider to systems of temperature $T_1$ and $T_2$ that are brought into contact resulting in an entropy change
+%
+\begin{equation}
+	\frac{\Delta S}{k_B} = \Delta Q (\frac{1}{k_B T_2} - \frac{1}{k_B T_1})
+\end{equation}
+%
+Or consider a second example of two ideal gases with $N_A$ and $N_B$ particles that are mixing: $N = N_A + N_B$, $x = \frac{N_A}{N}$ and 
+%
+\begin{equation}
+	\frac{\Delta S}{k_B} = - N [x \ln(x) + (1-x)\ln(1-x)]
+\end{equation}
+%
+as the mixing entropy.
+
+\subsection*{Fluctuation Theorem of Non-Equilibrium Systems}
+
+The change of entropy will be a stochastic variable with 
+%
+\begin{equation}
+	\frac{P \left(\frac{\Delta S}{k_B} = I \right)}{P \left(\frac{\Delta S}{k_B} = -I \right)} = \exp(I)
+\end{equation}
+%
+for a colloidal particle driven by optical tweezers a decrease in entropy might be observed, for larger system it gets really unlikely due to the exponential factor $\exp(I)$.
+
+\subsection*{Crooke Fluctuation Theorem}
+
+Lets consider a macroscopic observable $y$ so we can ask how likely it is to observe the time-reversed macroscopic dynamics / trajectory
+%
+\begin{equation}
+\frac{P \left( y \right)}{P \left( \bar{y} \right)} = \exp(\Delta S[y(t)] / k_B)
+\end{equation}
+%
+
+\subsection*{Jarzynski Relation}
+
+For an isolated system there is always an adiabatic process connecting $y_0$ and $y_1$ costing the work $W = \Delta F$ as change in the free energy. Any non-adiabatic process will take more work $\expval{\Delta F} \leq W$ and we have
+%
+\begin{equation}
+	\exp(- \Delta F) = \expval{\exp(-\beta W)}
+\end{equation}
+%
+
+
 
 
 \end{document}
