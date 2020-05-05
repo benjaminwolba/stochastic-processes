@@ -93,6 +93,11 @@ captions=tableheading, 														% table heading above the table
 \RequirePackage{circuitikz}													% elektrische Netzwerke zeichnen
 \usetikzlibrary{shapes.geometric, shapes.callouts, arrows, mindmap, positioning} 
 
+% https://en.wikibooks.org/wiki/LaTeX/Macros#New_commands
+
+\newcommand{\keyword}[1]{\textbf{\color{bluebase} \strut #1 #1}}
+
+
 \RequirePackage[framemethod=default]{mdframed}								% create breakable frame for definitions, theorems etc.
 \mdfdefinestyle{default}{%
 	topline=false, bottomline=false, rightline=false,%
