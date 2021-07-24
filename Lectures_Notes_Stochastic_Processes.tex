@@ -4,13 +4,13 @@
 
 \documentclass{notebook}
 
-\ihead{\headmark}									% header: chapter name inside
-\setheadsepline{0.5pt}													% insert line of 0.5 pt width
+\ihead{\headmark}													  % header: chapter name inside
+\setheadsepline{0.5pt}												% insert line of 0.5 pt width
 \cfoot{Made with \LaTeX{} by Benjamin Wolba}
 	
-%\addbibresource{Ref_Lagrange.bib} 										    % integration of .bib-file
+\addbibresource{ref.bib} 										   % integration of .bib-file
 
-\newcommand{\blue}[1]{{\color{blue}#1}}
+\newcommand{\blue}[1]{{\color{bluebase}#1}}
 
 \title{\color{bluebase} Lecture Notes on Stochastic Processes}  
 \author{PD Dr. Benjamin M. Friedrich}                 
@@ -109,7 +109,7 @@ while cumulants allow to read of relevant information more readily.
 }
 
 \blue{ % BMF
-Example: normal distribution: $k_0 = \mu_0=1$ (=normalization condition), $k_1=\mu_1$ (=mean), $\k_2=\mu_2-\mu_1^2$ (=variance), $k_k=0$ for $k\ge 3$.
+Example: normal distribution: $k_0 = \mu_0=1$ (=normalization condition), $k_1=\mu_1$ (=mean), $k_2=\mu_2-\mu_1^2$ (=variance), $k_k=0$ for $k\ge 3$.
 }
 
 \section{Probability in Physics}
@@ -2705,6 +2705,10 @@ So our signal is better, if we have some noise in our system! The SNR attains a 
 
 Glimpse on Infotaxis: Infotaxis as a strategy for searching without gradients by Vergassola 2007
 
+
+\nocite{*}
+\renewcommand*{\bibfont}{\small}
+\printbibliography[heading=bibintoc]
 
 
 \end{document}
