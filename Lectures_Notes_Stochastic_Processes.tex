@@ -420,7 +420,7 @@ The random walk can be used to model a variety of different phenomena just like
 %
 
 %
-\begin{mdframed}[style=default, frametitle={Model: Random Walker}]
+\begin{theorem}[Model: Random Walker]
 	%
 	A random walker in $d$-dimensional space can be considered as a particle moving in steps of length $l$, while choosing each time a random, uncorrelated direction. Uncorrelated means that
 	%
@@ -430,7 +430,7 @@ The random walk can be used to model a variety of different phenomena just like
 	%
 	for averaging over the probability distribution of steps $\rho(\vec{x}_n)$.
 	%
-\end{mdframed}
+\end{theorem}
 %
 
 Thus, the displacement $\vec{x}$ of a random walker after $N$ steps is given by
@@ -527,38 +527,6 @@ p(\vec{x},t) = \frac{1}{(4 \pi k t)^{d/2}} \exp(-\frac{\vec{x}^2}{4 k t})
 %
 with the mean square spread $\sigma^2 \sim k t$, which is a spherically symmetric, multivariate normal distribution.
 
-\newpage
-\section{Random Force Model}
-
-Another approach to diffusion is considering a colloidal particle suspended in a fluid experiencing random forces $f(t)$ due to the interaction with the fluid molecules. 
-
-%
-\begin{mdframed}[style=default, frametitle={Model: Random Forces}]
-	%
-	The motion of a particle under random forces $f(t)$ in one space dimension can be described by Newton's law
-	%
-	\begin{equation}
-	m \ddot{x} + \gamma \dot{x} = f(t)
-	\end{equation}
-	%
-	For long time scales $\tau_m >> \frac{m}{\gamma}$, inertia is negligible and we obtain the overdamped dynamics $\gamma \dot{x} = f(t)$. The random force is characterised through
-	%
-	\begin{itemize}
-		\item{$\expval{f(t)} = 0$ (by symmetry)}
-		\item{a vanishing correlation $\expval{f(t)f(t+\tau)} \to 0$ for $\tau \gg \tau_m$, with the correlation time $\tau_m$}
-	\end{itemize}
-	%
-	for averaging over the probability distribution.
-	%
-\end{mdframed}
-%
-An important property of the random force is stationarity of random forces originating from molecular collision events independent of $t$
-%
-\begin{equation}
-\frac{1}{\gamma^2}\int_{-\infty}^{\infty}{\dd{\tau} \expval{f(t)f(t+\tau)}} = 2D
-\end{equation}
-%
-with $[D] = \si{\meter \squared \per \second}$
 %
 \begin{theorem}[Concept: Diffusion]
 	%
@@ -566,6 +534,64 @@ with $[D] = \si{\meter \squared \per \second}$
 	%
 \end{theorem}
 %
+
+\newpage
+\section{Random Force Model}
+
+Another approach to diffusion is to consider a colloidal particle suspended in a fluid that is experiencing random forces $f(t)$ due to the interaction with the fluid molecules. 
+
+Each fluid molecule is governed by the Hamiltonian equations of motion
+%
+\begin{equation}
+	\dot{\vec{p}}_i = -\frac{\partial H}{\partial \vec{q}_i}, \quad 
+	\dot{\vec{q}}_i = \frac{\partial H}{\partial \vec{p}_i}
+\end{equation}
+%
+and their average velocity is characterized by the fluid's temperature $T$
+%
+\begin{equation}
+	\frac{m}{2} \langle \vec{q}_i^{\,2} \rangle = \frac{k_B T}{2}
+\end{equation}
+%
+
+\begin{remark}[Repetition: Equipartition Theorem]
+	At thermal equilibrium, the system's energy, given by a Hamiltonian $H$, is distributed on its degrees of freedom $x_n$ via
+	%
+	\begin{equation}
+		\expval{x_m \pdv{H}{x_n}} = \delta_{mn} k_B T
+	\end{equation}
+	%
+	This holds for a microcanonical and canonical ensemble and relates temperature to the systems average energies.
+\end{remark}
+
+%
+\begin{theorem}[Model: Random Forces]
+	The motion of a particle under random forces $f(t)$ in one space dimension can be described by Newton's second law via
+	%
+	\begin{equation}
+		m \ddot{x} + \gamma \dot{x} = f(t)
+	\end{equation}
+	%
+	where $x(t)$ is the colloid's position and $\gamma$ is the damping constant.
+	
+	For long time scales $\tau_m >> \frac{m}{\gamma}$, inertia is negligible and we obtain the overdamped dynamics $\gamma \dot{x} = f(t)$. The random force is characterized through
+	%
+	\begin{itemize}
+		\item{$\expval{f(t)} = 0$ (by symmetry)}
+		\item{a vanishing correlation $\expval{f(t)f(t+\tau)} \to 0$ for $\tau \gg \tau_m$, with the correlation time $\tau_m$}
+		\item{stationarity of the random forces: %
+			\begin{equation}
+				\frac{1}{\gamma^2}\int_{-\infty}^{\infty}{\dd{\tau} \expval{f(t)f(t+\tau)}} = 2D
+			\end{equation}
+			%
+			with $[D] = \si{\meter \squared \per \second}$}
+	\end{itemize}
+	%
+	In each case the average is taken over the probability distribution of the random force.
+	%
+\end{theorem}
+%
+
 
 \subsection*{Formal Solution}
 
@@ -576,13 +602,13 @@ x(t) = x(0) + \frac{1}{\gamma} \int_0^t{\dd{t_1} f(t_1)}
 \end{equation}
 %
 
-Defining $\Delta x := x(t) - x(0)$, we get for the mean displacement
+Defining $\Delta x := x(t) - x(0)$, we get by symmetry for the mean displacement
 %
 \begin{equation}
 \expval{\Delta x(t)} = \frac{1}{\gamma} \int_0^t{\dd{t_1} \expval{f(t_1)}} = 0
 \end{equation}
 %
-by symmetry and for the mean square displacement
+and for the mean square displacement
 %
 \begin{align*}
 \expval{\Delta x^2} &= \frac{1}{\gamma^2} \expval{\left( \int_0^t{\dd{t_1} f(t_1)} \right) \left( \int_0^t{\dd{t_2} f(t_2)} \right)} \\
@@ -648,15 +674,54 @@ we obtain the Stokes-Einstein-relation
 D = \frac{k_B T}{\gamma}
 \end{equation}
 %
-\begin{remark}[Repetition: Equipartition Theorem]
-	At thermal equilibrium, the system's energy, given by a Hamiltonian $H$, is distributed on its degrees of freedom $x_n$ via
-	%
-	\begin{equation}
-	\expval{x_m \pdv{H}{x_n}} = \delta_{mn} k_B T
-	\end{equation}
-	%
-	This holds for a microcanonical and canonical ensemble and relates temperature to the systems average energies.
-\end{remark}
+
+
+\subsection*{Numerical Solution: Explicit Euler Scheme}
+
+Consider as a heuristic example a stochastic process where inertia is negligible 
+%
+\begin{equation}
+	\gamma \dot{x} = f(t)
+\end{equation}
+%
+A numerical solution for e.g. a particles position $x(t)$ depending on the random force $f(t)$ can be obtained from an explicit Euler scheme for discrete times $t_n = n \cdot dt$ and discrete positions $x_n = x(t_n)$. 
+
+The updates 
+%
+\begin{equation}
+	u_n = \int_{t_n}^{t_{n+1}} dt \frac{f(t)}{\gamma}
+\end{equation}
+%
+have the properties
+%
+\begin{equation}
+	\langle u_n \rangle = 0, \quad 
+	\langle u^2_n \rangle = 2 D dt, \quad 
+	\langle u_n u_{n+1} \rangle \approx 0
+\end{equation}
+%
+
+The can be parameterized via $u_n \approx \sqrt{2D} dw_n$, where $dw_n \sim N(0,dt)$ are independent, normally distributed random variables. Finally, the explicit Euler scheme reads
+%
+\begin{equation}
+	x_{n+1} = x_n + \sqrt{2D} dw_n
+\end{equation}
+%
+One needs to be careful if $D = D(x)$.
+
+
+\subsection*{Examples for Diffusion Processes}
+
+% Bitte ergänzen/korrigieren, das ist im handschriftlichen Skript schwer zu lesen ;-)
+
+The damping of a colloid with radius $r$ constant is given by $\gamma = 6 \pi \eta r$.
+
+For $r = \SI{1}{\micro\meter}$ and the viscosity of water $\eta = \SI{E-3}{\pascal\second}$
+this yields $\gamma = \SI{2E-8}{\newton \second \per \meter}$ and $D = \frac{k_B T}{\gamma} = \SI{2E-13}{\meter\squared \per \second}$
+
+For a protein with $r = \SI{2}{\nano\meter}$ in water this yields $\gamma = \SI{4E-11}{\newton \second \per \meter}$ and $D = \frac{k_B T}{\gamma} = \SI{E-10}{\meter\squared \per \second}$
+
+
 
 
 \chapter{Langevin Equation and Fokker-Planck Equation}
