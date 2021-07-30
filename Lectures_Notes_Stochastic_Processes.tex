@@ -15,6 +15,15 @@
 \title{\color{bluebase} Lecture Notes on Stochastic Processes}  
 \author{PD Dr. Benjamin M. Friedrich}                 
 
+% Style Guide 
+% 
+% - concepts, definitions, theorems, etc. go inside a "theorem" environment
+% - remarks, comments, digressions go inside a "remark" environment 
+% - new technicals terms should be introduced for the first time in italics
+% ... 
+% 
+
+
 \begin{document}
 	
 \frontmatter
@@ -40,11 +49,9 @@
 	%
 \end{theorem}
 
-\blue{ % BMF
-Example: fair coin: $X=\{\text{head},\text{tail}\}$, $P(\{\text{head}\})=1/2$, 
+Example 1: fair coin: $X=\{\text{head},\text{tail}\}$, $P(\{\text{head}\})=1/2$, 
 sloppy notation $p(\text{head})$ for set $A$ with single element \\
-Example: dice: $X=\{1,2,3,4,5,6\}$, $P(\{1,2\})=P(1)+P(2)=1/3$
-}
+Example 2: dice: $X=\{1,2,3,4,5,6\}$, $P(\{1,2\})=P(1)+P(2)=1/3$
 
 If $X = \R$, we can consider a probability density as a function $p(x) : \R \to \R^+$, which relates to the probability by
 %
@@ -53,15 +60,12 @@ If $X = \R$, we can consider a probability density as a function $p(x) : \R \to 
 P(A) = \int_A{\dd{x} p(x)}
 \end{equation}
 %
-for $A \subseteq \R$. 
-Note the physical units: If $[x] = \si{\meter}$ for example, then $[p] = \si{\per \meter}$. 
-\blue{ % BMF
-As a mathematical caveat, Eq.~\eqref{eq:def_P} cannot be defined for arbitrarily ``wild'' sub-sets $A \subset \R$, 
-but only for sufficiently ``nice'' subsets; this technical issue is extensively studied in the mathematical sub-discipline of Measure and Integration Theory, but usually is not a concern in physical applications.
-} 
+for $A \subseteq \R$. Note the physical units: If $[x] = \si{\meter}$ for example, then $[p] = \si{\per \meter}$. 
+
+As a mathematical caveat, Eq.~\eqref{eq:def_P} cannot be defined for arbitrarily ``wild'' sub-sets $A \subset \R$, but only for sufficiently ``nice'' subsets. Specifically, these subsets need to be measurable and thus form a so-called $\sigma$-algebra. This technical issue is extensively studied in the mathematical sub-discipline of measure and integration theory, but usually is not a concern in physical applications. See for reference e.g. \cite{Billingsley2012}.
 
 Note that $p(x)$ is also called \textit{probability density function} $\mathrm{PDF}(x) = p(x)$. 
-% Question by BMF to BW: definitions in italics?
+
 The \textit{cumulative density function} is defined as
 %
 \begin{equation}
@@ -85,6 +89,7 @@ Important characteristics of probability distributions are its moments and its c
 	\expval{\exp(t x)} = \sum^{\infty}_{n = 0}{\mu_n \frac{t^n}{n!}}
 	\end{equation}
 	%
+	i.e. the moments are the Taylor coefficients of the characteristic function
 \end{theorem}
 
 \begin{theorem}[Cumulants]
@@ -98,19 +103,17 @@ Important characteristics of probability distributions are its moments and its c
 	%
 \end{theorem}
 
-\blue{ % BMF
 Note: moments and cumulants contain the same information:
 by inserting for example Eq.~(\ref{eq:def_cumulant}) into the Taylor series of the exponential function, 
 and collecting equal powers of $t$ (after applying the binomial formula to expand powers), one obtains complicated formulas expressing the $n$th moment $\mu_n$ in terms of all $k_k$, $k\le n$.
-A series of moment ``almost'' uniquely determines the underlying probability density function $p(x)$
-(yet there are some mathematical delicaties for which we refer the reader to the mathematics literature). 
-Often, moments can be computed more directly, 
-while cumulants allow to read of relevant information more readily.
-}
+A series of moments ``almost'' uniquely determines the underlying probability density function $p(x)$
+(yet there are some mathematical delicacies for which we refer the reader to the mathematics literature
+% TODO reference to literature should be added here
+). 
+Often, moments can be computed more directly, while cumulants allow to read off relevant information more readily.
 
-\blue{ % BMF
-Example: normal distribution: $k_0 = \mu_0=1$ (=normalization condition), $k_1=\mu_1$ (=mean), $k_2=\mu_2-\mu_1^2$ (=variance), $k_k=0$ for $k\ge 3$.
-}
+Example: normal distribution: $k_0 = \mu_0=1$ (=normalization condition), $k_1=\mu_1$ (=mean), $k_2=\mu_2-\mu_1^2$ (= variance), $k_k=0$ for $k \ge 3$.
+
 
 \section{Probability in Physics}
 
@@ -167,7 +170,7 @@ with $\expval{k} = n p$ and $\expval{k^2} - \expval{k}^2 = n p (1 - p)$. In many
 
 \subsection*{Poisson Distribution}
 
-We consider the continuous time limit of the Binomial distribution. So we introduce discrete central times $t_j = \frac{j}{n} T = j \dd{t}$ with $\dd{t} = \frac{T}{n}$ and $\lambda = np$ being the total number of expected events. And we assume that at each time step one Bernoulli trial is conducted. The event rate is given by $r = \frac{\lambda}{T} = \frac{p}{\dd{t}}$ with $[r] = \si{\per \second}$ in units of an inverse time. 
+We consider the continuous time limit of the Binomial distribution. Therefore, we introduce discrete central times $t_j = \frac{j}{n} T = j \dd{t}$ with $\dd{t} = \frac{T}{n}$ and $\lambda = np$ being the total number of expected events. And we assume that at each time step one Bernoulli trial is conducted. The event rate is given by $r = \frac{\lambda}{T} = \frac{p}{\dd{t}}$ with $[r] = \si{\per \second}$ in units of an inverse time. 
 
 Now take the limit $n \to \infty$ with $\lambda = \mathrm{const}$ and $p = \frac{\lambda}{n}$, so we get the Poisson distribution
 %
@@ -187,6 +190,8 @@ with $\mu = \expval{k} = \lambda$, $\sigma^2 = \expval{k^2} - \expval{k}^2 = \la
 	and so $k = \int^T_0{f(t)} $.	
 \end{remark}
 
+Examples are customers arriving at a counter, service requests to a computer server, radioactive decay events, or photons arriving at a CCD sensor. 
+
 \subsection*{Power-law distribution}
 
 E.g. the jump distribution of animals pursuing food foraging (L\'evy walk) or the distribution of Facebook contacts ($\alpha = 2.2$) are described by a power-law distribution of the form
@@ -198,7 +203,6 @@ p(x) \sim x^{- \alpha} \quad \mathrm{for} \quad x \gg 1
 It has some unpleasant mathematical properties such as a divergent variance $\sigma^2 \to \infty $ for $\alpha < 3$.
 
 
-\newpage
 \section{Normal Approximation}
 
 In this section we are going to show, that the Bernoulli distribution 
@@ -261,7 +265,8 @@ A second proof uses the central-limit-theorem.
 
 \begin{theorem}[Central-Limit-Theorem]
 	%
-	Consider a sequence of $x_1, ... x_n$ of independent, identically distributed, random variables with mean $\mu$ and variance $\sigma^2$. We define the empirical mean by
+	Consider a sequence of $x_1, ... x_n$ of independent, identically distributed, random variables (Bernoulli trials)
+	with mean $\mu$ and variance $\sigma^2$. We define the empirical mean by
 	%
 	\begin{equation}
 	\bar{x} = \frac{1}{n}(x_1 + \dots + x_n) = \mathrm{empirical \, mean}
@@ -276,7 +281,7 @@ A second proof uses the central-limit-theorem.
 	Then the probability distribution $p(z) \to N(0,1)$ for large $n$ ("convergence in distribution") or equivalently $CDF(z) \to \mathrm{Erf}(z)$ for almost all $z \in \R$	
 \end{theorem}
 
-Now for our second, more elegant proof we consider $n$ independent random variables $x_j$ with $j = 1,...,n$, and
+Now for our second, more elegant proof we consider $n$ independent random variables $x_j$ (Bernoulli trials) with $j = 1,...,n$, and
 %
 \begin{equation}
 x_j = \begin{cases} 1 \, | \, \mathrm{with \, probability \,} p \\ 0 \, | \, \mathrm{with \, probability \, } q = 1 - p \end{cases}
@@ -403,6 +408,8 @@ so that
 	%	 
 	so that $W(t)$ exists and is continuous with probability 1.
 \end{remark}
+
+For the example of Brownian motion, which we will consider in the next chapter, Gaussian white noise can be considered an idealization of the random thermal force due to collisions of a colloid with solvent molecules (in the limit of vanishing correlation time $\tau \to 0$). 
 
 
 \chapter{Diffusion \& Random Walk}
