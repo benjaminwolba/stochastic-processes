@@ -130,7 +130,7 @@ Practically, a probability is determined by
 	\item{replacing the physical system by an idealized model for stochastic simulations}
 \end{itemize}
 %
-(Talk by Jan Nagel: Gott würfelt nicht. Oder doch? --> Uncertainty in initial conditions leads to a dice producing a stochastic behavior.)
+(Talk by Jan Nagel: Gott würfelt nicht. Oder doch? (https://youtu.be/q-ezpVF6cL4) --> Uncertainty in initial conditions leads to a dice producing a stochastic behavior.)
 
 \subsection*{Example Weather Forecast}
 
@@ -367,7 +367,13 @@ A random variable takes values in a set $X$, e.g. a set of measurement outcomes,
 	f(t) = \sum_{j = -\infty}^{\infty}{\delta(t-t_j)}
 	\end{equation}
 	%
-	with the property $\expval{f(t)} = r$. The quantity $x = \int_0^T f(t) $ counts events and yields a Poisson distribution with parameter $\lambda = rt$. The waiting times $t = t_{j+1} - t_j$ are exponentially distributed, i.e. $p(t) = r \exp(-rt)$. 
+	with the property $\expval{f(t)} = r$. The quantity $N = \int_0^T f(t) $ counts events  in $[0,T]$, where $T$ is the observation time, and yields a Poisson distribution with parameter $\lambda = rt$:
+	%
+	\begin{equation}
+		p(N=k) = p(k, \lambda = r T)
+	\end{equation}
+	%
+	The waiting times $t = t_{j+1} - t_j$ are exponentially distributed, i.e. $p(t) = r \exp(-rt)$. 
 \end{theorem}
 %
 The last property can be proven by taking a look at the CDF, for which we have 
@@ -382,6 +388,7 @@ so that
 	\dv{t} P(t \geq \theta) = - r \dd{t} P(t \geq \theta)  \quad \Rightarrow \quad P(t \geq \theta) \sim \exp(-r t)
 \end{equation*}
 %
+$r dt$ is dimensionless, thus $r dt \ll 1$ is meaningful. 
 
 
 \subsection*{Example: Gaussian White Noise}
@@ -412,6 +419,28 @@ so that
 
 For the example of Brownian motion, which we will consider in the next chapter, Gaussian white noise can be considered an idealization of the random thermal force due to collisions of a colloid with solvent molecules (in the limit of vanishing correlation time $\tau \to 0$). 
 
+
+\subsection*{Numerical Implementation of Gaussian White Noise}
+
+%TODO: make this part where more appropriate
+Gaussian white noise can be implemented numerically for the stochastic differential equation
+%
+\begin{equation}
+	\dot{x} = f(x,t) + \xi(t)
+\end{equation}
+%
+in an Euler scheme by sampling $\xi_j = \xi(t_j) \sim N(0, \frac{2D}{dt})$ at discrete time steps $t_j = j dt$, which yields 
+%
+\begin{equation}
+	x_{j+1} = x_j + \underbrace{f(x_j, t_j) dt}_{\sim dt} + \underbrace{\xi_j dt}_{\sim \sqrt{dt}} + \O{dt^{3/2}}
+\end{equation}
+%
+
+\subsection*{Diffusion Approximation}
+
+Many stochastic processes can be mapped approximately to Gaussian white noise. 
+
+Consider for example a Poisson process with rate $r$. The total number of events $N = \int_0^{\Delta t} f(t)$ in the time interval $\Delta t$ has the moments $\langle N \rangle = r \Delta t$ and $\langle (N - r \Delta t)^2 \rangle = r \Delta t$. Thus, we can approximate $f(t) \approx r + \xi(t)$, where $\xi(t)$ is Gaussian white noise with $\expval{\xi(t)} = 0$ and $\expval{\xi(t) \xi(t')} = r \delta(t-t^\prime)$
 
 \chapter{Diffusion \& Random Walk}
 
