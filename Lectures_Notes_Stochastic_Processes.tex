@@ -1047,6 +1047,72 @@ No steady-state solution exists (non-trivial / normalizable to one) and all eige
 	Changing the boundary conditions changes also the eigenvalues and the adjoint operator (boundary terms might pop up) and thus you will get each time a different operator in terms of functional analysis. 
 \end{remark}
 
+
+\section{Master Equation}
+
+The master equation (M-equation) describes time-continuous, continuous state variables and it is of the general form
+%
+\begin{equation}
+	\frac{\partial}{\partial t} P(x,t) = \int \mathrm{d}x_1 \underbrace{w(x|x_1) P(x_1,t)}_{= \mathrm{gain}} - \underbrace{w(x_1|x) P(x,t)}_{= \mathrm{loss}}
+\end{equation}
+%
+
+$w(x|x_1)$ is the transition rate density for the process $x_1 \to x_2$, i.e. $w(x|x_1) \Delta x_1 \Delta x_2 \Delta t$ is the probability of a transition from $[x_1, x_1 + \Delta x_1]$ to $[x_2, x_2 + \Delta x_2]$ in the time interval $\Delta t$
+
+The Fokker-Planck equation is a special case of the master equation. 
+
+For a time-continuous, discrete state variable the master equation reads 
+%
+\begin{equation}
+	\frac{\mathrm{d}}{\mathrm{d}t} P_n(t) = \sum_m w_{nm} p_m(t) - w_{mn} p_n(t)
+\end{equation}
+%
+where $w_{nm}$ is the transition rate $m \to n$. 
+
+
+\subsection*{Example I: Fermi's Golden Rule}
+
+Let $\hat{H} = \hat{H}_0 + \varepsilon \hat{H}_1 \Theta(t)$ be a perturbed Hamiltonian and $| m_0 \langle$ be an eigenstate of the unperturbed Hamiltonian $\hat{H}_0$ and the initial state.
+
+The transition rate $m_0 \to n$ is given by Fermi's Golden rule
+%
+\begin{equation}
+	w_{nm_0} = \frac{2\pi}{\hbar} \varepsilon^2 |\langle n | \hat{H}_1 | \rangle| \rho + \mathbb{O}(\varepsilon^4)
+\end{equation}
+%
+
+\subsection*{Example II: Radioactive Decay}
+
+Let $n$ be the number of particles that is left (i.e. not decayed). 
+%
+\begin{equation}
+	T_{\delta t}(n|m) = 
+	\begin{cases} 
+		0 								&\quad n > m \\
+		m \gamma \delta t 	&\quad n = m \\
+		\mathbb{O}(\delta t^2) &\quad n < m
+	\end{cases}
+\end{equation}
+%
+
+% What is m? 
+
+The master equation reads 
+%
+\begin{equation}
+	\frac{\mathrm{d}}{\mathrm{d}t} p_n = \gamma(n+1) p_{n+1} - \gamma(n) p_n
+\end{equation}
+%
+where $N = \langle n \rangle = \sum_n p_n$ and
+%
+\begin{equation}
+	\frac{\mathrm{d}}{\mathrm{d}t} N = - \gamma(n) N
+\end{equation}
+%
+and thus $N = N_0 \exp(-\gamma t)$.
+
+
+
 \chapter{Dynkin Equation}
 
 \section{Mean First Passage Times and Dynkin Equation}
