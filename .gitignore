@@ -19,7 +19,7 @@
 # these rules might exclude image files for figures etc.
 # *.ps
 # *.eps
-*.pdf
+Lectures_Notes_Stochastic_Processes.pdf
 
 *.synctex
 
