@@ -779,7 +779,6 @@ For a protein with $r = \SI{2}{\nano\meter}$ in water this yields $\gamma = \SI{
 
 \section{Langevin equation}
 
-
 Langevin theory describes non-equilibrium systems by postulating a stochastic process, thus adding a noise term to fundamental equations. In its original form, Langevin theory was used to describe Brownian motion, e.g. of a particle suspended in a fluid.
 
 \begin{theorem}[Definition of the Langevin equation]
@@ -806,11 +805,30 @@ Langevin theory describes non-equilibrium systems by postulating a stochastic pr
 %
 with $i = 1, \dots, n$ and $\xi_j(t)$ being independent Gaussian white noise functions $\expval{\xi_j(t) \xi_l(t')} = \delta_{jl} \delta(t - t')$, $j, l = 1, \dots, m$.
 
-\underline{Example 1: Double-well Potential}
+\newpage
+\underline{Example I: Double-well Potential}
 
-\underline{Example 2: Escape over a Barrier}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{Pics/doublewell_potential}
+	\label{fig:doublewellpotential}
+\end{figure}
 
 
+$x(t = 0) = a$ \\
+
+\underline{Example II: Escape over a Barrier}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{Pics/escape_over_barrier}
+	\label{fig:escapeoverbarrier}
+\end{figure}
+
+$x(t = 0) = 0$, escape rate? \\
+
+
+\newpage
 \subsection*{Numerics for the Langevin Equation}
 
 \begin{theorem}[Euler Scheme]
