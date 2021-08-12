@@ -841,6 +841,12 @@ $x(t = 0) = 0$, escape rate? \\
 	with $D = D_0$, $t_i = i \dd{t}$, $x_i = x(t_i)$ and the independent Gaussian variables $N_n \sim N(0,1)$. The numerical error scales as $|\hat{x}_n - x_n| \sim \O{\dd{t}^{3/2}}$.
 \end{theorem}
 
+N.B. $X_{n+1} - x_n = \sqrt{2D} dw$ with $\langle \mathrm{d}w^2 \rangle = 2D \mathrm{d}t$
+
+Care needs to be taken if $D = D(x)$. 
+% What follows in this case?
+
+
 \section{Fokker-Planck-Equation}
 
 \subsection*{Derivation of Fokker-Planck-Equation}
@@ -881,6 +887,8 @@ Therefore, we discretize time and take a look how a sub-ensemble of $p(x,t)$ at 
 	&= \int{\dd{x}_n N(x_n+f(x_n), 2D \dd{t}) p(x_n,t_n|x_0,t_0)}
 \end{align*}
 %
+The left term captures the probability to have been at $x_n$ at $t = t_n$, the right term the probability to have moved from $x_n$ to $x_{n+1}$.
+
 This is already an implicit solution in terms of a convolution of the probability density with a family of normal distributions, but it is of little practical use. 
 %
 \begin{remark}[A Remark about Units]
@@ -934,6 +942,7 @@ and thus
 \frac{p(x,t_{n+1}) - p(x,t_n)}{\dd{t}} =  -\pdv{x} [p(x,t_n) f(x)] + \pdv[2]{x}[p(x,t_n) D]
 \end{equation}
 %
+
 Taking the time step to zero, we have finally derived the Fokker-Planck equation.
 %
 \begin{theorem}[Fokker-Planck equation]
@@ -945,7 +954,7 @@ Taking the time step to zero, we have finally derived the Fokker-Planck equation
 	%
 \end{theorem}
 %
-The structure of the Fokker-Planck equation is similar to the Schrödinger equation, i.e. solution methods from QM can be borrowed (take a look at the Risken book!). 
+The structure of the Fokker-Planck equation is similar to the Schrödinger equation, i.e. solution methods from QM can be borrowed (take a look at the Risken book \cite{Risken1996}). 
 
 \subsection*{Application to Diffusion in a Potential}
 
