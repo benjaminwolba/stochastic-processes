@@ -4,16 +4,25 @@
 
 \documentclass{notebook}
 
-\ihead{\headmark}									% header: chapter name inside
-\setheadsepline{0.5pt}													% insert line of 0.5 pt width
+\ihead{\headmark}													  % header: chapter name inside
+\setheadsepline{0.5pt}												% insert line of 0.5 pt width
 \cfoot{Made with \LaTeX{} by Benjamin Wolba}
 	
-%\addbibresource{Ref_Lagrange.bib} 										    % integration of .bib-file
+\addbibresource{ref.bib} 										   % integration of .bib-file
 
-\newcommand{\blue}[1]{{\color{blue}#1}}
+\newcommand{\blue}[1]{{\color{bluebase}#1}}
 
 \title{\color{bluebase} Lecture Notes on Stochastic Processes}  
 \author{PD Dr. Benjamin M. Friedrich}                 
+
+% Style Guide 
+% 
+% - concepts, definitions, theorems, etc. go inside a "theorem" environment
+% - remarks, comments, digressions go inside a "remark" environment 
+% - new technicals terms should be introduced for the first time in italics
+% ... 
+% 
+
 
 \begin{document}
 	
@@ -40,11 +49,9 @@
 	%
 \end{theorem}
 
-\blue{ % BMF
-Example: fair coin: $X=\{\text{head},\text{tail}\}$, $P(\{\text{head}\})=1/2$, 
+Example 1: fair coin: $X=\{\text{head},\text{tail}\}$, $P(\{\text{head}\})=1/2$, 
 sloppy notation $p(\text{head})$ for set $A$ with single element \\
-Example: dice: $X=\{1,2,3,4,5,6\}$, $P(\{1,2\})=P(1)+P(2)=1/3$
-}
+Example 2: dice: $X=\{1,2,3,4,5,6\}$, $P(\{1,2\})=P(1)+P(2)=1/3$
 
 If $X = \R$, we can consider a probability density as a function $p(x) : \R \to \R^+$, which relates to the probability by
 %
@@ -53,15 +60,12 @@ If $X = \R$, we can consider a probability density as a function $p(x) : \R \to 
 P(A) = \int_A{\dd{x} p(x)}
 \end{equation}
 %
-for $A \subseteq \R$. 
-Note the physical units: If $[x] = \si{\meter}$ for example, then $[p] = \si{\per \meter}$. 
-\blue{ % BMF
-As a mathematical caveat, Eq.~\eqref{eq:def_P} cannot be defined for arbitrarily ``wild'' sub-sets $A \subset \R$, 
-but only for sufficiently ``nice'' subsets; this technical issue is extensively studied in the mathematical sub-discipline of Measure and Integration Theory, but usually is not a concern in physical applications.
-} 
+for $A \subseteq \R$. Note the physical units: If $[x] = \si{\meter}$ for example, then $[p] = \si{\per \meter}$. 
+
+As a mathematical caveat, Eq.~\eqref{eq:def_P} cannot be defined for arbitrarily ``wild'' sub-sets $A \subset \R$, but only for sufficiently ``nice'' subsets. Specifically, these subsets need to be measurable and thus form a so-called $\sigma$-algebra. This technical issue is extensively studied in the mathematical sub-discipline of measure and integration theory, but usually is not a concern in physical applications. See for reference e.g. \cite{Billingsley2012}.
 
 Note that $p(x)$ is also called \textit{probability density function} $\mathrm{PDF}(x) = p(x)$. 
-% Question by BMF to BW: definitions in italics?
+
 The \textit{cumulative density function} is defined as
 %
 \begin{equation}
@@ -85,6 +89,7 @@ Important characteristics of probability distributions are its moments and its c
 	\expval{\exp(t x)} = \sum^{\infty}_{n = 0}{\mu_n \frac{t^n}{n!}}
 	\end{equation}
 	%
+	i.e. the moments are the Taylor coefficients of the characteristic function
 \end{theorem}
 
 \begin{theorem}[Cumulants]
@@ -98,19 +103,17 @@ Important characteristics of probability distributions are its moments and its c
 	%
 \end{theorem}
 
-\blue{ % BMF
 Note: moments and cumulants contain the same information:
 by inserting for example Eq.~(\ref{eq:def_cumulant}) into the Taylor series of the exponential function, 
 and collecting equal powers of $t$ (after applying the binomial formula to expand powers), one obtains complicated formulas expressing the $n$th moment $\mu_n$ in terms of all $k_k$, $k\le n$.
-A series of moment ``almost'' uniquely determines the underlying probability density function $p(x)$
-(yet there are some mathematical delicaties for which we refer the reader to the mathematics literature). 
-Often, moments can be computed more directly, 
-while cumulants allow to read of relevant information more readily.
-}
+A series of moments ``almost'' uniquely determines the underlying probability density function $p(x)$
+(yet there are some mathematical delicacies for which we refer the reader to the mathematics literature
+% TODO reference to literature should be added here
+). 
+Often, moments can be computed more directly, while cumulants allow to read off relevant information more readily.
 
-\blue{ % BMF
-Example: normal distribution: $k_0 = \mu_0=1$ (=normalization condition), $k_1=\mu_1$ (=mean), $\k_2=\mu_2-\mu_1^2$ (=variance), $k_k=0$ for $k\ge 3$.
-}
+Example: normal distribution: $k_0 = \mu_0=1$ (=normalization condition), $k_1=\mu_1$ (=mean), $k_2=\mu_2-\mu_1^2$ (= variance), $k_k=0$ for $k \ge 3$.
+
 
 \section{Probability in Physics}
 
@@ -127,7 +130,7 @@ Practically, a probability is determined by
 	\item{replacing the physical system by an idealized model for stochastic simulations}
 \end{itemize}
 %
-(Talk by Jan Nagel: Gott würfelt nicht. Oder doch? --> Uncertainty in initial conditions leads to a dice producing a stochastic behavior.)
+(Talk by Jan Nagel: Gott würfelt nicht. Oder doch? (https://youtu.be/q-ezpVF6cL4) --> Uncertainty in initial conditions leads to a dice producing a stochastic behavior.)
 
 \subsection*{Example Weather Forecast}
 
@@ -167,7 +170,7 @@ with $\expval{k} = n p$ and $\expval{k^2} - \expval{k}^2 = n p (1 - p)$. In many
 
 \subsection*{Poisson Distribution}
 
-We consider the continuous time limit of the Binomial distribution. So we introduce discrete central times $t_j = \frac{j}{n} T = j \dd{t}$ with $\dd{t} = \frac{T}{n}$ and $\lambda = np$ being the total number of expected events. And we assume that at each time step one Bernoulli trial is conducted. The event rate is given by $r = \frac{\lambda}{T} = \frac{p}{\dd{t}}$ with $[r] = \si{\per \second}$ in units of an inverse time. 
+We consider the continuous time limit of the Binomial distribution. Therefore, we introduce discrete central times $t_j = \frac{j}{n} T = j \dd{t}$ with $\dd{t} = \frac{T}{n}$ and $\lambda = np$ being the total number of expected events. And we assume that at each time step one Bernoulli trial is conducted. The event rate is given by $r = \frac{\lambda}{T} = \frac{p}{\dd{t}}$ with $[r] = \si{\per \second}$ in units of an inverse time. 
 
 Now take the limit $n \to \infty$ with $\lambda = \mathrm{const}$ and $p = \frac{\lambda}{n}$, so we get the Poisson distribution
 %
@@ -187,6 +190,8 @@ with $\mu = \expval{k} = \lambda$, $\sigma^2 = \expval{k^2} - \expval{k}^2 = \la
 	and so $k = \int^T_0{f(t)} $.	
 \end{remark}
 
+Examples are customers arriving at a counter, service requests to a computer server, radioactive decay events, or photons arriving at a CCD sensor. 
+
 \subsection*{Power-law distribution}
 
 E.g. the jump distribution of animals pursuing food foraging (L\'evy walk) or the distribution of Facebook contacts ($\alpha = 2.2$) are described by a power-law distribution of the form
@@ -198,7 +203,6 @@ p(x) \sim x^{- \alpha} \quad \mathrm{for} \quad x \gg 1
 It has some unpleasant mathematical properties such as a divergent variance $\sigma^2 \to \infty $ for $\alpha < 3$.
 
 
-\newpage
 \section{Normal Approximation}
 
 In this section we are going to show, that the Bernoulli distribution 
@@ -261,7 +265,8 @@ A second proof uses the central-limit-theorem.
 
 \begin{theorem}[Central-Limit-Theorem]
 	%
-	Consider a sequence of $x_1, ... x_n$ of independent, identically distributed, random variables with mean $\mu$ and variance $\sigma^2$. We define the empirical mean by
+	Consider a sequence of $x_1, ... x_n$ of independent, identically distributed, random variables (Bernoulli trials)
+	with mean $\mu$ and variance $\sigma^2$. We define the empirical mean by
 	%
 	\begin{equation}
 	\bar{x} = \frac{1}{n}(x_1 + \dots + x_n) = \mathrm{empirical \, mean}
@@ -276,7 +281,7 @@ A second proof uses the central-limit-theorem.
 	Then the probability distribution $p(z) \to N(0,1)$ for large $n$ ("convergence in distribution") or equivalently $CDF(z) \to \mathrm{Erf}(z)$ for almost all $z \in \R$	
 \end{theorem}
 
-Now for our second, more elegant proof we consider $n$ independent random variables $x_j$ with $j = 1,...,n$, and
+Now for our second, more elegant proof we consider $n$ independent random variables $x_j$ (Bernoulli trials) with $j = 1,...,n$, and
 %
 \begin{equation}
 x_j = \begin{cases} 1 \, | \, \mathrm{with \, probability \,} p \\ 0 \, | \, \mathrm{with \, probability \, } q = 1 - p \end{cases}
@@ -334,13 +339,14 @@ k_{z,j} = n \left( \frac{1}{\sigma \sqrt{n}} \right)^j k_{x,j}
 \end{equation}
 %
 
-
 \newpage
 \section{Stochastic Processes}
 
+A random variable takes values in a set $X$, e.g. a set of measurement outcomes, that cannot be predicted, e.g. due to a lack/uncertainty of initial conditions, too large complexity of the system or other factors. Here, $X$ may be discrete (e.g. $X = \Z$) or continuous (e.g. $X = \R$). 
+ 
 \begin{theorem}[Stochastic Process]
 	%
-	A stochastic process is a random function $f(t):\R \to \R$, i.e. a family of random variables parameterised by $t \in \R$.
+	A stochastic process is a random function $f(t):\R \to \R$, i.e. a family of random variables parameterized by $t \in \R$.
 	%
 \end{theorem}
 
@@ -361,7 +367,13 @@ k_{z,j} = n \left( \frac{1}{\sigma \sqrt{n}} \right)^j k_{x,j}
 	f(t) = \sum_{j = -\infty}^{\infty}{\delta(t-t_j)}
 	\end{equation}
 	%
-	with the property $\expval{f(t)} = r$. The quantity $x = \int_0^T f(t) $ counts events and yields a Poisson distribution with parameter $\lambda = rt$. The waiting times $t = t_{j+1} - t_j$ are exponentially distributed, i.e. $p(t) = r \exp(-rt)$. 
+	with the property $\expval{f(t)} = r$. The quantity $N = \int_0^T f(t) $ counts events  in $[0,T]$, where $T$ is the observation time, and yields a Poisson distribution with parameter $\lambda = rt$:
+	%
+	\begin{equation}
+		p(N=k) = p(k, \lambda = r T)
+	\end{equation}
+	%
+	The waiting times $t = t_{j+1} - t_j$ are exponentially distributed, i.e. $p(t) = r \exp(-rt)$. 
 \end{theorem}
 %
 The last property can be proven by taking a look at the CDF, for which we have 
@@ -376,6 +388,7 @@ so that
 	\dv{t} P(t \geq \theta) = - r \dd{t} P(t \geq \theta)  \quad \Rightarrow \quad P(t \geq \theta) \sim \exp(-r t)
 \end{equation*}
 %
+$r dt$ is dimensionless, thus $r dt \ll 1$ is meaningful. 
 
 
 \subsection*{Example: Gaussian White Noise}
@@ -404,6 +417,44 @@ so that
 	so that $W(t)$ exists and is continuous with probability 1.
 \end{remark}
 
+For the example of Brownian motion, which we will consider in the next chapter, Gaussian white noise can be considered an idealization of the random thermal force due to collisions of a colloid with solvent molecules (in the limit of vanishing correlation time $\tau \to 0$). 
+
+
+\subsection*{Numerical Implementation of Gaussian White Noise}
+
+%TODO: make this part where more appropriate
+Gaussian white noise can be implemented numerically for the stochastic differential equation
+%
+\begin{equation}
+	\dot{x} = f(x,t) + \xi(t)
+\end{equation}
+%
+in an Euler scheme by sampling $\xi_j = \xi(t_j) \sim N(0, \frac{2D}{dt})$ at discrete time steps $t_j = j dt$, which yields 
+%
+\begin{equation}
+	x_{j+1} = x_j + \underbrace{f(x_j, t_j) dt}_{\sim dt} + \underbrace{\xi_j dt}_{\sim \sqrt{dt}} + \O{dt^{3/2}}
+\end{equation}
+%
+
+\subsection*{Diffusion Approximation}
+
+Many stochastic processes can be mapped approximately to Gaussian white noise. 
+
+Consider for example a Poisson process with rate $r$. The total number of events $N = \int_0^{\Delta t} f(t)$ in the time interval $\Delta t$ has the moments $\langle N \rangle = r \Delta t$ and $\langle (N - r \Delta t)^2 \rangle = r \Delta t$. Thus, we can approximate $f(t) \approx r + \xi(t)$, where $\xi(t)$ is Gaussian white noise with $\expval{\xi(t)} = 0$ and $\expval{\xi(t) \xi(t')} = r \delta(t-t^\prime)$
+
+
+\subsection*{Overview}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{Pics/overview_stochastic_processes}
+	\caption{Relation between different stochastic processes and their corresponding distributions.}
+	\label{fig:overviewstochasticprocesses}
+\end{figure}
+
+
+
+
 
 \chapter{Diffusion \& Random Walk}
 
@@ -420,7 +471,7 @@ The random walk can be used to model a variety of different phenomena just like
 %
 
 %
-\begin{mdframed}[style=default, frametitle={Model: Random Walker}]
+\begin{theorem}[Model: Random Walker]
 	%
 	A random walker in $d$-dimensional space can be considered as a particle moving in steps of length $l$, while choosing each time a random, uncorrelated direction. Uncorrelated means that
 	%
@@ -430,7 +481,7 @@ The random walk can be used to model a variety of different phenomena just like
 	%
 	for averaging over the probability distribution of steps $\rho(\vec{x}_n)$.
 	%
-\end{mdframed}
+\end{theorem}
 %
 
 Thus, the displacement $\vec{x}$ of a random walker after $N$ steps is given by
@@ -527,38 +578,6 @@ p(\vec{x},t) = \frac{1}{(4 \pi k t)^{d/2}} \exp(-\frac{\vec{x}^2}{4 k t})
 %
 with the mean square spread $\sigma^2 \sim k t$, which is a spherically symmetric, multivariate normal distribution.
 
-\newpage
-\section{Random Force Model}
-
-Another approach to diffusion is considering a colloidal particle suspended in a fluid experiencing random forces $f(t)$ due to the interaction with the fluid molecules. 
-
-%
-\begin{mdframed}[style=default, frametitle={Model: Random Forces}]
-	%
-	The motion of a particle under random forces $f(t)$ in one space dimension can be described by Newton's law
-	%
-	\begin{equation}
-	m \ddot{x} + \gamma \dot{x} = f(t)
-	\end{equation}
-	%
-	For long time scales $\tau_m >> \frac{m}{\gamma}$, inertia is negligible and we obtain the overdamped dynamics $\gamma \dot{x} = f(t)$. The random force is characterised through
-	%
-	\begin{itemize}
-		\item{$\expval{f(t)} = 0$ (by symmetry)}
-		\item{a vanishing correlation $\expval{f(t)f(t+\tau)} \to 0$ for $\tau \gg \tau_m$, with the correlation time $\tau_m$}
-	\end{itemize}
-	%
-	for averaging over the probability distribution.
-	%
-\end{mdframed}
-%
-An important property of the random force is stationarity of random forces originating from molecular collision events independent of $t$
-%
-\begin{equation}
-\frac{1}{\gamma^2}\int_{-\infty}^{\infty}{\dd{\tau} \expval{f(t)f(t+\tau)}} = 2D
-\end{equation}
-%
-with $[D] = \si{\meter \squared \per \second}$
 %
 \begin{theorem}[Concept: Diffusion]
 	%
@@ -566,6 +585,64 @@ with $[D] = \si{\meter \squared \per \second}$
 	%
 \end{theorem}
 %
+
+\newpage
+\section{Random Force Model}
+
+Another approach to diffusion is to consider a colloidal particle suspended in a fluid that is experiencing random forces $f(t)$ due to the interaction with the fluid molecules. 
+
+Each fluid molecule is governed by the Hamiltonian equations of motion
+%
+\begin{equation}
+	\dot{\vec{p}}_i = -\frac{\partial H}{\partial \vec{q}_i}, \quad 
+	\dot{\vec{q}}_i = \frac{\partial H}{\partial \vec{p}_i}
+\end{equation}
+%
+and their average velocity is characterized by the fluid's temperature $T$
+%
+\begin{equation}
+	\frac{m}{2} \langle \vec{q}_i^{\,2} \rangle = \frac{k_B T}{2}
+\end{equation}
+%
+
+\begin{remark}[Repetition: Equipartition Theorem]
+	At thermal equilibrium, the system's energy, given by a Hamiltonian $H$, is distributed on its degrees of freedom $x_n$ via
+	%
+	\begin{equation}
+		\expval{x_m \pdv{H}{x_n}} = \delta_{mn} k_B T
+	\end{equation}
+	%
+	This holds for a microcanonical and canonical ensemble and relates temperature to the systems average energies.
+\end{remark}
+
+%
+\begin{theorem}[Model: Random Forces]
+	The motion of a particle under random forces $f(t)$ in one space dimension can be described by Newton's second law via
+	%
+	\begin{equation}
+		m \ddot{x} + \gamma \dot{x} = f(t)
+	\end{equation}
+	%
+	where $x(t)$ is the colloid's position and $\gamma$ is the damping constant.
+	
+	For long time scales $\tau_m >> \frac{m}{\gamma}$, inertia is negligible and we obtain the overdamped dynamics $\gamma \dot{x} = f(t)$. The random force is characterized through
+	%
+	\begin{itemize}
+		\item{$\expval{f(t)} = 0$ (by symmetry)}
+		\item{a vanishing correlation $\expval{f(t)f(t+\tau)} \to 0$ for $\tau \gg \tau_m$, with the correlation time $\tau_m$}
+		\item{stationarity of the random forces: %
+			\begin{equation}
+				\frac{1}{\gamma^2}\int_{-\infty}^{\infty}{\dd{\tau} \expval{f(t)f(t+\tau)}} = 2D
+			\end{equation}
+			%
+			with $[D] = \si{\meter \squared \per \second}$}
+	\end{itemize}
+	%
+	In each case the average is taken over the probability distribution of the random force.
+	%
+\end{theorem}
+%
+
 
 \subsection*{Formal Solution}
 
@@ -576,13 +653,13 @@ x(t) = x(0) + \frac{1}{\gamma} \int_0^t{\dd{t_1} f(t_1)}
 \end{equation}
 %
 
-Defining $\Delta x := x(t) - x(0)$, we get for the mean displacement
+Defining $\Delta x := x(t) - x(0)$, we get by symmetry for the mean displacement
 %
 \begin{equation}
 \expval{\Delta x(t)} = \frac{1}{\gamma} \int_0^t{\dd{t_1} \expval{f(t_1)}} = 0
 \end{equation}
 %
-by symmetry and for the mean square displacement
+and for the mean square displacement
 %
 \begin{align*}
 \expval{\Delta x^2} &= \frac{1}{\gamma^2} \expval{\left( \int_0^t{\dd{t_1} f(t_1)} \right) \left( \int_0^t{\dd{t_2} f(t_2)} \right)} \\
@@ -648,21 +725,59 @@ we obtain the Stokes-Einstein-relation
 D = \frac{k_B T}{\gamma}
 \end{equation}
 %
-\begin{remark}[Repetition: Equipartition Theorem]
-	At thermal equilibrium, the system's energy, given by a Hamiltonian $H$, is distributed on its degrees of freedom $x_n$ via
-	%
-	\begin{equation}
-	\expval{x_m \pdv{H}{x_n}} = \delta_{mn} k_B T
-	\end{equation}
-	%
-	This holds for a microcanonical and canonical ensemble and relates temperature to the systems average energies.
-\end{remark}
+
+
+\subsection*{Numerical Solution: Explicit Euler Scheme}
+
+Consider as a heuristic example a stochastic process where inertia is negligible 
+%
+\begin{equation}
+	\gamma \dot{x} = f(t)
+\end{equation}
+%
+A numerical solution for e.g. a particles position $x(t)$ depending on the random force $f(t)$ can be obtained from an explicit Euler scheme for discrete times $t_n = n \cdot dt$ and discrete positions $x_n = x(t_n)$. 
+
+The updates 
+%
+\begin{equation}
+	u_n = \int_{t_n}^{t_{n+1}} dt \frac{f(t)}{\gamma}
+\end{equation}
+%
+have the properties
+%
+\begin{equation}
+	\langle u_n \rangle = 0, \quad 
+	\langle u^2_n \rangle = 2 D dt, \quad 
+	\langle u_n u_{n+1} \rangle \approx 0
+\end{equation}
+%
+
+The can be parameterized via $u_n \approx \sqrt{2D} dw_n$, where $dw_n \sim N(0,dt)$ are independent, normally distributed random variables. Finally, the explicit Euler scheme reads
+%
+\begin{equation}
+	x_{n+1} = x_n + \sqrt{2D} dw_n
+\end{equation}
+%
+One needs to be careful if $D = D(x)$.
+
+
+\subsection*{Examples for Diffusion Processes}
+
+% Bitte ergänzen/korrigieren, das ist im handschriftlichen Skript schwer zu lesen ;-)
+
+The damping of a colloid with radius $r$ constant is given by $\gamma = 6 \pi \eta r$.
+
+For $r = \SI{1}{\micro\meter}$ and the viscosity of water $\eta = \SI{E-3}{\pascal\second}$
+this yields $\gamma = \SI{2E-8}{\newton \second \per \meter}$ and $D = \frac{k_B T}{\gamma} = \SI{2E-13}{\meter\squared \per \second}$
+
+For a protein with $r = \SI{2}{\nano\meter}$ in water this yields $\gamma = \SI{4E-11}{\newton \second \per \meter}$ and $D = \frac{k_B T}{\gamma} = \SI{E-10}{\meter\squared \per \second}$
+
+
 
 
 \chapter{Langevin Equation and Fokker-Planck Equation}
 
 \section{Langevin equation}
-
 
 Langevin theory describes non-equilibrium systems by postulating a stochastic process, thus adding a noise term to fundamental equations. In its original form, Langevin theory was used to describe Brownian motion, e.g. of a particle suspended in a fluid.
 
@@ -690,11 +805,30 @@ Langevin theory describes non-equilibrium systems by postulating a stochastic pr
 %
 with $i = 1, \dots, n$ and $\xi_j(t)$ being independent Gaussian white noise functions $\expval{\xi_j(t) \xi_l(t')} = \delta_{jl} \delta(t - t')$, $j, l = 1, \dots, m$.
 
-\underline{Example 1: Double-well Potential}
+\newpage
+\underline{Example I: Double-well Potential}
 
-\underline{Example 2: Escape over a Barrier}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{Pics/doublewell_potential}
+	\label{fig:doublewellpotential}
+\end{figure}
 
 
+$x(t = 0) = a$ \\
+
+\underline{Example II: Escape over a Barrier}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{Pics/escape_over_barrier}
+	\label{fig:escapeoverbarrier}
+\end{figure}
+
+$x(t = 0) = 0$, escape rate? \\
+
+
+\newpage
 \subsection*{Numerics for the Langevin Equation}
 
 \begin{theorem}[Euler Scheme]
@@ -706,6 +840,12 @@ with $i = 1, \dots, n$ and $\xi_j(t)$ being independent Gaussian white noise fun
 	%
 	with $D = D_0$, $t_i = i \dd{t}$, $x_i = x(t_i)$ and the independent Gaussian variables $N_n \sim N(0,1)$. The numerical error scales as $|\hat{x}_n - x_n| \sim \O{\dd{t}^{3/2}}$.
 \end{theorem}
+
+N.B. $X_{n+1} - x_n = \sqrt{2D} dw$ with $\langle \mathrm{d}w^2 \rangle = 2D \mathrm{d}t$
+
+Care needs to be taken if $D = D(x)$. 
+% What follows in this case?
+
 
 \section{Fokker-Planck-Equation}
 
@@ -747,6 +887,8 @@ Therefore, we discretize time and take a look how a sub-ensemble of $p(x,t)$ at 
 	&= \int{\dd{x}_n N(x_n+f(x_n), 2D \dd{t}) p(x_n,t_n|x_0,t_0)}
 \end{align*}
 %
+The left term captures the probability to have been at $x_n$ at $t = t_n$, the right term the probability to have moved from $x_n$ to $x_{n+1}$.
+
 This is already an implicit solution in terms of a convolution of the probability density with a family of normal distributions, but it is of little practical use. 
 %
 \begin{remark}[A Remark about Units]
@@ -800,6 +942,7 @@ and thus
 \frac{p(x,t_{n+1}) - p(x,t_n)}{\dd{t}} =  -\pdv{x} [p(x,t_n) f(x)] + \pdv[2]{x}[p(x,t_n) D]
 \end{equation}
 %
+
 Taking the time step to zero, we have finally derived the Fokker-Planck equation.
 %
 \begin{theorem}[Fokker-Planck equation]
@@ -811,7 +954,7 @@ Taking the time step to zero, we have finally derived the Fokker-Planck equation
 	%
 \end{theorem}
 %
-The structure of the Fokker-Planck equation is similar to the Schrödinger equation, i.e. solution methods from QM can be borrowed (take a look at the Risken book!). 
+The structure of the Fokker-Planck equation is similar to the Schrödinger equation, i.e. solution methods from QM can be borrowed (take a look at the Risken book \cite{Risken1996}). 
 
 \subsection*{Application to Diffusion in a Potential}
 
@@ -930,6 +1073,72 @@ No steady-state solution exists (non-trivial / normalizable to one) and all eige
 \begin{remark}[Boundary Conditions and Functional Analysis]
 	Changing the boundary conditions changes also the eigenvalues and the adjoint operator (boundary terms might pop up) and thus you will get each time a different operator in terms of functional analysis. 
 \end{remark}
+
+
+\section{Master Equation}
+
+The master equation (M-equation) describes time-continuous, continuous state variables and it is of the general form
+%
+\begin{equation}
+	\frac{\partial}{\partial t} P(x,t) = \int \mathrm{d}x_1 \underbrace{w(x|x_1) P(x_1,t)}_{= \mathrm{gain}} - \underbrace{w(x_1|x) P(x,t)}_{= \mathrm{loss}}
+\end{equation}
+%
+
+$w(x|x_1)$ is the transition rate density for the process $x_1 \to x_2$, i.e. $w(x|x_1) \Delta x_1 \Delta x_2 \Delta t$ is the probability of a transition from $[x_1, x_1 + \Delta x_1]$ to $[x_2, x_2 + \Delta x_2]$ in the time interval $\Delta t$
+
+The Fokker-Planck equation is a special case of the master equation. 
+
+For a time-continuous, discrete state variable the master equation reads 
+%
+\begin{equation}
+	\frac{\mathrm{d}}{\mathrm{d}t} P_n(t) = \sum_m w_{nm} p_m(t) - w_{mn} p_n(t)
+\end{equation}
+%
+where $w_{nm}$ is the transition rate $m \to n$. 
+
+
+\subsection*{Example I: Fermi's Golden Rule}
+
+Let $\hat{H} = \hat{H}_0 + \varepsilon \hat{H}_1 \Theta(t)$ be a perturbed Hamiltonian and $| m_0 \langle$ be an eigenstate of the unperturbed Hamiltonian $\hat{H}_0$ and the initial state.
+
+The transition rate $m_0 \to n$ is given by Fermi's Golden rule
+%
+\begin{equation}
+	w_{nm_0} = \frac{2\pi}{\hbar} \varepsilon^2 |\langle n | \hat{H}_1 | \rangle| \rho + \mathbb{O}(\varepsilon^4)
+\end{equation}
+%
+
+\subsection*{Example II: Radioactive Decay}
+
+Let $n$ be the number of particles that is left (i.e. not decayed). 
+%
+\begin{equation}
+	T_{\delta t}(n|m) = 
+	\begin{cases} 
+		0 								&\quad n > m \\
+		m \gamma \delta t 	&\quad n = m \\
+		\mathbb{O}(\delta t^2) &\quad n < m
+	\end{cases}
+\end{equation}
+%
+
+% What is m? 
+
+The master equation reads 
+%
+\begin{equation}
+	\frac{\mathrm{d}}{\mathrm{d}t} p_n = \gamma(n+1) p_{n+1} - \gamma(n) p_n
+\end{equation}
+%
+where $N = \langle n \rangle = \sum_n p_n$ and
+%
+\begin{equation}
+	\frac{\mathrm{d}}{\mathrm{d}t} N = - \gamma(n) N
+\end{equation}
+%
+and thus $N = N_0 \exp(-\gamma t)$.
+
+
 
 \chapter{Dynkin Equation}
 
@@ -2705,6 +2914,10 @@ So our signal is better, if we have some noise in our system! The SNR attains a 
 
 Glimpse on Infotaxis: Infotaxis as a strategy for searching without gradients by Vergassola 2007
 
+
+\nocite{*}
+\renewcommand*{\bibfont}{\small}
+\printbibliography[heading=bibintoc]
 
 
 \end{document}
