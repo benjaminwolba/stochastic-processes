@@ -13,7 +13,7 @@
 \newcommand{\blue}[1]{{\color{bluebase}#1}}
 
 \title{\color{bluebase} Lecture Notes on Stochastic Processes}  
-\author{PD Dr. Benjamin M. Friedrich}                 
+\author{Prof. Dr. Benjamin M. Friedrich, Dr. Benjamin Wolba}                 
 
 % Style Guide 
 % 
@@ -43,28 +43,37 @@
 	Let $X$ be a set of states, then we have the following axioms of probability:
 	%
 	\begin{itemize}
-		\item{$P(A)$ is a function with $0 \leq P(A) \leq 1$ defined for some subset $A \subseteq X$}
+		\item{$P(A)$ is a function with $0 \leq P(A) \leq 1$ defined for every `nice' subset $A \subseteq X$}
 		\item{Additivity: $P(A) + P(B) = P(A \cup B) - P(A \cap B)$}
 	\end{itemize}
 	%
 \end{theorem}
 
 Example 1: fair coin: $X=\{\text{head},\text{tail}\}$, $P(\{\text{head}\})=1/2$, 
-sloppy notation $p(\text{head})$ for set $A$ with single element \\
-Example 2: dice: $X=\{1,2,3,4,5,6\}$, $P(\{1,2\})=P(1)+P(2)=1/3$
+(we will often use sloppy notation $p(\text{head})$ for sets $A$ with single element only)\\
+Example 2: perfect dice: $X=\{1,2,3,4,5,6\}$, $P(\{1,2\})=P(1)+P(2)=1/3$
 
-If $X = \R$, we can consider a probability density as a function $p(x) : \R \to \R^+$, which relates to the probability by
+If $X = \R$, we can consider a \textit{probability density} 
+as a function $p(x) : \R \to \R^+$, which relates to the probability by
 %
 \begin{equation}
 \label{eq:def_P}
 P(A) = \int_A{\dd{x} p(x)}
 \end{equation}
 %
-for $A \subseteq \R$. Note the physical units: If $[x] = \si{\meter}$ for example, then $[p] = \si{\per \meter}$. 
+for $A \subseteq \R$. 
 
-As a mathematical caveat, Eq.~\eqref{eq:def_P} cannot be defined for arbitrarily ``wild'' sub-sets $A \subset \R$, but only for sufficiently ``nice'' subsets. Specifically, these subsets need to be measurable and thus form a so-called $\sigma$-algebra. This technical issue is extensively studied in the mathematical sub-discipline of measure and integration theory, but usually is not a concern in physical applications. See for reference e.g. \cite{Billingsley2012}.
+Note that $p(x)$ is also called \textit{probability density function} 
+and sometimes written as $\mathrm{PDF}(x) = p(x)$. 
+Also, note the physical units: 
+if, for example, $x$ has units of a length, $[x] = \si{\meter}$, 
+then the probability density $p(x)$ has units of an inverse length, $[p] = \si{\per \meter}$. 
+Knowing the physical units allows to tell apart different objects.
 
-Note that $p(x)$ is also called \textit{probability density function} $\mathrm{PDF}(x) = p(x)$. 
+As a mathematical caveat, Eq.~\eqref{eq:def_P} cannot be defined for arbitrarily ``wild'' sub-sets $A \subset \R$, but only for sufficiently `nice' subsets. Specifically, these subsets need to be measurable and thus form a so-called $\sigma$-algebra. This technical issue is extensively studied in the mathematical sub-discipline of measure and integration theory, but usually is not a concern in physical applications.
+In particular, (countable) unions and intersections of intervals are measurable.
+For a reference, see e.g. \cite{Billingsley2012}.
+
 
 The \textit{cumulative density function} is defined as
 %
@@ -72,11 +81,11 @@ The \textit{cumulative density function} is defined as
 \mathrm{CDF}(x) = \int^x_{-\infty}{\dd{x'} p(x')}
 \end{equation}
 %
-Important characteristics of probability distributions are its moments and its cumulants.
+Important characteristics of probability distributions are there moments and its cumulants.
 
 \begin{theorem}[Moments]
 	%
-	The moments of a probability distributions $p(x)$ are given by
+	The \textit{moments} of a probability distribution $p(x)$ are defined as
 	%
 	\begin{equation}
 	\mu_n = \expval{x^n} = \int^{\infty}_{-\infty}{x^n p(x)}
@@ -86,15 +95,15 @@ Important characteristics of probability distributions are its moments and its c
 	%
 	\begin{equation}
 	\label{eq:def_moment}
-	\expval{\exp(t x)} = \sum^{\infty}_{n = 0}{\mu_n \frac{t^n}{n!}}
+	\expval{\exp(t x)} = \sum^{\infty}_{n = 0}{\mu_n \frac{t^n}{n!}}\quad,
 	\end{equation}
 	%
-	i.e. the moments are the Taylor coefficients of the characteristic function
+	i.e., the moments are the Taylor coefficients of the characteristic function
 \end{theorem}
 
 \begin{theorem}[Cumulants]
 	%
-	The cumulants are given by the mean value $k_1 = \mu_1$, the variance $k_2 = \mu_2 - \mu^2_1$ and higher order cumulants such as $ k_3 = \mu_3 - 3 \mu_2 \mu_1 + 2 \mu_1^3$. More generally we have
+	The \textit{cumulants} are given by the mean value $k_1 = \mu_1$, the variance $k_2 = \mu_2 - \mu^2_1$ and higher order cumulants such as $ k_3 = \mu_3 - 3 \mu_2 \mu_1 + 2 \mu_1^3$. More generally we have
 	%
 	\begin{equation}
 	\label{eq:def_cumulant}
@@ -103,7 +112,7 @@ Important characteristics of probability distributions are its moments and its c
 	%
 \end{theorem}
 
-Note: moments and cumulants contain the same information:
+Remark: Moments and cumulants contain the same information:
 by inserting for example Eq.~(\ref{eq:def_cumulant}) into the Taylor series of the exponential function, 
 and collecting equal powers of $t$ (after applying the binomial formula to expand powers), one obtains complicated formulas expressing the $n$th moment $\mu_n$ in terms of all $k_k$, $k\le n$.
 A series of moments ``almost'' uniquely determines the underlying probability density function $p(x)$
@@ -112,7 +121,14 @@ A series of moments ``almost'' uniquely determines the underlying probability de
 ). 
 Often, moments can be computed more directly, while cumulants allow to read off relevant information more readily.
 
-Example: normal distribution: $k_0 = \mu_0=1$ (=normalization condition), $k_1=\mu_1$ (=mean), $k_2=\mu_2-\mu_1^2$ (= variance), $k_k=0$ for $k \ge 3$.
+Remark: For some probability distributions (e.g., probability distributions with polynomial tails, also called `fat tails'), higher moments may be infinite.
+
+Example: For the normal distribution with mean $\mu$ and variance $\sigma^2$, we have 
+$k_0 = \mu_0=1$ (this is just the normalization condition), 
+$k_1=\mu_1=\mu$ (mean), 
+$k_2=\mu_2-\mu_1^2=\sigma^2$ (variance), as well as $k_k=0$ for $k \ge 3$.
+Conversely, a probability distribution whose higher cumulants vanish, 
+i.e., $k_k=0$ for $k \ge 3$, is necessarily a normal distribution.
 
 
 \section{Probability in Physics}
@@ -541,20 +557,26 @@ This continuum limit exists if $D$ can be treated as a constant, i.e. if $\frac{
 \newpage
 %
 \begin{theorem}[Diffusion Equation]
-	The diffusion equation for a probability density $p(\vec{x}, t)$ reads
+	The \textit{diffusion equation} for a probability density $p(\vec{x}, t)$ reads
 	%
 	\begin{equation}
-	\pdv{p(\vec{x}, t)}{t} = D \nab^2 p(\vec{x}, t)
+	\pdv{p(\vec{x}, t)}{t} = D \nabla^2 p(\vec{x}, t) \quad,
 	\end{equation}
 	%
-	which we can also rewrite as a conservation equation given the definition of a current $\vec{J} = -D \nab p$
+	where $D$ is the diffusion coefficient with units $[D]=\mathrm{m}^2\,\mathrm{s}^{-1}$.
+	Alternativly, we can start from the \textit{conservation equation}
 	%
 	\begin{equation}
 	\pdv{p}{t} = - \nab \cdot \vec{J}
 	\end{equation}
+	with probability current $\vec{J}$, 
+	which reads for the case of the diffusion equation $\vec{J} = -D \nab p$.
 	%
 \end{theorem}
 %
+Remark: The case of a position-dependent diffusion coefficient $D(\vec{x})$ is somewhat subtle, 
+and requires some microscopic knowledge of the underlying system, see also the section on Ito and Stratonovich calculus.
+% TODO: add text reference
 
 \subsection*{Solving the diffusion equation}
 
