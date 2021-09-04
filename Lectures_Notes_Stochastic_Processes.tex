@@ -997,9 +997,11 @@ of the current $\vec{J}$. At equilibrium, the current must vanish and thus we ha
 \end{equation}
 %
 
+
+
 \subsection*{Eigenvalue Spectrum of $\hat{L}$}
 
-The probability density can be expressed in terms of eigenfunctions of the operator $\hat{L}$
+The probability density can be expressed in terms of eigenfunctions of the Fokker-Planck operator $\hat{L}$ with $\dot{p} = \hat{L} p$
 %
 \begin{equation}
 \hat{L} \phi_n(x) = \lambda_n \phi_n(x)
@@ -1011,7 +1013,19 @@ through
 p(x,t) = \sum a_n \phi_n(x) \exp(\lambda_n t)
 \end{equation}
 %
-If $\lambda_0 = 0$, then the corresponding eigenfunction is a steady state $\phi_0$. The slowest decaying mode determines hopping rates.
+If $\lambda_0 = 0$, then the corresponding eigenfunction is a steady state $\phi_0$. The slowest decaying mode determines hopping rates and it is $0 \leq \lambda_1 \leq \lambda_2 \dots$. 
+
+\begin{comment}
+This can be shown the following way:
+%
+\begin{equation}
+	1 = \int \mathrm{d}x p(x,t) = \sum_n a_n \exp{\lambda_n t} \int \mathrm{d}x \phi_n(x) 
+\end{equation}
+%
+If $\lambda_n \neq 0$, then $\int  \mathrm{d}x \phi_n(x)  = 0$ and $\exists x: \phi_n(x) = 0 $ % why?
+
+So $0 \geq p(x,t)$ and thus $\Re(\lambda_n) \leq 0$
+\end{comment}
 
 But why are the $\lambda_n$ real? We have $\hat{L} \neq \hat{L}^*$, which means $\hat{L}$ is not Hermitian.
 %
@@ -1055,7 +1069,8 @@ J(x_1) = J(x_2) = 0
 and
 %
 \begin{equation}
-\int_{x_1}^{x_2} \dd{x} p(x,t) = 1
+\int_{x_1}^{x_2} \dd{x} p(x,t) = 1 \rightarrow
+\frac{\mathrm{d}}{\mathrm{d}t} \int_{x_1}^{x_2} \dd{x} p(x,t) = 0
 \end{equation}
 %
 In this case the steady-state distribution $p^*(x) = \phi_0(x)$ exists. Similar results hold for a confinement potential $\lim_{x \to x_1, x_2} U(x) \to \infty$. \\
@@ -1068,7 +1083,11 @@ For absorbing boundary conditions we impose $p(x_2,t) = 0$ (Dirichlet boundary c
 0 > \dv{t} \int \dd{x} p(x,t) = \int \dd{x} \dv{p(x,t)}{t} = \int_{-\infty}^{x_2} -\pdv{J}{x} = -J(x_2)
 \end{equation}
 %
-No steady-state solution exists (non-trivial / normalizable to one) and all eigenvalues are strictly negative.
+is the flux to the absorber. 
+
+No steady-state solution exists (non-trivial / normalizable to one) and all eigenvalues are strictly negative. $\lambda_1 < 0$ sets the slowest time scale.
+
+In the limit of long times $t \to \frac{1}{\lambda_1}$, the porbability density can be decomposed into $p(x,t) = a(t) p_1(x)$ with $a(t) \sim \exp(-\lambda_1 t)$. 
 
 \begin{remark}[Boundary Conditions and Functional Analysis]
 	Changing the boundary conditions changes also the eigenvalues and the adjoint operator (boundary terms might pop up) and thus you will get each time a different operator in terms of functional analysis. 
@@ -1083,6 +1102,7 @@ The master equation (M-equation) describes time-continuous, continuous state var
 	\frac{\partial}{\partial t} P(x,t) = \int \mathrm{d}x_1 \underbrace{w(x|x_1) P(x_1,t)}_{= \mathrm{gain}} - \underbrace{w(x_1|x) P(x,t)}_{= \mathrm{loss}}
 \end{equation}
 %
+
 
 $w(x|x_1)$ is the transition rate density for the process $x_1 \to x_2$, i.e. $w(x|x_1) \Delta x_1 \Delta x_2 \Delta t$ is the probability of a transition from $[x_1, x_1 + \Delta x_1]$ to $[x_2, x_2 + \Delta x_2]$ in the time interval $\Delta t$
 
