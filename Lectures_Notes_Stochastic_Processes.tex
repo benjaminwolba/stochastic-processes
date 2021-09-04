@@ -463,7 +463,7 @@ Consider for example a Poisson process with rate $r$. The total number of events
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\linewidth]{Pics/overview_stochastic_processes}
+	\includegraphics[width=0.9\linewidth]{Pics/overview_stochastic_processes}
 	\caption{Relation between different stochastic processes and their corresponding distributions.}
 	\label{fig:overviewstochasticprocesses}
 \end{figure}
@@ -1020,7 +1020,6 @@ of the current $\vec{J}$. At equilibrium, the current must vanish and thus we ha
 %
 
 
-
 \subsection*{Eigenvalue Spectrum of $\hat{L}$}
 
 The probability density can be expressed in terms of eigenfunctions of the Fokker-Planck operator $\hat{L}$ with $\dot{p} = \hat{L} p$
@@ -1186,7 +1185,7 @@ and thus $N = N_0 \exp(-\gamma t)$.
 
 \section{Mean First Passage Times and Dynkin Equation}
 
-We consider diffusion in some potential landscape $\gamma \dot{x} = - \pdv{U}{x} + \xi(t)$ with initial conditions $p(x,0) = \delta(x-x_1)$ and boundary conditions $p(x_2,t) = 0$.
+We consider diffusion in some potential landscape $\gamma \dot{x} = - \pdv{U}{x} + \xi(t)$ with initial conditions $p(x,0) = \delta(x-x_1)$ and absorbing boundary conditions $p(x_2,t) = 0$, i.e, $\dot{p} = -\nabla J$ where $J(x_2,t)$ is the current to the absorbing boundary conditions.
 
 \begin{theorem}[Mean First Passage Time (MFPT)]
 	%
@@ -1196,20 +1195,27 @@ We consider diffusion in some potential landscape $\gamma \dot{x} = - \pdv{U}{x}
 	%
 \end{theorem}
 
-Our aim is to derive an equation for $\tau$. If $\Delta t$ is small and kept constant (and we ask which positions can we reach within $\Delta t$) we have
+Our goal is to derive an equation for $\tau$ in the process 
 %
-\begin{equation*}
+\begin{equation}
+	x_1 \underbrace{\longrightarrow}_{\Delta t} x^\prime \underbrace{\longrightarrow}_{\tau(x_2| x^\prime)} x_2
+\end{equation}
+%
+If $\Delta t$ is small and kept constant (and we ask which positions can we reach within $\Delta t$) we have
+%
+\begin{equation}
 	\tau(x_2|x_1) = \Delta t + \int_{-\infty}^{x_2} \dd{x'} \tau(x_2|x') p(x',\Delta t|x_1,0)
-\end{equation*}
+\end{equation}
 %
 and we take the derivative with respect to $\Delta t$
 %
-\begin{equation*}
+\begin{equation}
+	\frac{\mathrm{d} \tau(x_2|x_1)}{\mathrm{d \Delta t}} = 
 	0 = 1 + \int_{-\infty}^{x_2} \dd{x'} \tau(x_2|x') \hat{L}_{x'} p = 1 + \int_{-\infty}^{x_2} \dd{x'} \hat{L}^*_{x'} \tau(x_2|x') p
-\end{equation*}
+\end{equation}
 %
-so if $\Delta t \to 0$ then $p(x',\Delta t|x_1,0) \to \delta(x-x_1)$
-and we get the Dynkin equation
+so, if $\Delta t \to 0$ then $p(x',\Delta t|x_1,0) \to \delta(x-x_1)$,
+and we get the \textit{Dynkin equation}
 %
 \begin{equation}
 -1 = \hat{L}^*_{x_1} \tau(x_2|x_1)
@@ -1224,7 +1230,7 @@ Let consider once again the example of diffusion
 \gamma \dot{x} = - \pdv{U}{x} + \xi(t) \quad \expval{\xi(t)\xi(t')} = 2D \delta(t-t')
 \end{equation}
 %
-with the initial condition $p(x,0) = \delta(x-x_1)$ and boundary conditions $p(x_2,t) = 0$. Let $v = \pdv{x_1} \tau(x_2,x_1)$ so the Dynkin equation reads
+with the initial condition $p(x,0) = \delta(x-x_1)$ and boundary conditions $p(x_2,t) = 0$. Let $v = \pdv{x_1} \tau(x_2 | x_1)$, so the Dynkin equation reads
 %
 \begin{equation}
 -1 = D v' - \frac{U'}{\gamma}v
@@ -1248,7 +1254,7 @@ If we assume $\lim_{x\to -\infty} U(x) = +\infty$, then $|v| < \infty$ and $c = 
 \tau(x_2,x_1) = \frac{1}{D} \int_{x_1}^{x_2} \exp(\beta U(x')) \left[ \int_{-\infty}^{x'} \dd{x''} \exp(-\beta U(x'')) \right]
 \end{equation}
 %
-Note that the integration constant if the second integration must be zero due to $\tau(x_2,x_2) = 0$
+Note that the integration constant of the second integration must be zero due to $\tau(x_2 | x_2) = 0$
 
 \section{Kramers Escape Rate Theory}
 
@@ -1282,13 +1288,13 @@ with $\sigma^2 = \frac{\tau_a}{\beta \gamma}$ and
 so
 %
 \begin{equation}
-\tau(x_2,x_1) = \frac{1}{D} \frac{2 \pi \sqrt{\tau_a \tau_b}}{\beta \gamma} \exp(\beta \Delta E) = 2 \pi \sqrt{\tau_a \tau_b} \exp(\beta \Delta E)
+\tau(x_2 | x_1) = \frac{1}{D} \frac{2 \pi \sqrt{\tau_a \tau_b}}{\beta \gamma} \exp(\beta \Delta E) = 2 \pi \sqrt{\tau_a \tau_b} \exp(\beta \Delta E)
 \end{equation}
 %
 \begin{theorem}[Kramers escape rate]
 	%
 	\begin{equation}
-	r = \frac{1}{\tau(x_2,x_1)} \sim \underbrace{\exp(-\beta \Delta E)}_{\mathrm{Arrhenius factor}}
+	r = \frac{1}{\tau(x_2 | x_1)} \sim \underbrace{\exp(-\beta \Delta E)}_{\mathrm{Arrhenius factor}}
 	\end{equation}
 	%
 \end{theorem}
@@ -1296,7 +1302,9 @@ so
 
 \section{Diffusion to Capture}
 
-As an example, we consider a diffusing particle released between two absorbing plates. The question is: What is the probability of getting absorbed at either of the two plates?
+As an example, we consider a diffusing particle released at position $x_0$ between two absorbing plates at positions $x_1$ and $x_2$. 
+
+The question is: What is the probability of getting absorbed at either of the two plates?
 %
 \begin{align*}
 P(x, t=0) = \delta(x-x_0) \\
@@ -1305,10 +1313,14 @@ P(x_1, t) = P(x_2, t) = 0
 %
 The probability of becoming absorbed at $x = x_1$ when starting at $x_0$ reads $\pi_1(x_0)$. We have $\pi_1(x_1) = 1$ and $\pi_1(x_2) = 0$.
 
+
+\subsection*{Solution 1}
+
 We will now consider a time step $\Delta t$ as we did for the derivation of the Dynkin equation in order to find an explicit expression for $\pi_1(x_0)$:
 %
 \begin{equation*}
-\pi_1(x_0) = \int_{x_1}^{x_2} \dd{x} \pi_1(x) P(x, \Delta t | x_0, 0)
+\pi_1(x_0) = \int_{x_1}^{x_2} \dd{x} \pi_1(x) P(x, \Delta t | x_0, 0) 
+= \int_{0}^{\infty} \dd{t} J(x_1,t | x_0,0)
 \end{equation*}
 %
 Now we take the partial derivative with respect to $\Delta t$ 
@@ -1331,6 +1343,9 @@ so we obtain
 %
 Thus, $\pi_1(x_0)$ must be a linear function and taking the boundary conditions into account we conclude $\pi_1(x_0) = \frac{x_2-x_0}{x_2-x_1}$.
 
+
+\subsection*{Solution 2}
+
 Another way to compute this is the method of images. So 
 %
 \begin{equation}
@@ -1344,6 +1359,25 @@ and $\pi_1$ could be calculated directly. (Stream of anti-particles is released 
 We consider diffusion in $\R^d$ to a d-dimensional absorbing ball. We ask for the probability $p(R_0)$ for a particle initially released at distance $R_0$ to hit the target ball. For $d = 1$ and $d = 2$ we have $p(R_0) = 1$, but for $d = 3$ $p(R_0) = \frac{R_1}{R_0}$
 
 Note that for $d = 3$, the characteristic arrival time must scale with $\sqrt{R^2_0/D}$ with a power-law tail $\sim t^{-3/2} \exp(- (R_0-R_1)^2/4 D t)$ and the mean first passage time diverges.
+
+\begin{comment}
+% This parts need to be connected to the previous part
+
+Infinite reservoir: 
+%
+\begin{equation}
+0 \overset{!}{=} \dot{c} = D \nabla^2 c
+\end{equation}
+%
+so $c(\vec{x}) = c_0$ for $|\vec{x}| \to \infty$ and $c(\vec{x}) = 0$ for $\vec{x} \in S$ where $S$ is the absorbing surface
+
+For diffusion to an absorbing sphere of radius $a$ it is $J = 4 \pi D a c_0$. 
+
+The diffusion equation is formally equivalent to the Poisson equation of the electrostatic potential. 
+
+Diffusion to a disk-like absorber auf diameter $2 s$: $J = 4 D s c_0$. 
+\end{comment}
+
 
 \chapter{Synchronisation}
 
