@@ -1379,37 +1379,35 @@ Diffusion to a disk-like absorber auf diameter $2 s$: $J = 4 D s c_0$.
 \end{comment}
 
 
-\chapter{Synchronisation}
+\chapter{Active Oscillators and Synchronization}
 
-\section{Active Oscillators}
-
-An active oscillator is a non-conservative oscillator, e.g. energy is lost through damping. An example is the 
+This chapter will introduce different examples for so-called \textit{active oscillators}, i.e. non-conservative oscillators loosing energy through damping, such as
 %
-\begin{theorem}[Van-der-Pol oscillator]
+\begin{itemize}
+	\item{Van-der-Pol oscillator: $m \ddot{x} - \gamma \left(\frac{1}{4} \Lambda - x^2 \right) \dot{x} + kx = 0$}
+	\item{Hopf oscillator: $\dot{z} = i \omega_0 z + \mu(\Lambda - |z|^2)z$}
+	\item{Phase oscillator: $\dot{\varphi} = \omega_0$}
+\end{itemize}
+%
+We will also look at the intriguing phenomenon of synchronization between coupled oscillators. 
+
+
+\section{Van-der-Pol Oscillator}
+
+This type of oscillator model was investigated first by Van-der-Pol when working at Phillips on electrical circuits with vacuum tube amplifiers (Nature 1927). It was later adapted to model neurons (FitzHugh–Nagumo model) and is seismology to model geological faults. 
+
+%
+\begin{theorem}[Van-der-Pol Oscillator]
 	%
 	\begin{equation}
-	m \ddot{x} - \gamma (\frac{1}{4} \Lambda - x^2) \dot{x} + kx = 0
+	m \ddot{x} - \gamma \left(\frac{1}{4} \Lambda - x^2 \right) \dot{x} + kx = 0
 	\label{van_der_pol_oscillator}
 	\end{equation}
 	%
 \end{theorem}
 %
-The Van-der-Pol oscillator undergoes a so-called Hopf bifurcation as a function of parameter $\Lambda$: For $\Lambda < 0$ $x = 0$ is stable and for $\Lambda > 0$ limit-cycle oscillations occur. Equation (\ref{van_der_pol_oscillator}) can be transformed into Hopf normal form. 
+The Van-der-Pol oscillator undergoes a so-called Hopf bifurcation as a function of parameter $\Lambda$: For $\Lambda < 0$ $x = 0$ it is stable and for $\Lambda > 0$ limit-cycle oscillations occur. Equation (\ref{van_der_pol_oscillator}) can be transformed into Hopf normal form. 
 
-Other examples are the 
-%
-\begin{theorem}[Hopf oscillator]
-	%
-	An active oscillator with non-linear damping of the form
-	%
-	\begin{equation}
-	\dot{z} = i \omega_0 z + \mu(\Lambda - |z|^2)z \quad \mathrm{with} \quad z \in \C
-	\end{equation}
-	% 
-	It is used e.g. to describe the limit cycle of electric circuits involving a vacuum tube or in biology to model the activation potential of neurons.
-\end{theorem}
-%
-and a phase oscillator with $\dot{\varphi} = \omega_0$. 
 
 \subsection*{Hopf normal form of Van-der-Pol oscillator}
 
@@ -1449,7 +1447,21 @@ and we get
 %
 with $\omega_c = \omega_0$, $\omega_1 = \O{\Lambda}$ and $\mu = \frac{\gamma}{8m}$
 
-\section{Hopf-oscillator with noise}
+\newpage 
+\section{Hopf-Oscillator with Noise}
+
+%
+\begin{theorem}[Hopf oscillator]
+	%
+	An active oscillator with non-linear damping of the form
+	%
+	\begin{equation}
+		\dot{z} = i \omega_0 z + \mu(\Lambda - |z|^2)z \quad \mathrm{with} \quad z \in \C
+	\end{equation}
+	% 
+	It is used e.g. to describe the limit cycle of electric circuits involving a vacuum tube or in biology to model the activation potential of neurons.
+\end{theorem}
+%
 
 We now add a noise term to the Hopf-oscillator
 %
@@ -1464,7 +1476,8 @@ with
 	\expval{\xi_{\varphi}(t)\xi_A(t')} = 0
 \end{equation*}
 %
-and map $z$ on a phase $\varphi$ and amplitude $A$ via $z = A e^{i \varphi}$ so that
+
+We map $z$ on a phase $\varphi$ and amplitude $A$ via $z = A e^{i \varphi}$ so that
 %
 \begin{equation}
 \left( \frac{\dot{A}}{A} + i \dot{\varphi} \right) z = \dot{z} = \dots
@@ -1531,7 +1544,8 @@ S_y(\omega) = |\tilde{y}(\omega)|^2
 %
 with $y = \exp(i \varphi)$ and its Fourier transform $\tilde{y}(\omega)$. 
 
-\subsection*{Two coupled oscillators}
+
+\section{Two coupled Phase Oscillators}
 
 Two phase oscillators are coupled by the coupling $c$ leading to the ODE system
 %
@@ -1568,7 +1582,8 @@ Images missing!
 
 % Mapping synchronization to diffusion
 
-\subsection*{Synchronization in the Presence of Noise}
+
+\section{Synchronization in the Presence of Noise}
 
 If we consider two coupled phase oscillators with noise
 %
