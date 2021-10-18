@@ -4,7 +4,7 @@
 
 \documentclass{notebook}
 
-\ihead{\headmark}													  % header: chapter name inside
+\ihead{\headmark}							  					    % header: chapter name inside
 \setheadsepline{0.5pt}												% insert line of 0.5 pt width
 % \cfoot{Made with \LaTeX{} by Benjamin Wolba}
 \cfoot{Stochastic Processes}
@@ -14,6 +14,11 @@
 \newcommand{\blue}[1]{{\color{bluebase}#1}}
 \newcommand{\Remark}{\textit{Remark}} % @Benjamin Wolba: please change as you deem appropriate
 \newcommand{\Example}{\textit{Example}}
+\newcommand{\Exercise}{\textit{Exercise}}
+
+% useful commands
+\newcommmand{\N}{\mathcal{N}}
+\newcommand{\wh}[1]{\widehat{#1}} 
 
 \title{\color{bluebase} Lecture Notes on\\ Stochastic Processes}  
 % \author{Prof. Dr. Benjamin M. Friedrich, Dr. Benjamin Wolba}                 
@@ -74,7 +79,38 @@ with $P(\{\text{head}\})=P(\{\text{tail}\})=1/2$.
 \Remark: The above axioms apply to `nice' subsets $A\subset X$. If $X$ is a finite set, all subsets are `nice'; 
 only if $X$ is uncountably infinite (like the set of real numbers $\R$), there are subsets that are too `wild' and need to be excluded.
 
-If $X = \R$, we can consider a \textit{probability density} 
+\begin{theorem}[Independent random variables]
+Suppose a first random experiment yields a random outcome $x_1\in X_1$ from a set of possible outcomes $X_1$,
+while a second experiment yields $x_2\in X_2$ from a second set of possible outcomes $X_2$.
+We can combine these into a single random variable $x=(x_1,x_2)$ that takes values in the 
+product set $X=X_1 \times X_2$ and consider the probability $P(A)$ defined on subsets $A\subseteq X$.
+The probability $P(x_1)$ of $x_1$ is then given by the \textit{marginal} probability
+$P(x_1)=P(\{x_1\}\times X_2)$, i.e., 
+the probability of the set of all $x=(x_1,x_2)$,
+where the first component has the definite value $x_1$ and the second component $x_2$ is arbitrary.
+The probability $P(x_2)$ of $x_2$ is defined analogously. 
+We say the random variables $x_1$ and $x_2$ are \textit{independent} if and only if
+\begin{equation}
+P(x_1,x_2) = P(x_1)P(x_2) \quad. 
+\end{equation}
+\end{theorem}
+% TODO: can this be made simpler? BMF was surprised how tricky it actually is to define the term 'independent' in mathematically correct form
+
+\Example: 
+Two subsequent tosses of an ideal coin are independent.
+A counter-example would be represented by drawing from an urn without replacement:
+the first drawing changes the probabilities for the second drawing.
+
+\Exercise:
+For finite $X$ (in fact, countable $X$), 
+the expectation value is defined as
+$\langle x\rangle=\sum_{x\in X} x P(x)$.
+Show that 
+$\langle x_1 x_2 \rangle = \langle x_1 \rangle \langle x_2 \rangle$
+for independent random variables $x_1$ and $x_2$.
+Find a counter-example if $x_1$ and $x_2$ are not independent.
+
+If $X = \R$ (real numbers), we can consider a \textit{probability density} 
 as a function $p(x) : \R \to \R^+$, which relates to the probability by
 %
 \begin{equation}
@@ -103,7 +139,7 @@ The \textit{cumulative density function} is defined as
 \mathrm{CDF}(x) = \int^x_{-\infty}{\dd{x'} p(x')} \quad.
 \end{equation}
 
-The \textit{expectation value} of a function $f(x)$ with respect to $p$ is defined as
+The \textit{expectation value} of a function $f(x)$ with respect to a probability density $p(x)$ is defined as
 \begin{equation}
 \langle f(x) \rangle = \int \dd{x} f(x)\,p(x) \quad.
 \end{equation}
@@ -131,8 +167,7 @@ moments and cumulants, which provide important characteristics of a probability 
 \Remark: For some probability distributions (e.g., probability distributions with polynomial tails, also called `fat tails'), higher moments may be infinite.
 
 \begin{theorem}[Cumulants]
-	%
-	The \textit{cumulants} are given by the mean value $k_1 = \mu_1$, the variance $k_2 = \mu_2 - \mu^2_1$ and higher order cumulants such as $ k_3 = \mu_3 - 3 \mu_2 \mu_1 + 2 \mu_1^3$. More generally we have
+The \textit{cumulants} are given by the mean value $k_1 = \mu_1$, the variance $k_2 = \mu_2 - \mu^2_1$ and higher order cumulants such as $ k_3 = \mu_3 - 3 \mu_2 \mu_1 + 2 \mu_1^3$. More generally we have
 	%
 	\begin{equation}
 	\label{eq:def_cumulant}
@@ -152,12 +187,12 @@ The series of moments ``almost'' uniquely determines the underlying probability 
 ). 
 Often, moments can be computed more directly, while cumulants allow to read off relevant information more readily.
 
-\Example: For the normal distribution 
-$p(x) = (2\pi \sigma^2)^{-1/2} \exp[ - (x-\mu)^2/(2\sigma^2) ]$
+\Example: For the normal distribution (discussed below)
+$p_\mathrm{norm}(x) = (2\pi \sigma^2)^{-1/2} \exp[ - (x-\mu)^2/(2\sigma^2) ]$
 with mean $\mu$ and variance $\sigma^2$, we have 
 $k_0 = \mu_0=1$ (this is just the normalization condition), 
 $k_1=\mu_1=\mu$ (mean), 
-$k_2=\mu_2-\mu_1^2=\sigma^2$ (variance), as well as $k_n=0$ for $n \ge 3$.
+$k_2=\mu_2-\mu_1^2=-\sigma^2$ (variance), as well as $k_n=0$ for $n \ge 3$.
 Conversely, a probability distribution whose higher cumulants vanish, 
 i.e., $k_n=0$ for $n \ge 3$, is necessarily a normal distribution.
 
@@ -210,10 +245,10 @@ and imprecise knowledge of initial conditions.
 \subsection*{Normal Distribution}
 Probably the most important probability distribution is the \textit{normal distribution}.
 If a random variable $x$ is distributed according to a normal distribution with mean $\mu$ and variance $\sigma^2$,
-we write $x\sim(\mu, \sigma^2)$; 
+we write $x\sim\N(\mu, \sigma^2)$; 
 the corresponding probability density reads
 \begin{equation}
-P_\mathrm{normal}(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp[- \frac{(x- \mu)^2}{2 \sigma^2}] = N(\mu, \sigma^2)
+p_\mathrm{normal}(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp[- \frac{(x- \mu)^2}{2 \sigma^2}] \quad.
 \end{equation}
 The moments and cumulants of the normal distribution are given by
 \begin{gather*}
@@ -226,6 +261,14 @@ has its own name, \textit{error function}, abbreviated $\Erf(x)$.
 The importance of the normal distribution stems from the fact that 
 many other probability distributions can be approximated by a normal distribution in a suitable limit.
 
+\Exercise: Compute the characteristic function 
+$\langle \exp(tx) \rangle$
+of a normal distribution with $\mu=0$ and $\sigma^2=1$.
+By taking its logarithm, verify above formulas for the cumulants for this special case.
+Hint: 
+Start with the definition of the expectation value $\langle \exp(tx) \rangle$ as an integral,
+combine the exponentials and complete the square in its exponent;
+the resultant integral is already known.
 
 \subsection*{Binomial Distribution}
 A Bernoulli trial has two possible outcomes, say ``yes'' and ``no'', with respective probabilities $p$ and $1 - p$. 
