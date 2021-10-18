@@ -300,11 +300,13 @@ Then the total number $k$ of events during the observation time $T=n\,dt$
 becomes a random variable that is distributed according to a
 \textit{Poisson distribution} with parameter $\lambda = r\,T$
 \begin{equation}
+\label{eq:Ppoiss}
 P_\mathrm{Poisson}(k) = \exp(-\lambda) \frac{\lambda^k}{k!} \quad.
 \end{equation}
 Here, $\lambda$ represents the expected number of events during the observation time $T=n\,dt$.
 
-% BEN ended here on 18.10.
+\Exercise:
+Read about Stirling's formula and then prove Eq.~\eqref{eq:Ppoiss} as a limit of the Binomial distribution.
 
 % We consider the continuous time limit of the Binomial distribution. Therefore, we introduce discrete central times $t_j = \frac{j}{n} T = j \dd{t}$ with $\dd{t} = \frac{T}{n}$ and $\lambda = np$ being the total number of expected events. And we assume that at each time step one Bernoulli trial is conducted. The event rate is given by $r = \frac{\lambda}{T} = \frac{p}{\dd{t}}$ with $[r] = \si{\per \second}$ in units of an inverse time. 
 
@@ -369,8 +371,8 @@ we have
 \begin{equation}
 \left\langle \widehat{\sigma}^2 \right\rangle = \sigma^2 \quad,
 \end{equation}
-i.e., the expectation values of the empirical variance equals  the true variance.
-Even in a general case, where the $x_j$ not normally distributed, 
+i.e., the expectation values of the empirical variance equals the true variance.
+Even in a general case, where the $x_j$ are not normally distributed, 
 $\widehat{\sigma}^2$ often gives a useful approximation of the true variance.
 
 % TODO: add proof, state var(\bar{x}) = \sigma^2/n
@@ -402,17 +404,18 @@ or, equivalently,
 $\mathrm{CDF}(z) \to \mathrm{Erf}(z)$ for almost all $z \in \R$	
 \end{theorem}
 
-Now for our second, more elegant proof we consider $n$ independent random variables $x_j$ with $j = 1,...,n$, and
-\begin{equation}
-x_j = \begin{cases} 1 \, | \, \mathrm{with \, probability \,} p \\ 0 \, | \, \mathrm{with \, probability \, } q = 1 - p \end{cases}
-\end{equation}
-The empirical mean
-\begin{equation}
-\bar{x} = \frac{1}{n}(x_1 + \dots + x_n) = \mathrm{empirical \, mean}
-\end{equation}
-is directly related to the number $k$ of positive outcomes $k = n\bar{x}$. We get $p(k,n) = p(\bar{x}) \sim N(np,npq)$ by the Central-Limit-Theorem. 
+\textit{Idea of proof:}
+% We consider $n$ independent random variables $x_j$ with $j = 1,...,n$, and
+% \begin{equation}
+% x_j = \begin{cases} 1 \, | \, \mathrm{with \, probability \,} p \\ 0 \, | \, \mathrm{with \, probability \, } q = 1 - p \end{cases}
+% \end{equation}
+% The empirical mean
+% \begin{equation}
+% \bar{x} = \frac{1}{n}(x_1 + \dots + x_n) = \mathrm{empirical \, mean}
+% \end{equation}
+% is directly related to the number $k$ of positive outcomes $k = n\bar{x}$. We get $p(k,n) = p(\bar{x}) \sim N(np,npq)$ by the Central-Limit-Theorem. 
 
-The idea of the proof is now to compute the cumulants of $x_j$
+The idea of the proof is to compute the cumulants of $x_j$
 \begin{equation}
 k_1 = \mu, \, k_2 = \sigma^2 \dots
 \end{equation}
