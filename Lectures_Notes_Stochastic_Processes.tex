@@ -192,7 +192,7 @@ $p_\mathrm{norm}(x) = (2\pi \sigma^2)^{-1/2} \exp[ - (x-\mu)^2/(2\sigma^2) ]$
 with mean $\mu$ and variance $\sigma^2$, we have 
 $k_0 = \mu_0=1$ (this is just the normalization condition), 
 $k_1=\mu_1=\mu$ (mean), 
-$k_2=\mu_2-\mu_1^2=-\sigma^2$ (variance), as well as $k_n=0$ for $n \ge 3$.
+$k_2=\mu_2-\mu_1^2=\sigma^2$ (variance), as well as $k_n=0$ for $n \ge 3$.
 Conversely, a probability distribution whose higher cumulants vanish, 
 i.e., $k_n=0$ for $n \ge 3$, is necessarily a normal distribution.
 
@@ -375,9 +375,14 @@ $\widehat{\sigma}^2$ often gives a useful approximation of the true variance.
 
 % TODO: add proof, state var(\bar{x}) = \sigma^2/n
 
-\subsection{The Central-Limit-Theorem}
+\subsection{The Central-Limit Theorem}
 
-A second proof uses the central-limit-theorem.
+We present the famous central-limit theorem, 
+which states that the sum of many random variables will be approximately normal distributed.
+We sketch the idea for its proof based on the convergence of characteristic functions.
+As an application,
+the normal approximation for the Bionomial distribution discussed above
+can be considered a corrolary of the central-limit theorem.
 
 \begin{theorem}[Central-Limit-Theorem]
 	%
@@ -389,50 +394,42 @@ A second proof uses the central-limit-theorem.
 	\end{equation}
 	%
 	We normalize it to a random variable with expectation value zero
-	%
 	\begin{equation}
-	z = \frac{\bar{x}-\mu}{\sigma/\sqrt{n}}
+	z = \frac{\bar{x}-\mu}{\sigma/\sqrt{n}} \quad.
 	\end{equation}
-	%
-	Then the probability distribution $p(z) \to N(0,1)$ for large $n$ ("convergence in distribution") or equivalently $CDF(z) \to \mathrm{Erf}(z)$ for almost all $z \in \R$	
+Then the probability distribution $p(z) \to N(0,1)$ for large $n$ (``convergence in distribution''), 
+or, equivalently, 
+$\mathrm{CDF}(z) \to \mathrm{Erf}(z)$ for almost all $z \in \R$	
 \end{theorem}
 
-Now for our second, more elegant proof we consider $n$ independent random variables $x_j$ (Bernoulli trials) with $j = 1,...,n$, and
-%
+Now for our second, more elegant proof we consider $n$ independent random variables $x_j$ with $j = 1,...,n$, and
 \begin{equation}
 x_j = \begin{cases} 1 \, | \, \mathrm{with \, probability \,} p \\ 0 \, | \, \mathrm{with \, probability \, } q = 1 - p \end{cases}
 \end{equation}
-%
 The empirical mean
-%
 \begin{equation}
 \bar{x} = \frac{1}{n}(x_1 + \dots + x_n) = \mathrm{empirical \, mean}
 \end{equation}
-%
 is directly related to the number $k$ of positive outcomes $k = n\bar{x}$. We get $p(k,n) = p(\bar{x}) \sim N(np,npq)$ by the Central-Limit-Theorem. 
 
 The idea of the proof is now to compute the cumulants of $x_j$
-%
 \begin{equation}
-k_1 = \mu, \, k_2 = -\sigma^2 \dots
+k_1 = \mu, \, k_2 = \sigma^2 \dots
 \end{equation}
-%
 and then to show that the cumulants of $z_j$ are given by
-%
 \begin{equation}
 k_1 = 0, \, k_2 = 1, \, k_3 \sim \frac{1}{\sqrt{n}}, \, k_4 \sim \frac{1}{n} \dots
 \end{equation}
-%
 and
-%
 \begin{equation}
-\lim_{n \to \infty} \ln \expval{zt} = \lim_{n \to \infty} \sum_{l=0}^{\infty} k_l t^l = 1 - \frac{1}{2} t^2 
+\lim_{n \to \infty} \ln \expval{zt} 
+= \lim_{n \to \infty} \sum_{l=0}^{\infty} k_l t^l = 1 + \frac{1}{2} t^2 \quad.
+% NOTE: BMF corrected sign error in characteristic function for normal distribution (and reverted minus sign in second cumulant that he errorneously introduced as a wrong correction
 \end{equation}
-%
-Then we have $p(z) \to N(0,1)$. To show this behaviour of the cumulants we take a look at the functions
-%
+Then we have $p(z) \to N(0,1)$. 
+To show this behavior of the cumulants, we take a look at the function
 \begin{equation}
-C_x(t) = \exp(\expval{xt}) \quad \mathrm{with} \quad C_{\alpha x}(t) = C_x(\alpha t), \, \alpha \in \R
+C_x(t) = \exp(\expval{xt}) \text{ with } C_{\alpha x}(t) = C_x(\alpha t), \, \alpha \in \R
 \end{equation}
 %
 which satisfy $\expval{(\alpha x)^j} = \alpha^j \expval{x^j}$ and $k_{\alpha x, j} = \alpha^j k_{x,j}$ for all cumulants, i.e. $\forall j \in \N$. Use this for $\bar{x}, z$:
