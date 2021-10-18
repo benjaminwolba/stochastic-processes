@@ -1494,37 +1494,35 @@ Diffusion to a disk-like absorber auf diameter $2 s$: $J = 4 D s c_0$.
 \end{comment}
 
 
-\chapter{Synchronisation}
+\chapter{Active Oscillators and Synchronization}
 
-\section{Active Oscillators}
-
-An active oscillator is a non-conservative oscillator, e.g. energy is lost through damping. An example is the 
+This chapter will introduce different examples for so-called \textit{active oscillators}, i.e. non-conservative oscillators loosing energy through damping, such as
 %
-\begin{theorem}[Van-der-Pol oscillator]
+\begin{itemize}
+	\item{Van-der-Pol oscillator: $m \ddot{x} - \gamma \left(\frac{1}{4} \Lambda - x^2 \right) \dot{x} + kx = 0$}
+	\item{Hopf oscillator: $\dot{z} = i \omega_0 z + \mu(\Lambda - |z|^2)z$}
+	\item{Phase oscillator: $\dot{\varphi} = \omega_0$}
+\end{itemize}
+%
+We will also look at the intriguing phenomenon of synchronization between coupled oscillators. 
+
+
+\section{Van-der-Pol Oscillator}
+
+This type of oscillator model was investigated first by Van-der-Pol when working at Phillips on electrical circuits with vacuum tube amplifiers \cite{Vanderpol1927}. It was later adapted to model neurons (FitzHugh–Nagumo model) and in seismology to model geological faults. 
+
+%
+\begin{theorem}[Van-der-Pol Oscillator]
 	%
 	\begin{equation}
-	m \ddot{x} - \gamma (\frac{1}{4} \Lambda - x^2) \dot{x} + kx = 0
+	m \ddot{x} - \gamma \left(\frac{1}{4} \Lambda - x^2 \right) \dot{x} + kx = 0
 	\label{van_der_pol_oscillator}
 	\end{equation}
 	%
 \end{theorem}
 %
-The Van-der-Pol oscillator undergoes a so-called Hopf bifurcation as a function of parameter $\Lambda$: For $\Lambda < 0$ $x = 0$ is stable and for $\Lambda > 0$ limit-cycle oscillations occur. Equation (\ref{van_der_pol_oscillator}) can be transformed into Hopf normal form. 
+The Van-der-Pol oscillator undergoes a so-called Hopf bifurcation as a function of parameter $\Lambda$: For $\Lambda < 0$ $x = 0$ it is stable and for $\Lambda > 0$ limit-cycle oscillations occur. Equation (\ref{van_der_pol_oscillator}) can be transformed into Hopf normal form. 
 
-Other examples are the 
-%
-\begin{theorem}[Hopf oscillator]
-	%
-	An active oscillator with non-linear damping of the form
-	%
-	\begin{equation}
-	\dot{z} = i \omega_0 z + \mu(\Lambda - |z|^2)z \quad \mathrm{with} \quad z \in \C
-	\end{equation}
-	% 
-	It is used e.g. to describe the limit cycle of electric circuits involving a vacuum tube or in biology to model the activation potential of neurons.
-\end{theorem}
-%
-and a phase oscillator with $\dot{\varphi} = \omega_0$. 
 
 \subsection*{Hopf normal form of Van-der-Pol oscillator}
 
@@ -1564,7 +1562,21 @@ and we get
 %
 with $\omega_c = \omega_0$, $\omega_1 = \O{\Lambda}$ and $\mu = \frac{\gamma}{8m}$
 
-\section{Hopf-oscillator with noise}
+\newpage 
+\section{Hopf-Oscillator with Noise}
+
+%
+\begin{theorem}[Hopf oscillator]
+	%
+	An active oscillator with non-linear damping of the form
+	%
+	\begin{equation}
+		\dot{z} = i \omega_0 z + \mu(\Lambda - |z|^2)z \quad \mathrm{with} \quad z \in \C
+	\end{equation}
+	% 
+	It is used e.g. to describe the limit cycle of electric circuits involving a vacuum tube or in biology to model the activation potential of neurons.
+\end{theorem}
+%
 
 We now add a noise term to the Hopf-oscillator
 %
@@ -1579,7 +1591,8 @@ with
 	\expval{\xi_{\varphi}(t)\xi_A(t')} = 0
 \end{equation*}
 %
-and map $z$ on a phase $\varphi$ and amplitude $A$ via $z = A e^{i \varphi}$ so that
+
+We map $z$ on a phase $\varphi$ and amplitude $A$ via $z = A e^{i \varphi}$ so that
 %
 \begin{equation}
 \left( \frac{\dot{A}}{A} + i \dot{\varphi} \right) z = \dot{z} = \dots
@@ -1646,7 +1659,8 @@ S_y(\omega) = |\tilde{y}(\omega)|^2
 %
 with $y = \exp(i \varphi)$ and its Fourier transform $\tilde{y}(\omega)$. 
 
-\subsection*{Two coupled oscillators}
+
+\section{Two coupled Phase Oscillators}
 
 Two phase oscillators are coupled by the coupling $c$ leading to the ODE system
 %
@@ -1683,7 +1697,8 @@ Images missing!
 
 % Mapping synchronization to diffusion
 
-\subsection*{Synchronization in the Presence of Noise}
+
+\section{Synchronization in the Presence of Noise}
 
 If we consider two coupled phase oscillators with noise
 %
@@ -1761,6 +1776,98 @@ For $\Delta \omega = 0$ we get
 \end{equation}
 %
 The theory can be also extended to more than two oscillators.
+
+\chapter{Stochastic Resonance}
+
+This is an example where noise plays a beneficial role for the detection of noisy oscillatory signals. We will consider a minimal model: Consider diffusion in a double-well potential $U_0 = - \frac{x^2}{2} + \frac{x^4}{4}$ and add weak periodic driving $U = U_0 + A \cos(\Omega t)$ as an input signal. 
+
+Consider over-damped stochastic dynamics
+%
+\begin{equation}
+	\dot{x} = -\pdv{U}{x} + \xi, \quad \expval{\xi(t) \xi(t')} = 2 D \delta(t-t')
+\end{equation}
+%
+Remember the Kramer escape rates
+%
+\begin{equation}
+	r_0 = \frac{1}{2 \pi} \sqrt{|U_0''(0)| U_0''(1)} \exp(-\frac{\Delta U_0}{D}) = \frac{\sqrt{2}}{2 \pi} \exp(-\frac{1}{4D})
+\end{equation}
+%
+The stead-state distribution is a Boltzman distribution. Next look at the largest negative eigenvalue $\lambda_1 = \approx -r_0$, i.e. the slowest decaying mode. 
+
+We can coarse-grain the stochastic process on a two state (telegraph) process, i.e. $x \approx -1 \leftrightarrow x \approx +1$ with a time scale given by the rates ging from left to the right $r_1(n_- \to n_+)$ and back $r_2(n_- \to n_+)$
+and due to particle number conservation we have $\dot{n}_+ = -\dot{n}_- = r_- n_- - r_+ n_+ = r_-(r_+ + r_-) n_+$ so e can write down a formal solution
+%
+\begin{equation}
+	n_+(t) = \exp(-\int_{t_0}^t \dd{t'} r) n_+(t_0) + \exp(-\int_{t_0}^t \dd{t'} r) \int_{t_0}^t \dd{t'} r(t') \exp(\int_{t_0}^{t'} \dd{t''} r)
+\end{equation}
+%
+So lets apply this to the case $U = U(t)$ and to simplify our life we will assume $A \ll D$
+%
+\begin{equation}
+	r_{\pm}0 = \frac{\sqrt{2}}{2 \pi} \exp(-\frac{1}{4D} \mp \frac{A}{D} \cos(\Omega t))= \approx r_0 \left(1 \mp \frac{A}{D} \cos(\Omega t) \right)
+\end{equation}
+%
+So if we insert this in the expression for $n_+$ we get
+%
+\begin{align*}
+	n_+(t) =& \exp(-2r_0 (t-t_0)) [n(t_0) + \frac{1}{2} \exp(2 r_0 (t-t_0) - 1) \\
+	&+ \frac{r_1}{\sqrt{\Omega^2 + 4r_0^2}} \cos(\Omega t - \varphi) \exp(2r_0(t-t_0) - \cos(\Omega t-\varphi))]
+\end{align*}
+%
+with $r_1 = \frac{r_0 A}{D}$ and $\tan(\varphi) = \frac{\Omega}{2 r_0}$ and for $t \gg t_0$ we get
+%
+\begin{equation}
+	n_+ = \frac{1}{2} + \frac{r_1}{\sqrt{\Omega^2 + 4r_0^2}} \cos(\Omega t - \varphi)
+\end{equation}
+%
+
+Next we look at the autocorrelation function of this process
+%
+\begin{equation}
+	\expval{x(t)} = x_+ p_+(t) + x_- p_-(t) = p_+(t) - p_-(t)
+\end{equation}
+%
+with $x_{\pm} = \pm 1$ and $p_+ = n_+ / n$ and so we get
+%
+\begin{align*}
+	\expval{x(t) x(t+\tau) | x_0, t_0} &= \sum_{s,s'} s \cdot s' P(s,t+\tau | s', t) P(s',t|x_0,t_0) \\
+	&= p_+(t+\tau | +1, t) p_+(+1, t|x_0,t_o) + \dots
+\end{align*}
+%
+(take all combinations $11, 1-1, -11,-1-1$)
+
+We use $p_p = 1-p_+$ and consider the limit $t_0 \to -\infty$, thus
+%
+\begin{align*}
+	\expval{x(t) x(t+\tau)} =& \exp(-2 r_0 \tau) + 2 r_1 \\
+	&+ 4 r_1^2 [\exp(-2 r_0 \tau) \cos^2(\Omega t - \varphi) + \cos(\Omega (t+\tau) - \varphi) \cos(\Omega t - \varphi)]
+\end{align*}
+%
+Now the autocorrelation function depends on time, as this is not just a static process, i.e. time translation symmetry is broken. Note that is only depends on $\Omega t \% 2 \pi$, so it doesn't matter which cycle of driving is chosen.
+
+If we average over $t$ we get
+%
+\begin{equation}
+	C(\tau) = 	\expval{x(t) x(t+\tau)}_t = \exp(-2r_0 |\tau|) [1 - 2 r_1^2] + 2 r_1^2 \cos(\Omega t)
+\end{equation}
+%
+with a decaying and periodic component. We get the power spectral density be doing a Fourier transform by the Wiener-Klinchine theorem
+%
+\begin{equation}
+	S(\omega) = F(C(\tau)) = (1- 2 r_1^2) \frac{4 r_0}{4 r_0^2 + \omega^2} + 2 \pi r_1^2 (\delta(\omega-\Omega) + \delta(\omega + \Omega))
+\end{equation}
+%
+The first term determines the noise contribution (decaying term / a Lorentzian) and the second term represents the periodic contribution. So one defines the signal-to-noise ration
+%
+\begin{equation}
+	SNR = \frac{S}{B} = \pi \frac{r_1^2}{r_0} = \frac{1}{\sqrt{2}} \frac{A^2}{D^2} \exp(-\frac{1}{4 D})
+\end{equation}
+%
+So our signal is better, if we have some noise in our system! The SNR attains a maximum at a finite $D$ (before the decay with $D^{-2}$). This can be intuitively understood that for $\frac{1}{r} = \frac{1}{2} T = \frac{1}{2} \frac{2 \pi}{\Omega}$ then the particle is jumping according to the oscillatory change in the potential. 
+
+Glimpse on Infotaxis: Infotaxis as a strategy for searching without gradients by Vergassola 2007
+
 
 \chapter{It$\bar{\mathrm{o}}$ versus Stratonovich Calculus}
 
@@ -3014,96 +3121,7 @@ Now: $tr \hat{P}_{k|k} = tr \hat{P}_{k|k-1} - \hat{K}_k \hat{H}_k \hat{P}_{k|k-1
 
 $\pdv{tr P_{k|k}}{\hat{K}_k} = - 2 \hat{P}^T_{k|k-1} \hat{H}_k + 2 \hat{K}_k \hat{S}_k$
 
-\chapter{Stochastic Resonance}
 
-This is an example where noise plays a beneficial role for the detection of noisy oscillatory signals. We will consider a minimal model: Consider diffusion in a double-well potential $U_0 = - \frac{x^2}{2} + \frac{x^4}{4}$ and add weak periodic driving $U = U_0 + A \cos(\Omega t)$ as an input signal. 
-
-Consider over-damped stochastic dynamics
-%
-\begin{equation}
-	\dot{x} = -\pdv{U}{x} + \xi, \quad \expval{\xi(t) \xi(t')} = 2 D \delta(t-t')
-\end{equation}
-%
-Remember the Kramer escape rates
-%
-\begin{equation}
-	r_0 = \frac{1}{2 \pi} \sqrt{|U_0''(0)| U_0''(1)} \exp(-\frac{\Delta U_0}{D}) = \frac{\sqrt{2}}{2 \pi} \exp(-\frac{1}{4D})
-\end{equation}
-%
-The stead-state distribution is a Boltzman distribution. Next look at the largest negative eigenvalue $\lambda_1 = \approx -r_0$, i.e. the slowest decaying mode. 
-
-We can coarse-grain the stochastic process on a two state (telegraph) process, i.e. $x \approx -1 \leftrightarrow x \approx +1$ with a time scale given by the rates ging from left to the right $r_1(n_- \to n_+)$ and back $r_2(n_- \to n_+)$
-and due to particle number conservation we have $\dot{n}_+ = -\dot{n}_- = r_- n_- - r_+ n_+ = r_-(r_+ + r_-) n_+$ so e can write down a formal solution
-%
-\begin{equation}
-	n_+(t) = \exp(-\int_{t_0}^t \dd{t'} r) n_+(t_0) + \exp(-\int_{t_0}^t \dd{t'} r) \int_{t_0}^t \dd{t'} r(t') \exp(\int_{t_0}^{t'} \dd{t''} r)
-\end{equation}
-%
-So lets apply this to the case $U = U(t)$ and to simplify our life we will assume $A \ll D$
-%
-\begin{equation}
-r_{\pm}0 = \frac{\sqrt{2}}{2 \pi} \exp(-\frac{1}{4D} \mp \frac{A}{D} \cos(\Omega t))= \approx r_0 \left(1 \mp \frac{A}{D} \cos(\Omega t) \right)
-\end{equation}
-%
-So if we insert this in the expression for $n_+$ we get
-%
-\begin{align*}
-n_+(t) =& \exp(-2r_0 (t-t_0)) [n(t_0) + \frac{1}{2} \exp(2 r_0 (t-t_0) - 1) \\
-&+ \frac{r_1}{\sqrt{\Omega^2 + 4r_0^2}} \cos(\Omega t - \varphi) \exp(2r_0(t-t_0) - \cos(\Omega t-\varphi))]
-\end{align*}
-%
-with $r_1 = \frac{r_0 A}{D}$ and $\tan(\varphi) = \frac{\Omega}{2 r_0}$ and for $t \gg t_0$ we get
-%
-\begin{equation}
-n_+ = \frac{1}{2} + \frac{r_1}{\sqrt{\Omega^2 + 4r_0^2}} \cos(\Omega t - \varphi)
-\end{equation}
-%
-
-Next we look at the autocorrelation function of this process
-%
-\begin{equation}
-	\expval{x(t)} = x_+ p_+(t) + x_- p_-(t) = p_+(t) - p_-(t)
-\end{equation}
-%
-with $x_{\pm} = \pm 1$ and $p_+ = n_+ / n$ and so we get
-%
-\begin{align*}
-	\expval{x(t) x(t+\tau) | x_0, t_0} &= \sum_{s,s'} s \cdot s' P(s,t+\tau | s', t) P(s',t|x_0,t_0) \\
-	&= p_+(t+\tau | +1, t) p_+(+1, t|x_0,t_o) + \dots
-\end{align*}
-%
-(take all combinations $11, 1-1, -11,-1-1$)
-
-We use $p_p = 1-p_+$ and consider the limit $t_0 \to -\infty$, thus
-%
-\begin{align*}
-	\expval{x(t) x(t+\tau)} =& \exp(-2 r_0 \tau) + 2 r_1 \\
-	&+ 4 r_1^2 [\exp(-2 r_0 \tau) \cos^2(\Omega t - \varphi) + \cos(\Omega (t+\tau) - \varphi) \cos(\Omega t - \varphi)]
-\end{align*}
-%
-Now the autocorrelation function depends on time, as this is not just a static process, i.e. time translation symmetry is broken. Note that is only depends on $\Omega t \% 2 \pi$, so it doesn't matter which cycle of driving is chosen.
-
-If we average over $t$ we get
-%
-\begin{equation}
-	C(\tau) = 	\expval{x(t) x(t+\tau)}_t = \exp(-2r_0 |\tau|) [1 - 2 r_1^2] + 2 r_1^2 \cos(\Omega t)
-\end{equation}
-%
-with a decaying and periodic component. We get the power spectral density be doing a Fourier transform by the Wiener-Klinchine theorem
-%
-\begin{equation}
-S(\omega) = F(C(\tau)) = (1- 2 r_1^2) \frac{4 r_0}{4 r_0^2 + \omega^2} + 2 \pi r_1^2 (\delta(\omega-\Omega) + \delta(\omega + \Omega))
-\end{equation}
-%
-The first term determines the noise contribution (decaying term / a Lorentzian) and the second term represents the periodic contribution. So one defines the signal-to-noise ration
-%
-\begin{equation}
-SNR = \frac{S}{B} = \pi \frac{r_1^2}{r_0} = \frac{1}{\sqrt{2}} \frac{A^2}{D^2} \exp(-\frac{1}{4 D})
-\end{equation}
-%
-So our signal is better, if we have some noise in our system! The SNR attains a maximum at a finite $D$ (before the decay with $D^{-2}$). This can be intuitively understood that for $\frac{1}{r} = \frac{1}{2} T = \frac{1}{2} \frac{2 \pi}{\Omega}$ then the particle is jumping according to the oscillatory change in the potential. 
-
-Glimpse on Infotaxis: Infotaxis as a strategy for searching without gradients by Vergassola 2007
 
 
 \nocite{*}
