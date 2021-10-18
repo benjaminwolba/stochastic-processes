@@ -6,14 +6,18 @@
 
 \ihead{\headmark}													  % header: chapter name inside
 \setheadsepline{0.5pt}												% insert line of 0.5 pt width
-\cfoot{Made with \LaTeX{} by Benjamin Wolba}
+% \cfoot{Made with \LaTeX{} by Benjamin Wolba}
+\cfoot{Stochastic Processes}
 	
 \addbibresource{ref.bib} 										   % integration of .bib-file
 
 \newcommand{\blue}[1]{{\color{bluebase}#1}}
+\newcommand{\Remark}{\textit{Remark}} % @Benjamin Wolba: please change as you deem appropriate
+\newcommand{\Example}{\textit{Example}}
 
-\title{\color{bluebase} Lecture Notes on Stochastic Processes}  
-\author{Prof. Dr. Benjamin M. Friedrich, Dr. Benjamin Wolba}                 
+\title{\color{bluebase} Lecture Notes on\\ Stochastic Processes}  
+% \author{Prof. Dr. Benjamin M. Friedrich, Dr. Benjamin Wolba}                 
+\author{Benjamin M. Friedrich, Benjamin Wolba}                 
 
 % Style Guide 
 % 
@@ -38,20 +42,35 @@
 
 \section{Mathematical Foundations}
 
+\textit{Probability} is a concept based on an idealization, 
+namely the idea of a random experiment. 
+An \textit{ideal random experiment} can be repeated indefinitely often;
+for each realization, the outcome is unpredictable, 
+but each specific outcome occurs with a constant relative frequency, the \textit{probability} of this outcome.
+Examples include tossing a fair coin or a perfect dice.
+Usually, real physical experiments can only be approximated as random experiments, 
+but this approximation is nonetheless surprisingly useful, see Sec.~\ref{X}.
+In mathematics, an axiomatic definition of probability ignores these nuances 
+and just gives the necessary calculation rules. 
+
 \begin{theorem}[Concept: Probability]
+	Let $X$ be a set of outcomes of a random experiment, 
+	then we have the following axioms of probability:
 	%
-	Let $X$ be a set of states, then we have the following axioms of probability:
-	%
-	\begin{itemize}
+	\begin{enumerate}
 		\item{$P(A)$ is a function with $0 \leq P(A) \leq 1$ defined for every `nice' subset $A \subseteq X$}
-		\item{Additivity: $P(A) + P(B) = P(A \cup B) - P(A \cap B)$}
-	\end{itemize}
+		\item{Additivity: $P(A) + P(B) = P(A \cup B) + P(A \cap B)$}
+		\item{Normalization: $P(X) = 1$}
+	\end{enumerate}
 	%
 \end{theorem}
+\Example 1: For a fair coin, the set of possible outcomes is $X=\{\text{head},\text{tail}\}$
+with $P(\{\text{head}\})=P(\{\text{tail}\})=1/2$. 
+(We will often use sloppy notation $p(\text{head})$ for sets $A$ with only single element.)\\
+\Example 2: Perfect dice: $X=\{1,2,3,4,5,6\}$, $P(\{1,2\})=P(1)+P(2)=1/3$
 
-Example 1: fair coin: $X=\{\text{head},\text{tail}\}$, $P(\{\text{head}\})=1/2$, 
-(we will often use sloppy notation $p(\text{head})$ for sets $A$ with single element only)\\
-Example 2: perfect dice: $X=\{1,2,3,4,5,6\}$, $P(\{1,2\})=P(1)+P(2)=1/3$
+\Remark: The above axioms apply to `nice' subsets $A\subset X$. If $X$ is a finite set, all subsets are `nice'; 
+only if $X$ is uncountably infinite (like the set of real numbers $\R$), there are subsets that are too `wild' and need to be excluded.
 
 If $X = \R$, we can consider a \textit{probability density} 
 as a function $p(x) : \R \to \R^+$, which relates to the probability by
@@ -63,43 +82,51 @@ P(A) = \int_A{\dd{x} p(x)}
 %
 for $A \subseteq \R$. 
 
-Note that $p(x)$ is also called \textit{probability density function} 
+\Remark: Note that $p(x)$ is also called \textit{probability density function} 
 and sometimes written as $\mathrm{PDF}(x) = p(x)$. 
 Also, note the physical units: 
 if, for example, $x$ has units of a length, $[x] = \si{\meter}$, 
 then the probability density $p(x)$ has units of an inverse length, $[p] = \si{\per \meter}$. 
-Knowing the physical units allows to tell apart different objects.
+Knowing the physical units is extremely useful as it allows to tell apart different objects.
 
-As a mathematical caveat, Eq.~\eqref{eq:def_P} cannot be defined for arbitrarily ``wild'' sub-sets $A \subset \R$, but only for sufficiently `nice' subsets. Specifically, these subsets need to be measurable and thus form a so-called $\sigma$-algebra. This technical issue is extensively studied in the mathematical sub-discipline of measure and integration theory, but usually is not a concern in physical applications.
-In particular, (countable) unions and intersections of intervals are measurable.
+\Remark: As a mathematical caveat, Eq.~\eqref{eq:def_P} cannot be defined for arbitrarily ``wild'' sub-sets $A \subset \R$, but only for sufficiently `nice' subsets (similar to the restriction of `nice' subsets in the axiomatic definition of probability). 
+Specifically, these subsets need to be measurable. 
+In particular, (countable) unions and intersections of intervals are measurable, 
+forming a so-called $\sigma$-algebra. 
+This technical issue is extensively studied in the mathematical sub-discipline of Measure and Integration Theory, but usually is not a concern in physical applications.
 For a reference, see e.g. \cite{Billingsley2012}.
 
-
 The \textit{cumulative density function} is defined as
-%
 \begin{equation}
-\mathrm{CDF}(x) = \int^x_{-\infty}{\dd{x'} p(x')}
+\mathrm{CDF}(x) = \int^x_{-\infty}{\dd{x'} p(x')} \quad.
 \end{equation}
-%
-Important characteristics of probability distributions are there moments and its cumulants.
+
+The \textit{expectation value} of a function $f(x)$ with respect to $p$ is defined as
+\begin{equation}
+\langle f(x) \rangle = \int \dd{x} f(x)\,p(x) \quad.
+\end{equation}
+\Example: The normalization axiom immediately implies $\langle 1 \rangle = 1$; 
+while $\langle x\rangle$ is the usual mean.
+More generally, we can define special expectation values known as
+moments and cumulants, which provide important characteristics of a probability distribution. 
 
 \begin{theorem}[Moments]
 	%
 	The \textit{moments} of a probability distribution $p(x)$ are defined as
 	%
 	\begin{equation}
-	\mu_n = \expval{x^n} = \int^{\infty}_{-\infty}{x^n p(x)}
-	\end{equation}
-	%
-	with the characteristic function
-	%
-	\begin{equation}
 	\label{eq:def_moment}
-	\expval{\exp(t x)} = \sum^{\infty}_{n = 0}{\mu_n \frac{t^n}{n!}}\quad,
+	\mu_n = \expval{x^n} = \int^{\infty}_{-\infty}{x^n p(x)} \quad.
 	\end{equation}
-	%
-	i.e., the moments are the Taylor coefficients of the characteristic function
+	The moments $\mu_n$ are the Taylor coefficients of the so-called \textit{characteristic function}
+	\begin{equation}
+	\expval{\exp(t x)} = \sum^{\infty}_{n = 0}{\mu_n \frac{t^n}{n!}}\quad.
+	\end{equation}
 \end{theorem}
+\Remark: One may think of the characteristic function as an abstract function that conveniently encodes 
+(almost) all information about a probability distribution $p(x)$ on the real line $\R$.
+
+\Remark: For some probability distributions (e.g., probability distributions with polynomial tails, also called `fat tails'), higher moments may be infinite.
 
 \begin{theorem}[Cumulants]
 	%
@@ -112,87 +139,132 @@ Important characteristics of probability distributions are there moments and its
 	%
 \end{theorem}
 
-Remark: Moments and cumulants contain the same information:
-by inserting for example Eq.~(\ref{eq:def_cumulant}) into the Taylor series of the exponential function, 
-and collecting equal powers of $t$ (after applying the binomial formula to expand powers), one obtains complicated formulas expressing the $n$th moment $\mu_n$ in terms of all $k_k$, $k\le n$.
-A series of moments ``almost'' uniquely determines the underlying probability density function $p(x)$
-(yet there are some mathematical delicacies for which we refer the reader to the mathematics literature
+\Remark: Moments and cumulants contain the same information:
+To relate cumulants and moments, 
+one can insert Eq.~(\ref{eq:def_cumulant}) into the Taylor series of the exponential function, and 
+collect equal powers of $t$ (after applying the binomial formula to expand powers);
+thereby, one obtains complicated formulas expressing the $n$th moment $\mu_n$ in terms of all $k_k$, $k\le n$.
+The series of moments ``almost'' uniquely determines the underlying probability density function $p(x)$
+(yet there are some mathematical delicacies for which we refer the reader to the mathematics literature%
 % TODO reference to literature should be added here
 ). 
 Often, moments can be computed more directly, while cumulants allow to read off relevant information more readily.
 
-Remark: For some probability distributions (e.g., probability distributions with polynomial tails, also called `fat tails'), higher moments may be infinite.
-
-Example: For the normal distribution with mean $\mu$ and variance $\sigma^2$, we have 
+\Example: For the normal distribution 
+$p(x) = (2\pi \sigma^2)^{-1/2} \exp[ - (x-\mu)^2/(2\sigma^2) ]$
+with mean $\mu$ and variance $\sigma^2$, we have 
 $k_0 = \mu_0=1$ (this is just the normalization condition), 
 $k_1=\mu_1=\mu$ (mean), 
-$k_2=\mu_2-\mu_1^2=\sigma^2$ (variance), as well as $k_k=0$ for $k \ge 3$.
+$k_2=\mu_2-\mu_1^2=\sigma^2$ (variance), as well as $k_n=0$ for $n \ge 3$.
 Conversely, a probability distribution whose higher cumulants vanish, 
-i.e., $k_k=0$ for $k \ge 3$, is necessarily a normal distribution.
+i.e., $k_n=0$ for $n \ge 3$, is necessarily a normal distribution.
 
 
 \section{Probability in Physics}
 
-Usually, probability is regarded as relative frequency of an event $A$ occurring $N_A$ times while the total number of measurements is $N$
-%
+In physics, probability is usually estimated as 
+the \textit{relative frequency} of an outcome $A$ in an experiment
+that can be repeated indefinetely often with the same initial macrostate:
+If $N_A$ is the number of realizations of the experiment resulting in $A$ 
+and $N$ the total number of realizations, the probability $P(A)$ of $A$ is estimated as
 \begin{equation}
-P(A) = \lim_{N \to \infty}{\frac{N_A}{N}}
+P(A) \approx \frac{N_A}{N} \quad,
 \end{equation}
-%
-Practically, a probability is determined by
-%
-\begin{itemize}
-	\item{the experiment being repeated very often with the same initial macrostate}
-	\item{replacing the physical system by an idealized model for stochastic simulations}
-\end{itemize}
-%
-(Talk by Jan Nagel: Gott würfelt nicht. Oder doch? (https://youtu.be/q-ezpVF6cL4) --> Uncertainty in initial conditions leads to a dice producing a stochastic behavior.)
+for $N$ sufficient large.
+(In the case of ideal random experiments, 
+one can show mathematically that
+this estimate indeed converges to the true probability 
+in the vast majority of cases. 
+Indeed, the probability of large errors converges rapidly to zero for large $N$, 
+albeit it never becomes exactly zero.
+We will later specify the expected error of such an estimate.) % TODO: add reference
 
-\subsection*{Example Weather Forecast}
+\Example: 
+The distinction between \textit{macrostate} and \textit{microstate} is important here: 
+Throwing a dice would not be random anymore if we exactly knew its initial position and momentum, 
+i.e., its microstate, because the motion of the dice is deterministic. 
+But since the motion of the dice bouncing on the table is highly chaotic, 
+the outcome is essentially random if the initial microstate is only known approximately, 
+i.e., if we only know the initial macrostate.
+This is nicely illustrated in a talk entitled 
+``Gott w\"urfelt nicht. Oder doch?'' by Jan Nagel [https://youtu.be/q-ezpVF6cL4; in German], 
+which demonstrates how uncertainty in initial conditions leads to effectively stochastic outcomes.
 
-For an event R $=$ "rain tomorrow" we know that it is raining 116 out of 365 days in Dresden: $P(R \, | \, \mathrm{Dresden}) = \frac{116}{365} = 18 \%$. Our forecast is getting more accurate if we consider also seasonal changes and thus specify the month being October with 8 days of rain out of 31 in total: $P(R \, | \, \mathrm{Dresden, October}) = \frac{8}{31} = 25.8 \%$
+\Remark: 
+One may philosophize whether true randomness occurs in quantum systems or not.
+(The answer depends on which interpretation of quantum mechanics one favors.)
+Yet, for macroscopic ``random experiments'', such as tossing a coin or throwing a dice, 
+quantum effects are negligible and the apparent randomness arises solely from chaotic deterministic dynamics
+and imprecise knowledge of initial conditions.
 
-Another approach is based on persistence of conditions, i.e. to make a rain prediction for tomorrow based on the weather today. E.g. according to Caskey 1963 we have $P(R \, | \, \mathrm{current \, local \, weather}) = x$ and $P(R \, | \, \mathrm{rain \, today}) = 44 \%$, $P(R \, | \, \mathrm{dry \, today}) = 17 \%$
-
-Last but not least we can sample macrostates that are consistent with measurement data and calculate the probabilities for rain from deterministic models (Navier-Stokes-equations / mathematical forecasting) $P(R \, | \, \mathrm{current \, global \, weather})$.
+% \subsection*{Example Weather Forecast: improve}
+% For an event R $=$ "rain tomorrow" we know that it is raining 116 out of 365 days in Dresden: $P(R \, | \, \mathrm{Dresden}) = \frac{116}{365} = 18 \%$. Our forecast is getting more accurate if we consider also seasonal changes and thus specify the month being October with 8 days of rain out of 31 in total: $P(R \, | \, \mathrm{Dresden, October}) = \frac{8}{31} = 25.8 \%$
+% Another approach is based on persistence of conditions, i.e. to make a rain prediction for tomorrow based on the weather today. E.g. according to Caskey 1963 we have $P(R \, | \, \mathrm{current \, local \, weather}) = x$ and $P(R \, | \, \mathrm{rain \, today}) = 44 \%$, $P(R \, | \, \mathrm{dry \, today}) = 17 \%$
+% Last but not least we can sample macrostates that are consistent with measurement data and calculate the probabilities for rain from deterministic models (Navier-Stokes-equations / mathematical forecasting) $P(R \, | \, \mathrm{current \, global \, weather})$.
+% TODO: maybe include better example later
 
 \section{Important Probability Distributions}
 
 \subsection*{Normal Distribution}
-
-The normal distribution $N(\mu, \sigma^2)$ with mean $\mu$ and variance $\sigma^2$ is given by
-%
+Probably the most important probability distribution is the \textit{normal distribution}.
+If a random variable $x$ is distributed according to a normal distribution with mean $\mu$ and variance $\sigma^2$,
+we write $x\sim(\mu, \sigma^2)$; 
+the corresponding probability density reads
 \begin{equation}
-p(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp[- \frac{(x- \mu)^2}{2 \sigma^2}] = N(\mu, \sigma^2)
+P_\mathrm{normal}(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp[- \frac{(x- \mu)^2}{2 \sigma^2}] = N(\mu, \sigma^2)
 \end{equation}
-%
-The moments and cumulants read
-%
+The moments and cumulants of the normal distribution are given by
 \begin{gather*}
 	\mu_1 = \mu, \, \mu_2 = \mu^2 + \sigma^2, \, \mu_3 = \mu^3 + 3 \mu \sigma^2 \\
-	k_1 = \mu, \, k_2 = \sigma^2, \, k_j = 0 \quad \mathrm{for} \quad j \geq 3
+	k_1 = \mu, \, k_2 = \sigma^2, \, k_j = 0 \quad \mathrm{for} \quad j \geq 3 \quad.
 \end{gather*}
-%
+The cumulative probability distribution function CDF of the normal distribution 
+with mean zero, $\mu=0$, and unit variance, $\sigma^2=1$,
+has its own name, \textit{error function}, abbreviated $\Erf(x)$.
+The importance of the normal distribution stems from the fact that 
+many other probability distributions can be approximated by a normal distribution in a suitable limit.
 
-\subsection*{Bernoulli Distribution}
 
-For a Bernoulli trial you have two outcomes with respective probabilities $p$ and $1 - p$. If you now perform $n$ independent trials you will get $k$ times the first outcome with probability
-%
+\subsection*{Binomial Distribution}
+A Bernoulli trial has two possible outcomes, say ``yes'' and ``no'', with respective probabilities $p$ and $1 - p$. 
+If we perform $n$ independent trials, the probability to obtain $k$-times the outcome ``yes'' is given by
+the so-called \textit{Binomial distribution}
 \begin{equation}
-P(k,n) = \binom{n}{k} p^k (1 - p)^{n - k}
+P_\mathrm{binom}(k) = \binom{n}{k} p^k (1 - p)^{n - k} \quad.
 \end{equation}
-%
-with $\expval{k} = n p$ and $\expval{k^2} - \expval{k}^2 = n p (1 - p)$. In many practical cases one can do a normal approximation by $P(k,n) = N(np, n p (1 - p))$.
+The proof counts the number $\binom{n}{k}$ of paths in a binary decision tree with exactly $k$-times ``yes'', 
+and multiplies this number with the constant probability $p^k(1-p)^{n-k}$ for each of these paths.
+The mean and variance read $\expval{k} = n p$ and $\expval{k^2} - \expval{k}^2 = n p (1 - p)$. 
+
+In practical applications with large $n$, one can do a normal approximation by 
+$k \sim \mathcal{N}(np, n p (1 - p))$. % TODO: harmonize notation on probability distributions in the end
+
+% TODO: add figure of decision tree
 
 \subsection*{Poisson Distribution}
+The Poisson distribution can be regarded as a continuous-time limit of the Binomial distribution.
+Specifically, 
+we can assign time points $t_j = j \, dt$, $j=1,\ldots,n$ to the $n$ subsequent Bernoulli trials.
+We assume that events occur with a constant rate $r$; 
+the probability that an event occurs in the short time interval $dt$ 
+is then approximately given by $r\,dt$
+(more precisely $1-exp(-r\,dt)=r\,dt+\O(r\,dt)^2$).
 
-We consider the continuous time limit of the Binomial distribution. Therefore, we introduce discrete central times $t_j = \frac{j}{n} T = j \dd{t}$ with $\dd{t} = \frac{T}{n}$ and $\lambda = np$ being the total number of expected events. And we assume that at each time step one Bernoulli trial is conducted. The event rate is given by $r = \frac{\lambda}{T} = \frac{p}{\dd{t}}$ with $[r] = \si{\per \second}$ in units of an inverse time. 
+We take the limit $n\rightarrow\infty$, with rate $r$ held constant.
+Then the total number $k$ of events during the observation time $T=n\,dt$ 
+becomes a random variable that is distributed according to a
+\textit{Poisson distribution} with parameter $\lambda = r\,T$
+\begin{equation}
+P_\mathrm{Poisson}(k) = \exp(-\lambda) \frac{\lambda^k}{k!} \quad.
+\end{equation}
+Here, $\lambda$ represents the expected number of events during the observation time $T=n\,dt$.
+
+% BEN ended here on 18.10.
+
+% We consider the continuous time limit of the Binomial distribution. Therefore, we introduce discrete central times $t_j = \frac{j}{n} T = j \dd{t}$ with $\dd{t} = \frac{T}{n}$ and $\lambda = np$ being the total number of expected events. And we assume that at each time step one Bernoulli trial is conducted. The event rate is given by $r = \frac{\lambda}{T} = \frac{p}{\dd{t}}$ with $[r] = \si{\per \second}$ in units of an inverse time. 
 
 Now take the limit $n \to \infty$ with $\lambda = \mathrm{const}$ and $p = \frac{\lambda}{n}$, so we get the Poisson distribution
 %
-\begin{equation}
-p(k,\lambda) = \exp(-\lambda) \frac{\lambda^k}{k!}
-\end{equation}
 %
 with $\mu = \expval{k} = \lambda$, $\sigma^2 = \expval{k^2} - \expval{k}^2 = \lambda$. An approximation is $p(k,\lambda) = N(\lambda, \lambda)$, valid for very large $\lambda$.
 
@@ -205,21 +277,141 @@ with $\mu = \expval{k} = \lambda$, $\sigma^2 = \expval{k^2} - \expval{k}^2 = \la
 	%
 	and so $k = \int^T_0{f(t)} $.	
 \end{remark}
-
-Examples are customers arriving at a counter, service requests to a computer server, radioactive decay events, or photons arriving at a CCD sensor. 
+Examples of Poisson-distributed random variables are 
+the number of radioactive decay events in a given time interval, 
+or photons arriving at a CCD sensor. 
+Similarly, the number of service requests submitted to a computer server follows a Poisson distribution, 
+which has practical applications in queuing theory.
 
 \subsection*{Power-law distribution}
+Finally, some have so-called ``fat tails'', i.e.,
+\begin{equation}
+p(x) \sim x^{- \alpha} \quad \mathrm{for} \quad x \gg 1 \quad.
+\end{equation}
+Examples of such \textit{power-law distributions} include the distribution of Facebook contacts (where $\alpha = 2.2$), 
+or the distribution of jumps in idealized models of animals foraging for food (L\'evy walks).
 
-E.g. the jump distribution of animals pursuing food foraging (L\'evy walk) or the distribution of Facebook contacts ($\alpha = 2.2$) are described by a power-law distribution of the form
+Power-law distributions have some unpleasant mathematical properties,
+such as a divergent variance $\sigma^2 \to \infty $ for $\alpha < 3$.
+
+\subsection{Empirical mean and empirical standard deviation}
+We consider a sequence $n$ of $x_1, ... x_n$ of independent, identically distributed, random variables 
+with mean $\mu$ and variance $\sigma^2$. 
+(One may think of the same experiment repeated $n$ times under identical conditions.)
+We define the \textit{empirical mean} by
+\begin{equation}
+\bar{x} = \frac{1}{n}(x_1 + \dots + x_n) = \text{empirical mean} \quad,
+\end{equation}
+and the \textit{empirical variance} by 
+\begin{equation}
+\widehat{\sigma}^2 = \frac{1}{n-1} \left(
+	\left(x_1-\bar{x}\right)^2  + \dots + (x_n-\ol{x}\right)^2) 
+	\right)
+	= \text{empirical variance} \quad.
+\end{equation}
+Of course, $\bar{x}$ and $\widehat{\sigma}^2$ are now themselves random variables.
+
+Obviously, 
+\begin{equation}
+\left\langle \bar{x} \right\rangle = \mu \quad,
+\end{equation}
+i.e., the expectation value of the empirical mean equals the true mean.
+One says that $\bar{x}$ is \textit{faithful} estimator of $\mu$.
+
+Similarly, for the special case that the $x_j$ are normally distributed, 
+$x_j\sim\mathcal{N}(\mu,\sigma^2)$,
+we have
+\begin{equation}
+\left\langle \widehat{\sigma}^2 \right\rangle = \sigma^2 \quad,
+\end{equation}
+i.e., the expectation values of the empirical variance equals  the true variance.
+Even in a general case, where the $x_j$ not normally distributed, 
+$\widehat{\sigma}^2$ often gives a useful approximation of the true variance.
+
+% TODO: add proof, state var(\bar{x}) = \sigma^2/n
+
+\subsection{The Central-Limit-Theorem}
+
+A second proof uses the central-limit-theorem.
+
+\begin{theorem}[Central-Limit-Theorem]
+	%
+	Consider a sequence of $x_1, ... x_n$ of independent, identically distributed, random variables (Bernoulli trials)
+	with mean $\mu$ and variance $\sigma^2$. We define the empirical mean by
+	%
+	\begin{equation}
+	\bar{x} = \frac{1}{n}(x_1 + \dots + x_n) = \mathrm{empirical \, mean}
+	\end{equation}
+	%
+	We normalize it to a random variable with expectation value zero
+	%
+	\begin{equation}
+	z = \frac{\bar{x}-\mu}{\sigma/\sqrt{n}}
+	\end{equation}
+	%
+	Then the probability distribution $p(z) \to N(0,1)$ for large $n$ ("convergence in distribution") or equivalently $CDF(z) \to \mathrm{Erf}(z)$ for almost all $z \in \R$	
+\end{theorem}
+
+Now for our second, more elegant proof we consider $n$ independent random variables $x_j$ (Bernoulli trials) with $j = 1,...,n$, and
 %
 \begin{equation}
-p(x) \sim x^{- \alpha} \quad \mathrm{for} \quad x \gg 1
+x_j = \begin{cases} 1 \, | \, \mathrm{with \, probability \,} p \\ 0 \, | \, \mathrm{with \, probability \, } q = 1 - p \end{cases}
 \end{equation}
 %
-It has some unpleasant mathematical properties such as a divergent variance $\sigma^2 \to \infty $ for $\alpha < 3$.
+The empirical mean
+%
+\begin{equation}
+\bar{x} = \frac{1}{n}(x_1 + \dots + x_n) = \mathrm{empirical \, mean}
+\end{equation}
+%
+is directly related to the number $k$ of positive outcomes $k = n\bar{x}$. We get $p(k,n) = p(\bar{x}) \sim N(np,npq)$ by the Central-Limit-Theorem. 
 
+The idea of the proof is now to compute the cumulants of $x_j$
+%
+\begin{equation}
+k_1 = \mu, \, k_2 = -\sigma^2 \dots
+\end{equation}
+%
+and then to show that the cumulants of $z_j$ are given by
+%
+\begin{equation}
+k_1 = 0, \, k_2 = 1, \, k_3 \sim \frac{1}{\sqrt{n}}, \, k_4 \sim \frac{1}{n} \dots
+\end{equation}
+%
+and
+%
+\begin{equation}
+\lim_{n \to \infty} \ln \expval{zt} = \lim_{n \to \infty} \sum_{l=0}^{\infty} k_l t^l = 1 - \frac{1}{2} t^2 
+\end{equation}
+%
+Then we have $p(z) \to N(0,1)$. To show this behaviour of the cumulants we take a look at the functions
+%
+\begin{equation}
+C_x(t) = \exp(\expval{xt}) \quad \mathrm{with} \quad C_{\alpha x}(t) = C_x(\alpha t), \, \alpha \in \R
+\end{equation}
+%
+which satisfy $\expval{(\alpha x)^j} = \alpha^j \expval{x^j}$ and $k_{\alpha x, j} = \alpha^j k_{x,j}$ for all cumulants, i.e. $\forall j \in \N$. Use this for $\bar{x}, z$:
+%
+\begin{gather*}
+	C_{\bar{x}}(t) = C_{x_1}\left( \frac{t}{n} \right) C_{x_2}\left( \frac{t}{n} \right) \dots C_{x_n}\left( \frac{t}{n} \right) = \left(C\left( \frac{t}{n} \right) \right)^n  \\ \\
+	C_z(t) = C_{\bar{x}} \left( \frac{t}{\sigma/\sqrt{n}} \right) \exp(-\frac{\mu t}{\sigma/\sqrt{n}}) = \left( C_x \left( \frac{t}{\sigma/\sqrt{n}} \right) \right)^n  \exp(-\frac{\mu t}{\sigma/\sqrt{n}})
+\end{gather*}
+%
+giving us
+%
+\begin{equation}
+\ln(C_z(t)) = n \ln(C_x \left( \frac{t}{\sigma/\sqrt{n}} \right)) - \frac{\mu t}{\sigma/\sqrt{n}}
+\end{equation}
+%
+and so we get
+%
+\begin{equation}
+k_{z,j} = n \left( \frac{1}{\sigma \sqrt{n}} \right)^j k_{x,j}
+\end{equation}
+%
 
-\section{Normal Approximation}
+\subsection{Normal Approximation}
+% TODO: make this an advanced track that students can study on 2nd reading
 
 In this section we are going to show, that the Bernoulli distribution 
 %
@@ -275,85 +467,6 @@ p(k,n) \approx \frac{1}{\sqrt{2 \pi \sigma^2}} \exp(-\frac{(k-np)^2}{2 \sigma^2}
 %
 with $\sigma^2 = npq$.
 
-\subsection*{Proof II Using the Central-Limit-Theorem}
-
-A second proof uses the central-limit-theorem.
-
-\begin{theorem}[Central-Limit-Theorem]
-	%
-	Consider a sequence of $x_1, ... x_n$ of independent, identically distributed, random variables (Bernoulli trials)
-	with mean $\mu$ and variance $\sigma^2$. We define the empirical mean by
-	%
-	\begin{equation}
-	\bar{x} = \frac{1}{n}(x_1 + \dots + x_n) = \mathrm{empirical \, mean}
-	\end{equation}
-	%
-	We normalize it to a random variable with expectation value zero
-	%
-	\begin{equation}
-	z = \frac{\bar{x}-\mu}{\sigma/\sqrt{n}}
-	\end{equation}
-	%
-	Then the probability distribution $p(z) \to N(0,1)$ for large $n$ ("convergence in distribution") or equivalently $CDF(z) \to \mathrm{Erf}(z)$ for almost all $z \in \R$	
-\end{theorem}
-
-Now for our second, more elegant proof we consider $n$ independent random variables $x_j$ (Bernoulli trials) with $j = 1,...,n$, and
-%
-\begin{equation}
-x_j = \begin{cases} 1 \, | \, \mathrm{with \, probability \,} p \\ 0 \, | \, \mathrm{with \, probability \, } q = 1 - p \end{cases}
-\end{equation}
-%
-The empirical mean
-%
-\begin{equation}
-\bar{x} = \frac{1}{n}(x_1 + \dots + x_n) = \mathrm{empirical \, mean}
-\end{equation}
-%
-is directly related to the number $k$ of positive outcomes $k = n\bar{x}$. We get $p(k,n) = p(\bar{x}) \sim N(np,npq)$ by the Central-Limit-Theorem. 
-
-The idea of the proof is now to compute the cumulants of $x_j$
-%
-\begin{equation}
-k_1 = \mu, \, k_2 = \sigma^2 \dots
-\end{equation}
-%
-and then to show that the cumulants of $z_j$ are given by
-%
-\begin{equation}
-k_1 = 0, \, k_2 = 1, \, k_3 \sim \frac{1}{\sqrt{n}}, \, k_4 \sim \frac{1}{n} \dots
-\end{equation}
-%
-and
-%
-\begin{equation}
-\lim_{n \to \infty} \ln \expval{zt} = \lim_{n \to \infty} \sum_{l=0}^{\infty} k_l t^l = 1 - \frac{1}{2} t^2 
-\end{equation}
-%
-Then we have $p(z) \to N(0,1)$. To show this behaviour of the cumulants we take a look at the functions
-%
-\begin{equation}
-C_x(t) = \exp(\expval{xt}) \quad \mathrm{with} \quad C_{\alpha x}(t) = C_x(\alpha t), \, \alpha \in \R
-\end{equation}
-%
-which satisfy $\expval{(\alpha x)^j} = \alpha^j \expval{x^j}$ and $k_{\alpha x, j} = \alpha^j k_{x,j}$ for all cumulants, i.e. $\forall j \in \N$. Use this for $\bar{x}, z$:
-%
-\begin{gather*}
-	C_{\bar{x}}(t) = C_{x_1}\left( \frac{t}{n} \right) C_{x_2}\left( \frac{t}{n} \right) \dots C_{x_n}\left( \frac{t}{n} \right) = \left(C\left( \frac{t}{n} \right) \right)^n  \\ \\
-	C_z(t) = C_{\bar{x}} \left( \frac{t}{\sigma/\sqrt{n}} \right) \exp(-\frac{\mu t}{\sigma/\sqrt{n}}) = \left( C_x \left( \frac{t}{\sigma/\sqrt{n}} \right) \right)^n  \exp(-\frac{\mu t}{\sigma/\sqrt{n}})
-\end{gather*}
-%
-giving us
-%
-\begin{equation}
-\ln(C_z(t)) = n \ln(C_x \left( \frac{t}{\sigma/\sqrt{n}} \right)) - \frac{\mu t}{\sigma/\sqrt{n}}
-\end{equation}
-%
-and so we get
-%
-\begin{equation}
-k_{z,j} = n \left( \frac{1}{\sigma \sqrt{n}} \right)^j k_{x,j}
-\end{equation}
-%
 
 \newpage
 \section{Stochastic Processes}
