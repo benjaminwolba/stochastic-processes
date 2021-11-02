@@ -3,6 +3,7 @@
 %-------------------------------------------------------------------------
 
 \documentclass{notebook}
+% CAUTION: 'scrpage2.sty' decomissoned 									
 
 \ihead{\headmark}							  					    % header: chapter name inside
 \setheadsepline{0.5pt}												% insert line of 0.5 pt width
@@ -17,7 +18,7 @@
 \newcommand{\Exercise}{\textit{Exercise}}
 
 % useful commands
-\newcommmand{\N}{\mathcal{N}}
+\newcommand{\N}{\mathcal{N}}
 \newcommand{\wh}[1]{\widehat{#1}} 
 
 \title{\color{bluebase} Lecture Notes on\\ Stochastic Processes}  
@@ -516,12 +517,19 @@ with $\sigma^2 = npq$.
 \newpage
 \section{Stochastic Processes}
 
-A random variable takes values in a set $X$, e.g. a set of measurement outcomes, that cannot be predicted, e.g. due to a lack/uncertainty of initial conditions, too large complexity of the system or other factors. Here, $X$ may be discrete (e.g. $X = \Z$) or continuous (e.g. $X = \R$). 
+% A random variable takes values in a set $X$, e.g. a set of measurement outcomes, that cannot be predicted, e.g. due to a lack/uncertainty of initial conditions, too large complexity of the system or other factors. Here, $X$ may be discrete (e.g. $X = \Z$) or continuous (e.g. $X = \R$). 
+% COMMENT-BEN: Why do we need this sentence here? We introduced random variables already in the preceeding chapter.
+ 
+Stochastic processes describe the stochastic evolution of a random variable as function of time $t$.
+Stochastic processes have applications 
+in physics, e.g., to model the effect of thermal fluctuations, 
+in chemistry, e.g., to model chemical reactions when the number of interacting molecules is small, 
+in biology, e.g., to model population dynamics of cells in a tissue,
+and finance, e.g., to forcast the variability of stock prices.
  
 \begin{theorem}[Stochastic Process]
-	%
-	A stochastic process is a random function $f(t):\R \to \R$, i.e. a family of random variables parameterized by $t \in \R$.
-	%
+	A stochastic process is a random function $f(t):\R \to \R$, 
+	i.e. a family of random variables parameterized by $t \in \R$.
 \end{theorem}
 
 \underline{Terminology}
@@ -535,41 +543,40 @@ A random variable takes values in a set $X$, e.g. a set of measurement outcomes,
 \subsection*{Example: Poisson Process}
 %
 \begin{theorem}[Poisson Process]
-	For a Poisson process events occur independently with rate $r$ at random times $t_j$
-	%
+	For a Poisson process, events occur independently with constant rate $r$ at random times $t_j$
 	\begin{equation}
-	f(t) = \sum_{j = -\infty}^{\infty}{\delta(t-t_j)}
+	f(t) = \sum_{j = -\infty}^{\infty}{\delta(t-t_j)} \quad.
 	\end{equation}
-	%
-	with the property $\expval{f(t)} = r$. The quantity $N = \int_0^T f(t) $ counts events  in $[0,T]$, where $T$ is the observation time, and yields a Poisson distribution with parameter $\lambda = rt$:
-	%
+	We have $\expval{f(t)} = r$; moreover $\expval{f(t)f(t')} = r^2 + r\delta(t-t')$.
+	The quantity $N = \int_0^T f(t)$ counts the number of events in the finite time interval $[0,T]$, 
+	where $T$ is total observation time; this number $N$ follows a Poisson distribution with parameter $\lambda = rt$:
 	\begin{equation}
-		p(N=k) = p(k, \lambda = r T)
+		P(N=k) = P_\mathrm{Poiss}(k, \lambda = r T)
 	\end{equation}
-	%
-	The waiting times $t = t_{j+1} - t_j$ are exponentially distributed, i.e. $p(t) = r \exp(-rt)$. 
+	The waiting times $t = t_{j+1} - t_j$ between subsequent events are exponentially distributed, 
+	i.e. $p(t) = r \exp(-rt)$. 
 \end{theorem}
 %
-The last property can be proven by taking a look at the CDF, for which we have 
-%
+The last property can be proven as follows: 
+% TODO: CONTINUE HERE
+by taking a look at the \textit{survival probability} $P(t \geq \theta)$, 
+i.e., the probability that no event occured since $t=0$.
+CDF, for which we have 
 \begin{equation*}
 	P(t \geq \theta + \dd{t}) = P(t \geq \theta) - r \dd{t} P(t \geq \theta)
 \end{equation*}
-%
 so that
-%
 \begin{equation*}
-	\dv{t} P(t \geq \theta) = - r \dd{t} P(t \geq \theta)  \quad \Rightarrow \quad P(t \geq \theta) \sim \exp(-r t)
+	\dv{t} P(t \geq \theta) = - r \dd{t} P(t \geq \theta) \quad \Rightarrow \quad P(t \geq \theta) \sim \exp(-r t) \quad.
 \end{equation*}
-%
-$r dt$ is dimensionless, thus $r dt \ll 1$ is meaningful. 
+Note that $r dt$ is dimensionless, thus $r dt \ll 1$ is meaningful. 
 
 
 \subsection*{Example: Gaussian White Noise}
 
 %
-\begin{theorem}[Poisson Process]
-	Gaussian White Noise is described by a function $\xi(t):\R \to \R$ with the following properties
+\begin{theorem}[Gaussian white noise]
+	Gaussian white noise is a (generalized) function $\xi(t):\R \to \R$ with the following properties
 	%
 	\begin{itemize}
 		\item[i)]{$\expval{\xi(t)} = 0$}
@@ -959,11 +966,21 @@ For a protein with $r = \SI{2}{\nano\meter}$ in water this yields $\gamma = \SI{
 
 \section{Langevin equation}
 
-Langevin theory describes non-equilibrium systems by postulating a stochastic process, thus adding a noise term to fundamental equations. In its original form, Langevin theory was used to describe Brownian motion, e.g. of a particle suspended in a fluid.
+Langevin equations are prototypical stochastic differential equations, 
+which describe a wide variety of stochastic processes 
+with many applications in different fields of physics (and beyond). 
+Usually, Langevin equations comprise a deterministic part
+that describes the dynamics in the absence of noise, 
+plus a stochastic noise term given by Gaussian white noise.
+An example would be Brownian motion of a suspended particle as discussed above,
+if the (physical) fluctuating force term is idealized as Gaussian white noise.
+The Fokker-Planck equation is a partial differential equation for the time evolution of the probability density
+of a stochastic processes given by a Langevin equation.
 
 \begin{theorem}[Definition of the Langevin equation]
 	%
-	The Langevin equation is a stochastic differential equation for the particle velocity
+	A \textit{Langevin equation} is a stochastic differential equation for a stochastic process $x(t)$
+	(e.g., the $x$-position of a diffusing particle)
 	%
 	\begin{equation}
 	\dot{x} = \underbrace{f(x)}_{\mathrm{drift}} + \underbrace{\sqrt{2D} \, \xi(t)}_{\mathrm{random \, noise}}
@@ -971,31 +988,50 @@ Langevin theory describes non-equilibrium systems by postulating a stochastic pr
 	\end{equation}
 	%
 	\begin{itemize}
-		\item $\xi(t)$ represents Gaussian white noise 
-		\item{$f(x)$ describes diffusion in an effective potential $U(x) = - \int_0^{x}{\dd{x'} f(x')}$}
+		\item{$f(x)$ is a deterministic drift term
+		\item $\xi(t)$ represents Gaussian white noise with $\expval{ \xi(t)\xi(t') } = \delta(t-t')$		
 	\end{itemize}
 	%
 \end{theorem}
 
-\subsection*{Generalisation to $m$ variables}
+We can interpret $x(t)$ as the overdamped dynamics of a particle with position $x(t)$
+in an effective potential $U(x) = - \int_0^{x}{\dd{x'} f(x')}$ subject to noise.
+(This effective potential still has physical units of an acceleration, 
+and would have to be multiplied by the friction coefficient $\gamma$ of the particle 
+to obtain the proper physical unit of a potential.)
+
+\subsection*{Generalisation to $n$ variables}
 %
+In an analogous way, we define Langevin equation for $n$ variables
 \begin{equation}
-\dot{x}_i =f_i(\vec x) + \sum_{j=1}^m g_{ij}(\vec x) \xi_j(t)
+\dot{x}_i = f_i(\vec x,t) + \sum_{j=1}^m g_{ij}(\vec x) \xi_j(t)\quad,\quad $i = 1, \dots, n$ \quad,
 \end{equation}
-%
-with $i = 1, \dots, n$ and $\xi_j(t)$ being independent Gaussian white noise functions $\expval{\xi_j(t) \xi_l(t')} = \delta_{jl} \delta(t - t')$, $j, l = 1, \dots, m$.
+where $\xi_j(t)$ are independent Gaussian white noise terms with 
+$\expval{\xi_j(t) \xi_l(t')} = \delta_{jl} \delta(t - t')$, $j, l = 1, \dots, m$.
 
 \newpage
+We announce three examples that will be treated in detail later in the lecture.
+
 \underline{Example I: Double-well Potential}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\linewidth]{Pics/doublewell_potential}
+	\includegraphics[width=0.5\linewidth]{Pics/doublewell_potential}
 	\label{fig:doublewellpotential}
 \end{figure}
-
-
-$x(t = 0) = a$ \\
+Assume, $x(t)$ obeys the Langevin equation
+$\dot{x}=-dU/dx + \xi(t)$, 
+where $U(x)$ is a double-well potential as shown in the sketch.
+Noise will cause stochastic transitions between the left and right well.
+More generally, we can consider an ensemble of realizations $x(t)$.
+with the same initial condition $x(t = 0) = a$.
+For the time-dependent probability density $p(x,t)$ of this ensemble, we thus have $p(x,t=0)=\delta(x-a)$.
+As time proceeds, this initial $\delta$-peak will broaden, until this peak has equilibrated in the right well.
+At the same time, some realizations will transition to the left well.
+At the steady-state, this current from the right to the left well is exactly balanced by a current going in the opposite direction. 
+We will show below that the steady-state distribution is given by a Boltzmann distribution % Boltzmann-like?
+$p^\ast(x) = \lim_{t\rightarrow\infty} p(x,t) \sim \exp(-U(x)/D)$.
+\\
 
 \underline{Example II: Escape over a Barrier}
 
@@ -1004,54 +1040,111 @@ $x(t = 0) = a$ \\
 	\includegraphics[width=0.7\linewidth]{Pics/escape_over_barrier}
 	\label{fig:escapeoverbarrier}
 \end{figure}
+Similarly, we can consider a potential $U(x)$ that drops to $-\infty$ for $x\gg a$,
+with this drop separated from a potential minimum at $x=0$ by a potential barrier of height $\Delta U$, 
+as shown in the sketch.
+Noise can drive a particle starting at $x(t = 0) = 0$ over the barrier.
+For an ensemble of particles, this defines an (asymptotic) \textit{escape rate},
+at which particles still in the well escape over the barrier. 
+(The backward current over the barrier back to $x\approx 0$ is negligible.)
+Later, we will compute this escape rate as function of $\Delta U$ using Kramer's escape rate theory.
+\\
 
-$x(t = 0) = 0$, escape rate? \\
+\underline{Example III: Synchronization}
 
+As an example of coupled Langevin equations, 
+we consider the synchronization of $n=2$ noisy oscillators
+with respective oscillator phases $\varphi_1(t)$ and $\varphi_2(t)$, 
+whose stochastic dynamics is given by
+\begin{align}
+\dot{\varphi}_1 &= \omega_0 + \lambda\sin(\varphi_1-\varphi_2)+\xi_1(t) \\
+\dot{\varphi}_2 &= \omega_0 - \lambda\sin(\varphi_1-\varphi_2)+\xi_2(t) \quad,
+\end{align}
+with identical angular frequency $\omega_0$, 
+a sinusoidal coupling term with coupling strength $\lambda$, 
+and independent Gaussian white noise terms $\xi_1(t)$ and $\xi_2(t)$ with
+$\langle \xi_i(t)\xi_j(t) \rangle = 2D\,\delta_{ij},\delta(t-t')$, $i,j=1,2$.
+In the absence of noise with $D=0$, the two oscillators will synchronize in-phase 
+with phase difference $\delta(t)=\varphi_1(t)-\varphi_2(t)=0$ provided $\lambda>0$. 
+In the presence of noise with $D>0$, the phase difference $\delta(t)$ will fluctuate around 
+a value $2\pi\,k$ for integer $k$ with occasional, noise-induced \textit{phase slips} during which 
+$\delta(t)$ increases in relatively short time by $\pm 2\pi$.
 
 \newpage
 \subsection*{Numerics for the Langevin Equation}
 
-\begin{theorem}[Euler Scheme]
-	The Langevin equation $\dot{x} = f(x) + \sqrt{2D} \, \xi(t)$ leads, using the Euler scheme, to the following update-rule
+We can numerically integrate Langevin equations using the Euler-Maruyama scheme, 
+which generalizes the well-known Euler scheme to the case of stochastic differential equations.
+
+\begin{theorem}[Euler-Maruyama Scheme]
+Let $t_j=j\,\dd{t}$ be equidistant time points separated by a small time step $\dd{t}$.
+We seek to estimate the value
+$\hat{x}_{j+1} \equiv x(t_j)$
+of a stochastic realization of the Langevin equation 
+$\dot{x} = f(x) + \sqrt{2D} \, \xi(t)$, 
+where $\xi(t)$ denotes Gaussian white noise with $\langle \xi(t)\xi(t')\rangle = \delta(t-t')$.
+The Euler-Maruyama scheme specifies the following update-rule
 	%
 	\begin{equation}
-	\hat{x}_{n+1} = \hat{x}_n + f(\hat{x}_n) \dd{t} + \sqrt{2 D \dd{t}} N_n
+	\hat{x}_{j+1} = \hat{x}_j + f(\hat{x}_j) \dd{t} + \sqrt{2 D \dd{t}} \Delta W_j
 	\end{equation}
 	%
-	with $D = D_0$, $t_i = i \dd{t}$, $x_i = x(t_i)$ and the independent Gaussian variables $N_n \sim N(0,1)$. The numerical error scales as $|\hat{x}_n - x_n| \sim \O{\dd{t}^{3/2}}$.
+	with independent normal distributed random numbers $\Delta W_j \sim N(0,1)$ with mean zero and variance one.
 \end{theorem}
 
-N.B. $X_{n+1} - x_n = \sqrt{2D} dw$ with $\langle \mathrm{d}w^2 \rangle = 2D \mathrm{d}t$
+\Remark: 
+For finite time step $\dd{t}$, a numerical error on the order $\O{\dd{t}^{3/2}}$ occurs.
+In the limit $\dd{t}\rightarrow 0$, we may interpret solutions of this Euler-Maruyama scheme
+as a definition of a stochastic realization of the Langevin equation $\dot{x} = f(x) + \sqrt{2D} \, \xi(t)$.
 
-Care needs to be taken if $D = D(x)$. 
-% What follows in this case?
+\Remark:
+For the numerical integration of ordinary differential equations, higher-order schemes (such as Runge-Kutta schemes) are often useful. 
+In contrast, for the numerical integration of stochastic differential equations, 
+the added complexity of higher-order schemes makes these less useful and the simple Euler-Maruyama scheme is often a good choice for practical applications. 
+Intuitively, higher-order schemes allow to reduce numerical errors, 
+but for stochastic differential equations, numerical errors are ``masked'' by the noise term anyway.
 
+%  N.B. $X_{n+1} - x_n = \sqrt{2D} dw$ with $\langle \mathrm{d}w^2 \rangle = 2D \mathrm{d}t
+% Ben did not understand this.
 
+Caution: 
+Care needs to be taken in cases where the noise strength depends on the current state, i.e., $D = D(x)$, 
+because different update schemes give different results in this case, 
+corresponding to different ``interpretations'' of the Langevin equation, 
+see later chapter on Ito and Stratonovich calculus.
+
+% ------------------------------------------------------------------------------------------------------------
 \section{Fokker-Planck-Equation}
+
+We are interested in the time evolution of an \textit{ensemble} of realizations $x(t)$ of a Langevin equation, 
+which is characterized by a time-dependent \textit{probability density} $p(x,t)$.
+We will derive a partial differential equation that describes the time-evolution of $p(x,t)$, 
+the famous Fokker-Planck equation.
+
+\underline{Example: Diffusion equation}
+The diffusion equation of a freely diffusing particle already is an example of a Fokker-Planck equation.
+We consider a particle diffusing in one space dimension with position $x(t)$, 
+described by the Langevin equation
+\begin{equation}
+\dot{x} = \xi(t) \quad, 
+\end{equation}
+where $\xi(t)$ is Gaussian white noise with $\langle \xi(t)\xi(t')\rangle = 2D\,\delta(t-t')$.
+For the initial condition $x(0) = 0$, 
+the probability density is given by normal distribution with time-dependent variance
+\begin{equation}
+p(x,t) = \frac{1}{\sqrt{2 \pi}} \frac{1}{\sqrt{2 D t}} \exp(-\frac{x^2}{4 D t}) \quad.
+\end{equation}
+Note $\expval{x(t)} = 0$ and $\expval{x^2(t)} = 2D\, t$.
+This probability density satisfies the \textit{diffusion equation}
+\begin{equation}
+\pdv{p(x,t)}{t} = D \pdv[2]{p(x,t)}{x} \quad.
+\end{equation}
+In fact, we could have started with any initial probability distribution $p(x,t=0)$ 	
+and the time evolution will still be given by the diffusion equation. % TODO: add label
 
 \subsection*{Derivation of Fokker-Planck-Equation}
 
-\begin{remark}[Repetition: Ordinary Diffusion]
-	
-	For the example of ordinary diffusion in one space dimension
-	%
-	\begin{equation}
-	\dot{x} = \xi(t), \, x(0) = 0 \quad \mathrm{with} \quad \expval{x(t)} = 0, \, \expval{x^2(t)} = 2 D t
-	\end{equation}
-	%
-	the probability density is given by
-	%
-	\begin{equation}
-	p(x,t) = \frac{1}{\sqrt{2 \pi}} \frac{1}{\sqrt{2 D t}} \exp(-\frac{x^2}{4 D t})
-	\end{equation}
-	%
-	fulfilling the Diffusion equation
-	%
-	\begin{equation}
-	\pdv{p(x,t)}{t} = D \pdv[2]{p(x,t)}{x}
-	\end{equation}
-	%
-\end{remark}
+% Ben stopped here on Nov 2nd (to be continued)
 
 Considering the general case $\dot{x} = f(x) + \sqrt{2D} \, \xi(t)$, we would like to find an operator $\hat{L}$ such that
 %

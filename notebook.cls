@@ -38,6 +38,7 @@ captions=tableheading, 														% table heading above the table
 \RequirePackage{setspace} 													% controll space between lines
 
 \RequirePackage{scrpage2} 													% header and footer
+% \RequirePackage{scrlayer-scrpage}
 \pagestyle{scrheadings} \clearscrheadfoot 
 \ofoot{\pagemark} 															% header: chapter name inside, page number outside
 
