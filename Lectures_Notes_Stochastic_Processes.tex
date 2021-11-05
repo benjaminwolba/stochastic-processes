@@ -18,8 +18,9 @@
 \newcommand{\Exercise}{\textit{Exercise}}
 
 % useful commands
-\newcommand{\N}{\mathcal{N}}
-\newcommand{\wh}[1]{\widehat{#1}} 
+% \newcommand{\N}{\mathcal{N}}
+% \newcommand{\wh}[1]{\widehat{#1}} 
+% Benjamin: these were already defined in notebook.cls 
 
 \title{\color{bluebase} Lecture Notes on\\ Stochastic Processes}  
 % \author{Prof. Dr. Benjamin M. Friedrich, Dr. Benjamin Wolba}                 
@@ -258,7 +259,7 @@ The moments and cumulants of the normal distribution are given by
 \end{gather*}
 The cumulative probability distribution function CDF of the normal distribution 
 with mean zero, $\mu=0$, and unit variance, $\sigma^2=1$,
-has its own name, \textit{error function}, abbreviated $\Erf(x)$.
+has its own name, \textit{error function}, abbreviated $\mathrm{erf}(x)$.
 The importance of the normal distribution stems from the fact that 
 many other probability distributions can be approximated by a normal distribution in a suitable limit.
 
@@ -343,28 +344,30 @@ Power-law distributions have some unpleasant mathematical properties,
 such as a divergent variance $\sigma^2 \to \infty $ for $\alpha < 3$.
 
 \subsection{Empirical mean and empirical standard deviation}
-We consider a sequence $n$ of $x_1, ... x_n$ of independent, identically distributed, random variables 
-with mean $\mu$ and variance $\sigma^2$. 
-(One may think of the same experiment repeated $n$ times under identical conditions.)
+
+We consider a sequence $n$ of $x_1, ... x_n$ of independent, identically distributed, random variables with mean $\mu$ and variance $\sigma^2$.  (One may think of the same experiment repeated $n$ times under identical conditions.)
 We define the \textit{empirical mean} by
+%
 \begin{equation}
 \bar{x} = \frac{1}{n}(x_1 + \dots + x_n) = \text{empirical mean} \quad,
 \end{equation}
+%
 and the \textit{empirical variance} by 
+%
 \begin{equation}
 \widehat{\sigma}^2 = \frac{1}{n-1} \left(
-	\left(x_1-\bar{x}\right)^2  + \dots + (x_n-\ol{x}\right)^2) 
+	\left(x_1-\bar{x}\right)^2  + \dots + \left(x_n-\bar{x}\right)^2
 	\right)
 	= \text{empirical variance} \quad.
 \end{equation}
+%
 Of course, $\bar{x}$ and $\widehat{\sigma}^2$ are now themselves random variables.
 
 Obviously, 
 \begin{equation}
 \left\langle \bar{x} \right\rangle = \mu \quad,
 \end{equation}
-i.e., the expectation value of the empirical mean equals the true mean.
-One says that $\bar{x}$ is \textit{faithful} estimator of $\mu$.
+i.e., the expectation value of the empirical mean equals the true mean. One says that $\bar{x}$ is \textit{faithful} estimator of $\mu$.
 
 Similarly, for the special case that the $x_j$ are normally distributed, 
 $x_j\sim\mathcal{N}(\mu,\sigma^2)$,
@@ -979,19 +982,18 @@ of a stochastic processes given by a Langevin equation.
 
 \begin{theorem}[Definition of the Langevin equation]
 	%
-	A \textit{Langevin equation} is a stochastic differential equation for a stochastic process $x(t)$
-	(e.g., the $x$-position of a diffusing particle)
+	A \textit{Langevin equation} is a stochastic differential equation for a stochastic process $x(t)$ (e.g., the $x$-position of a diffusing particle)
 	%
 	\begin{equation}
-	\dot{x} = \underbrace{f(x)}_{\mathrm{drift}} + \underbrace{\sqrt{2D} \, \xi(t)}_{\mathrm{random \, noise}}
-	\label{langevin}
+		\dot{x} = \underbrace{f(x)}_{\mathrm{drift}} + \underbrace{\sqrt{2D} \, \xi(t)}_{\mathrm{random \, noise}}
+		\label{langevin}
 	\end{equation}
 	%
 	\begin{itemize}
-		\item{$f(x)$ is a deterministic drift term
-		\item $\xi(t)$ represents Gaussian white noise with $\expval{ \xi(t)\xi(t') } = \delta(t-t')$		
-	\end{itemize}
-	%
+		\item $f(x)$ is a deterministic drift term
+		\item $\xi(t)$ represents Gaussian white noise with $\expval{\xi(t)\xi(t')} = \delta(t-t')$	
+		\end{itemize}
+		%
 \end{theorem}
 
 We can interpret $x(t)$ as the overdamped dynamics of a particle with position $x(t)$
@@ -1000,16 +1002,16 @@ in an effective potential $U(x) = - \int_0^{x}{\dd{x'} f(x')}$ subject to noise.
 and would have to be multiplied by the friction coefficient $\gamma$ of the particle 
 to obtain the proper physical unit of a potential.)
 
-\subsection*{Generalisation to $n$ variables}
+\subsection*{Generalization to $n$ variables}
 %
 In an analogous way, we define Langevin equation for $n$ variables
 \begin{equation}
-\dot{x}_i = f_i(\vec x,t) + \sum_{j=1}^m g_{ij}(\vec x) \xi_j(t)\quad,\quad $i = 1, \dots, n$ \quad,
+\dot{x}_i = f_i(\vec x,t) + \sum_{j=1}^m g_{ij}(\vec x) \xi_j(t)\quad,\quad i = 1, \dots, n \quad,
 \end{equation}
 where $\xi_j(t)$ are independent Gaussian white noise terms with 
 $\expval{\xi_j(t) \xi_l(t')} = \delta_{jl} \delta(t - t')$, $j, l = 1, \dots, m$.
 
-\newpage
+
 We announce three examples that will be treated in detail later in the lecture.
 
 \underline{Example I: Double-well Potential}
@@ -1125,22 +1127,30 @@ the famous Fokker-Planck equation.
 The diffusion equation of a freely diffusing particle already is an example of a Fokker-Planck equation.
 We consider a particle diffusing in one space dimension with position $x(t)$, 
 described by the Langevin equation
+%
 \begin{equation}
 \dot{x} = \xi(t) \quad, 
 \end{equation}
+%
 where $\xi(t)$ is Gaussian white noise with $\langle \xi(t)\xi(t')\rangle = 2D\,\delta(t-t')$.
 For the initial condition $x(0) = 0$, 
 the probability density is given by normal distribution with time-dependent variance
+%
 \begin{equation}
 p(x,t) = \frac{1}{\sqrt{2 \pi}} \frac{1}{\sqrt{2 D t}} \exp(-\frac{x^2}{4 D t}) \quad.
 \end{equation}
+%
 Note $\expval{x(t)} = 0$ and $\expval{x^2(t)} = 2D\, t$.
 This probability density satisfies the \textit{diffusion equation}
+%
 \begin{equation}
 \pdv{p(x,t)}{t} = D \pdv[2]{p(x,t)}{x} \quad.
+\label{eq:diffusion}
 \end{equation}
+%
 In fact, we could have started with any initial probability distribution $p(x,t=0)$ 	
-and the time evolution will still be given by the diffusion equation. % TODO: add label
+and the time evolution will still be given by the diffusion equation (\ref{eq:diffusion}). 
+
 
 \subsection*{Derivation of Fokker-Planck-Equation}
 

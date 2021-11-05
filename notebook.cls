@@ -177,6 +177,7 @@ captions=tableheading, 														% table heading above the table
 \usepackage{physics}														% typesetting equations for physics 
 \newcommand{\nab}{\vec{\nabla}}
 \newcommand{\1}{\hat{1}}
+\newcommand{\wh}[1]{\widehat{#1}} 
 
 % https://tex.stackexchange.com/questions/120029/how-to-typeset-a-primed-vector
 % use this as \pvec{v}' or \pvec{v}''
