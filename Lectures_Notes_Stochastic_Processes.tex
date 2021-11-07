@@ -78,8 +78,10 @@ with $P(\{\text{head}\})=P(\{\text{tail}\})=1/2$.
 (We will often use sloppy notation $p(\text{head})$ for sets $A$ with only single element.)\\
 \Example 2: Perfect dice: $X=\{1,2,3,4,5,6\}$, $P(\{1,2\})=P(1)+P(2)=1/3$
 
-\Remark: The above axioms apply to `nice' subsets $A\subset X$. If $X$ is a finite set, all subsets are `nice'; 
-only if $X$ is uncountably infinite (like the set of real numbers $\R$), there are subsets that are too `wild' and need to be excluded.
+\Remark: The above axioms apply to `nice' subsets $A\subset X$. If $X$ is a finite set, all subsets are `nice'; only if $X$ is uncountably infinite (like the set of real numbers $\R$), there are subsets that are too `wild' and need to be excluded.
+
+% TODO: integrate this sentence:
+% A random variable takes values in a set $X$, e.g. a set of measurement outcomes, that cannot be predicted, e.g. due to a lack/uncertainty of initial conditions, too large complexity of the system or other factors. Here, $X$ may be discrete (e.g. $X = \Z$) or continuous (e.g. $X = \R$).
 
 \begin{theorem}[Independent random variables]
 Suppose a first random experiment yields a random outcome $x_1\in X_1$ from a set of possible outcomes $X_1$,
@@ -517,11 +519,7 @@ p(k,n) \approx \frac{1}{\sqrt{2 \pi \sigma^2}} \exp(-\frac{(k-np)^2}{2 \sigma^2}
 with $\sigma^2 = npq$.
 
 
-\newpage
 \section{Stochastic Processes}
-
-% A random variable takes values in a set $X$, e.g. a set of measurement outcomes, that cannot be predicted, e.g. due to a lack/uncertainty of initial conditions, too large complexity of the system or other factors. Here, $X$ may be discrete (e.g. $X = \Z$) or continuous (e.g. $X = \R$). 
-% COMMENT-BEN: Why do we need this sentence here? We introduced random variables already in the preceeding chapter.
  
 Stochastic processes describe the stochastic evolution of a random variable as function of time $t$.
 Stochastic processes have applications 
@@ -562,6 +560,7 @@ and finance, e.g., to forcast the variability of stock prices.
 %
 The last property can be proven as follows: 
 % TODO: CONTINUE HERE
+% @Ben: What to continue here? Is it a remark for the lecture? 
 by taking a look at the \textit{survival probability} $P(t \geq \theta)$, 
 i.e., the probability that no event occured since $t=0$.
 CDF, for which we have 
@@ -635,9 +634,6 @@ Consider for example a Poisson process with rate $r$. The total number of events
 	\caption{Relation between different stochastic processes and their corresponding distributions.}
 	\label{fig:overviewstochasticprocesses}
 \end{figure}
-
-
-
 
 
 \chapter{Diffusion \& Random Walk}
@@ -776,7 +772,6 @@ with the mean square spread $\sigma^2 \sim k t$, which is a spherically symmetri
 \end{theorem}
 %
 
-\newpage
 \section{Random Force Model}
 
 Another approach to diffusion is to consider a colloidal particle suspended in a fluid that is experiencing random forces $f(t)$ due to the interaction with the fluid molecules. 
