@@ -967,18 +967,20 @@ For a protein with $r = \SI{2}{\nano\meter}$ in water this yields $\gamma = \SI{
 
 \chapter{Langevin Equation and Fokker-Planck Equation}
 
-\section{Langevin equation}
+% TODO Suggestion: 
+% We could add here a general introduction to what is an "ensemble" and how the Langevin and FP-equations delivers description on different levels, i.e. for a single realization or an entire ensemble
 
-Langevin equations are prototypical stochastic differential equations, 
-which describe a wide variety of stochastic processes 
-with many applications in different fields of physics (and beyond). 
+
+\section{Langevin Equation}
+
+Langevin equations are prototypical stochastic differential equations, which describe a wide variety of stochastic processes with many applications in different fields of physics (and beyond). 
+
 Usually, Langevin equations comprise a deterministic part
 that describes the dynamics in the absence of noise, 
 plus a stochastic noise term given by Gaussian white noise.
-An example would be Brownian motion of a suspended particle as discussed above,
-if the (physical) fluctuating force term is idealized as Gaussian white noise.
-The Fokker-Planck equation is a partial differential equation for the time evolution of the probability density
-of a stochastic processes given by a Langevin equation.
+An example would be the Brownian motion of a suspended particle as discussed above, if the (physical) fluctuating force term is idealized as Gaussian white noise.
+
+In addition, we will introduce the Fokker-Planck equation: A partial differential equation describing the time evolution of the probability density of an ensemble of realizations of a stochastic process. 
 
 \begin{theorem}[Definition of the Langevin equation]
 	%
@@ -997,45 +999,42 @@ of a stochastic processes given by a Langevin equation.
 \end{theorem}
 
 We can interpret $x(t)$ as the overdamped dynamics of a particle with position $x(t)$
-in an effective potential $U(x) = - \int_0^{x}{\dd{x'} f(x')}$ subject to noise.
-(This effective potential still has physical units of an acceleration, 
+in an effective potential $U(x) = - \int_0^{x}{\dd{x'} f(x')}$ subject to noise. This effective potential still has physical units of an acceleration, 
 and would have to be multiplied by the friction coefficient $\gamma$ of the particle 
-to obtain the proper physical unit of a potential.)
+to obtain the proper physical unit of a potential.
 
 \subsection*{Generalization to $n$ variables}
 %
-In an analogous way, we define Langevin equation for $n$ variables
+Analogously, we define Langevin equation for $n$ variables
 \begin{equation}
 \dot{x}_i = f_i(\vec x,t) + \sum_{j=1}^m g_{ij}(\vec x) \xi_j(t)\quad,\quad i = 1, \dots, n \quad,
 \end{equation}
 where $\xi_j(t)$ are independent Gaussian white noise terms with 
 $\expval{\xi_j(t) \xi_l(t')} = \delta_{jl} \delta(t - t')$, $j, l = 1, \dots, m$.
 
+We announce three examples that will be treated in detail later in the lecture. \\
 
-We announce three examples that will be treated in detail later in the lecture.
-
-\underline{Example I: Double-well Potential}
+\subsection*{Example I: Double-well Potential}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\linewidth]{Pics/doublewell_potential}
 	\label{fig:doublewellpotential}
 \end{figure}
-Assume, $x(t)$ obeys the Langevin equation
+%
+We assume that $x(t)$ obeys the Langevin equation
 $\dot{x}=-dU/dx + \xi(t)$, 
 where $U(x)$ is a double-well potential as shown in the sketch.
 Noise will cause stochastic transitions between the left and right well.
 More generally, we can consider an ensemble of realizations $x(t)$.
 with the same initial condition $x(t = 0) = a$.
-For the time-dependent probability density $p(x,t)$ of this ensemble, we thus have $p(x,t=0)=\delta(x-a)$.
-As time proceeds, this initial $\delta$-peak will broaden, until this peak has equilibrated in the right well.
-At the same time, some realizations will transition to the left well.
-At the steady-state, this current from the right to the left well is exactly balanced by a current going in the opposite direction. 
-We will show below that the steady-state distribution is given by a Boltzmann distribution % Boltzmann-like?
-$p^\ast(x) = \lim_{t\rightarrow\infty} p(x,t) \sim \exp(-U(x)/D)$.
-\\
 
-\underline{Example II: Escape over a Barrier}
+For the time-dependent probability density $p(x,t)$ of this ensemble, we thus have $p(x,t=0)=\delta(x-a)$. As time proceeds, this initial $\delta$-peak will broaden, until this peak has equilibrated in the right well.
+At the same time, some realizations will transition to the left well. At the steady-state, this current from the right to the left well is exactly balanced by a current going in the opposite direction. 
+
+We will show below that the steady-state distribution is given by a Boltzmann-like distribution $p^\ast(x) = \lim_{t\rightarrow\infty} p(x,t) \sim \exp(-U(x)/D)$. \\
+
+\subsection*{Example II: Escape over a Barrier}
 
 \begin{figure}[H]
 	\centering
@@ -1043,16 +1042,14 @@ $p^\ast(x) = \lim_{t\rightarrow\infty} p(x,t) \sim \exp(-U(x)/D)$.
 	\label{fig:escapeoverbarrier}
 \end{figure}
 Similarly, we can consider a potential $U(x)$ that drops to $-\infty$ for $x\gg a$,
-with this drop separated from a potential minimum at $x=0$ by a potential barrier of height $\Delta U$, 
-as shown in the sketch.
-Noise can drive a particle starting at $x(t = 0) = 0$ over the barrier.
-For an ensemble of particles, this defines an (asymptotic) \textit{escape rate},
-at which particles still in the well escape over the barrier. 
-(The backward current over the barrier back to $x\approx 0$ is negligible.)
-Later, we will compute this escape rate as function of $\Delta U$ using Kramer's escape rate theory.
-\\
+where this drop is separated from a potential minimum at $x=0$ by a potential barrier of height $\Delta U$,  as shown in the sketch above.
 
-\underline{Example III: Synchronization}
+Noise can drive a particle starting at $x(t = 0) = 0$ over the barrier. For an ensemble of particles, this defines an (asymptotic) \textit{escape rate}, at which particles still in the well escape over the barrier. The backward current over the barrier back to $x\approx 0$ is negligible.
+
+In section \ref{sec:kramerstheory}, we will compute this escape rate as function of $\Delta U$ using Kramer's escape rate theory. \\
+
+
+\subsection*{Example III: Synchronization}
 
 As an example of coupled Langevin equations, 
 we consider the synchronization of $n=2$ noisy oscillators
@@ -1066,13 +1063,12 @@ with identical angular frequency $\omega_0$,
 a sinusoidal coupling term with coupling strength $\lambda$, 
 and independent Gaussian white noise terms $\xi_1(t)$ and $\xi_2(t)$ with
 $\langle \xi_i(t)\xi_j(t) \rangle = 2D\,\delta_{ij},\delta(t-t')$, $i,j=1,2$.
+
 In the absence of noise with $D=0$, the two oscillators will synchronize in-phase 
 with phase difference $\delta(t)=\varphi_1(t)-\varphi_2(t)=0$ provided $\lambda>0$. 
-In the presence of noise with $D>0$, the phase difference $\delta(t)$ will fluctuate around 
-a value $2\pi\,k$ for integer $k$ with occasional, noise-induced \textit{phase slips} during which 
-$\delta(t)$ increases in relatively short time by $\pm 2\pi$.
+In the presence of noise with $D>0$, the phase difference $\delta(t)$ will fluctuate around  a value $2\pi\,k$ for integer $k$ with occasional, noise-induced \textit{phase slips} during which  $\delta(t)$ increases in relatively short time by $\pm 2\pi$.
 
-\newpage
+
 \subsection*{Numerics for the Langevin Equation}
 
 We can numerically integrate Langevin equations using the Euler-Maruyama scheme, 
@@ -1091,13 +1087,12 @@ The Euler-Maruyama scheme specifies the following update-rule
 	\hat{x}_{j+1} = \hat{x}_j + f(\hat{x}_j) \dd{t} + \sqrt{2 D \dd{t}} \Delta W_j
 	\end{equation}
 	%
-	with independent normal distributed random numbers $\Delta W_j \sim N(0,1)$ with mean zero and variance one.
+	with independent normal distributed random numbers $\Delta W_j \sim N(0,1)$ having mean zero and variance one.
 \end{theorem}
 
 \Remark: 
-For finite time step $\dd{t}$, a numerical error on the order $\O{\dd{t}^{3/2}}$ occurs.
-In the limit $\dd{t}\rightarrow 0$, we may interpret solutions of this Euler-Maruyama scheme
-as a definition of a stochastic realization of the Langevin equation $\dot{x} = f(x) + \sqrt{2D} \, \xi(t)$.
+For a finite time step $\dd{t}$, a numerical error on the order $\O{\dd{t}^{3/2}}$ occurs.
+In the limit $\dd{t}\rightarrow 0$, we may interpret solutions of this Euler-Maruyama scheme as a definition of a stochastic realization of the Langevin equation $\dot{x} = f(x) + \sqrt{2D} \, \xi(t)$.
 
 \Remark:
 For the numerical integration of ordinary differential equations, higher-order schemes (such as Runge-Kutta schemes) are often useful. 
@@ -1105,9 +1100,6 @@ In contrast, for the numerical integration of stochastic differential equations,
 the added complexity of higher-order schemes makes these less useful and the simple Euler-Maruyama scheme is often a good choice for practical applications. 
 Intuitively, higher-order schemes allow to reduce numerical errors, 
 but for stochastic differential equations, numerical errors are ``masked'' by the noise term anyway.
-
-%  N.B. $X_{n+1} - x_n = \sqrt{2D} dw$ with $\langle \mathrm{d}w^2 \rangle = 2D \mathrm{d}t
-% Ben did not understand this.
 
 Caution: 
 Care needs to be taken in cases where the noise strength depends on the current state, i.e., $D = D(x)$, 
@@ -1118,12 +1110,10 @@ see later chapter on Ito and Stratonovich calculus.
 % ------------------------------------------------------------------------------------------------------------
 \section{Fokker-Planck-Equation}
 
-We are interested in the time evolution of an \textit{ensemble} of realizations $x(t)$ of a Langevin equation, 
-which is characterized by a time-dependent \textit{probability density} $p(x,t)$.
-We will derive a partial differential equation that describes the time-evolution of $p(x,t)$, 
-the famous Fokker-Planck equation.
+We are interested in the time evolution of an \textit{ensemble} of realizations $x(t)$ of a Langevin equation,  which is characterized by a time-dependent \textit{probability density} $p(x,t)$. We will derive a partial differential equation that describes the time-evolution of $p(x,t)$, the famous \textit{Fokker-Planck equation}.
 
-\underline{Example: Diffusion equation}
+\subsection*{Example: Diffusion equation}
+
 The diffusion equation of a freely diffusing particle already is an example of a Fokker-Planck equation.
 We consider a particle diffusing in one space dimension with position $x(t)$, 
 described by the Langevin equation
@@ -1134,13 +1124,13 @@ described by the Langevin equation
 %
 where $\xi(t)$ is Gaussian white noise with $\langle \xi(t)\xi(t')\rangle = 2D\,\delta(t-t')$.
 For the initial condition $x(0) = 0$, 
-the probability density is given by normal distribution with time-dependent variance
+the probability density is given by a normal distribution with time-dependent variance
 %
 \begin{equation}
 p(x,t) = \frac{1}{\sqrt{2 \pi}} \frac{1}{\sqrt{2 D t}} \exp(-\frac{x^2}{4 D t}) \quad.
 \end{equation}
 %
-Note $\expval{x(t)} = 0$ and $\expval{x^2(t)} = 2D\, t$.
+Note that $\expval{x(t)} = 0$ and $\expval{x^2(t)} = 2D\, t$.
 This probability density satisfies the \textit{diffusion equation}
 %
 \begin{equation}
@@ -1205,7 +1195,7 @@ Inserting this into the convolution integral leads to
 	&= p(x) \int \dd{y} n(x,y) - \pdv{x} \left(p(x) \int \dd{y} n(x,y) \, y \right) + \pdv[2]{x} \left(p(x) \int \dd{y} n(x,y) \, \frac{y^2}{2} \right)
 \end{align*}
 %
-The integrals that are occurring in this step are know as Kramers-Moyal coefficients:
+The integrals occurring in this step are know as Kramers-Moyal coefficients:
 %
 \begin{align*}
 	&\int \dd{y} n(x,y) = 1 \\
@@ -1237,7 +1227,8 @@ Taking the time step to zero, we have finally derived the Fokker-Planck equation
 	%
 \end{theorem}
 %
-The structure of the Fokker-Planck equation is similar to the Schrödinger equation, i.e. solution methods from QM can be borrowed (take a look at the Risken book \cite{Risken1996}). 
+The structure of the Fokker-Planck equation is similar to the Schrödinger equation, i.e. solution methods from quantum mechanics can be borrowed (take a look at the Risken book \cite{Risken1996}). 
+
 
 \subsection*{Application to Diffusion in a Potential}
 
@@ -1255,7 +1246,7 @@ and ask for the steady state $\pdv{t} p(x,t) = 0$. Hence, the Fokker-Planck equa
 	\Rightarrow c &= \frac{1}{\gamma} \nab U p + D \nab p
 \end{align*}
 %
-thus, if $c = 0$, we get
+Thus, if $c = 0$, we get
 %
 \begin{equation}
 \pdv{x} \ln p = \frac{\nab p}{p} = - \frac{1}{\gamma} \frac{\nab U}{p}
@@ -1267,7 +1258,9 @@ and
 p \sim \exp(-\frac{U}{\gamma D}) = \exp(-\frac{U}{k_B T})
 \end{equation}
 %
-with $D = \frac{k_B T}{\gamma}$, i.e. we recover the Boltzmann distribution. If $c$ would not be zero, the solution could not be normalized. Another explanation, why $c = 0$, is based on the Fokker-Planck-equation being interpreted as conservation equation 
+with $D = \frac{k_B T}{\gamma}$, i.e. we recover the Boltzmann distribution. If $c$ would not be zero, the solution could not be normalized. 
+
+Another explanation, why $c = 0$, is based on the Fokker-Planck-equation being interpreted as conservation equation 
 %
 \begin{equation}
 \dot{p} = - \nab \vec{J} \quad \mathrm{with} \quad \vec{J} = \frac{1}{\gamma} \nab U p + D \nab p
@@ -1309,7 +1302,7 @@ If $\lambda_n \neq 0$, then $\int  \mathrm{d}x \phi_n(x)  = 0$ and $\exists x: \
 So $0 \geq p(x,t)$ and thus $\Re(\lambda_n) \leq 0$
 \end{comment}
 
-But why are the $\lambda_n$ real? We have $\hat{L} \neq \hat{L}^*$, which means $\hat{L}$ is not Hermitian.
+But why are the $\lambda_n$ real? We have $\hat{L} \neq \hat{L}^*$, which means $\hat{L}$ is not Hermitian:
 %
 \begin{equation}
 \expval{\hat{L}g,h}= \int \dd{x} (\hat{L}g)h = \int \dd{x} g \hat{L}^*h = \expval{g,\hat{L}^* h} \quad \forall g(x), h(x)
@@ -1385,7 +1378,6 @@ The master equation (M-equation) describes time-continuous, continuous state var
 \end{equation}
 %
 
-
 $w(x|x_1)$ is the transition rate density for the process $x_1 \to x_2$, i.e. $w(x|x_1) \Delta x_1 \Delta x_2 \Delta t$ is the probability of a transition from $[x_1, x_1 + \Delta x_1]$ to $[x_2, x_2 + \Delta x_2]$ in the time interval $\Delta t$
 
 The Fokker-Planck equation is a special case of the master equation. 
@@ -1401,14 +1393,16 @@ where $w_{nm}$ is the transition rate $m \to n$.
 
 \subsection*{Example I: Fermi's Golden Rule}
 
-Let $\hat{H} = \hat{H}_0 + \varepsilon \hat{H}_1 \Theta(t)$ be a perturbed Hamiltonian and $| m_0 \langle$ be an eigenstate of the unperturbed Hamiltonian $\hat{H}_0$ and the initial state.
+Let $\hat{H} = \hat{H}_0 + \varepsilon \hat{H}_1 \Theta(t)$ be a perturbed Hamiltonian and $| m_0 \rangle$ be an eigenstate of the unperturbed Hamiltonian $\hat{H}_0$ and the initial state.
 
 The transition rate $m_0 \to n$ is given by Fermi's Golden rule
 %
 \begin{equation}
-	w_{nm_0} = \frac{2\pi}{\hbar} \varepsilon^2 |\langle n | \hat{H}_1 | \rangle| \rho + \mathbb{O}(\varepsilon^4)
+	w_{nm_0} = \frac{2\pi}{\hbar} \varepsilon^2 |\langle n | \hat{H}_1 | m_0 \rangle| \rho + \mathbb{O}(\varepsilon^4)
 \end{equation}
 %
+
+% TODO: Needs to be elaborated further, how is this related to / an example of a Master equation
 
 \subsection*{Example II: Radioactive Decay}
 
@@ -1518,6 +1512,7 @@ If we assume $\lim_{x\to -\infty} U(x) = +\infty$, then $|v| < \infty$ and $c = 
 Note that the integration constant of the second integration must be zero due to $\tau(x_2 | x_2) = 0$
 
 \section{Kramers Escape Rate Theory}
+\label{sec:kramerstheory}
 
 We consider the escape of particles over an energy barrier $\Delta E$ and assume $\beta \Delta E \gg 1$ to calculate $\tau(x_2|x_1)$. $\int \dd{x''}$ is sizeable only nearby $x_a$, $\int \dd{x'}$ is sizeable only nearby $x_b$. We do a standard trick: quadratic expansion around $x_a$ and $x_b$
 %
