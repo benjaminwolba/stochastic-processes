@@ -51,16 +51,11 @@
 
 \section{Mathematical Foundations}
 
-\textit{Probability} is a concept based on an idealization, 
-namely the idea of a random experiment. 
-An \textit{ideal random experiment} can be repeated indefinitely often;
-for each realization, the outcome is unpredictable, 
-but each specific outcome occurs with a constant relative frequency, the \textit{probability} of this outcome.
-Examples include tossing a fair coin or a perfect dice.
-Usually, real physical experiments can only be approximated as random experiments, 
-but this approximation is nonetheless surprisingly useful, see Sec.~\ref{X}.
-In mathematics, an axiomatic definition of probability ignores these nuances 
-and just gives the necessary calculation rules. 
+\subsection*{Probability}
+
+\textit{Probability} is a concept based on an idealization, namely the idea of a random experiment.  An \textit{ideal random experiment} can be repeated indefinitely often; for each realization, the outcome is unpredictable, but each specific outcome occurs with a constant relative frequency, the \textit{probability} of this outcome. Examples include tossing a fair coin or a perfect dice.
+
+Usually, real physical experiments can only be approximated as random experiments,  but this approximation is nonetheless surprisingly useful, see Sec.~\ref{X}. In mathematics, an axiomatic definition of probability ignores these nuances  and just gives the necessary calculation rules. 
 
 \begin{theorem}[Concept: Probability]
 	Let $X$ be a set of outcomes of a random experiment, 
@@ -73,32 +68,60 @@ and just gives the necessary calculation rules.
 	\end{enumerate}
 	%
 \end{theorem}
+
 \Example 1: For a fair coin, the set of possible outcomes is $X=\{\text{head},\text{tail}\}$
 with $P(\{\text{head}\})=P(\{\text{tail}\})=1/2$. 
 (We will often use sloppy notation $p(\text{head})$ for sets $A$ with only single element.)\\
 \Example 2: Perfect dice: $X=\{1,2,3,4,5,6\}$, $P(\{1,2\})=P(1)+P(2)=1/3$
 
-\Remark: The above axioms apply to `nice' subsets $A\subset X$. If $X$ is a finite set, all subsets are `nice'; only if $X$ is uncountably infinite (like the set of real numbers $\R$), there are subsets that are too `wild' and need to be excluded.
+\Remark: The above axioms apply to `nice' subsets $A \subset X$. If $X$ is a finite set, all subsets are `nice'; only if $X$ is uncountably infinite (like the set of real numbers $\R$), there are subsets that are too `wild' and need to be excluded.
 
-% TODO: integrate this sentence:
-% A random variable takes values in a set $X$, e.g. a set of measurement outcomes, that cannot be predicted, e.g. due to a lack/uncertainty of initial conditions, too large complexity of the system or other factors. Here, $X$ may be discrete (e.g. $X = \Z$) or continuous (e.g. $X = \R$).
 
-\begin{theorem}[Independent random variables]
-Suppose a first random experiment yields a random outcome $x_1\in X_1$ from a set of possible outcomes $X_1$,
-while a second experiment yields $x_2\in X_2$ from a second set of possible outcomes $X_2$.
-We can combine these into a single random variable $x=(x_1,x_2)$ that takes values in the 
-product set $X=X_1 \times X_2$ and consider the probability $P(A)$ defined on subsets $A\subseteq X$.
-The probability $P(x_1)$ of $x_1$ is then given by the \textit{marginal} probability
-$P(x_1)=P(\{x_1\}\times X_2)$, i.e., 
-the probability of the set of all $x=(x_1,x_2)$,
-where the first component has the definite value $x_1$ and the second component $x_2$ is arbitrary.
-The probability $P(x_2)$ of $x_2$ is defined analogously. 
-We say the random variables $x_1$ and $x_2$ are \textit{independent} if and only if
-\begin{equation}
-P(x_1,x_2) = P(x_1)P(x_2) \quad. 
-\end{equation}
+\subsection*{Random Variables}
+
+Usually, we are not only interested in the outcomes of a random experiment or combinations thereof, but also the implications they might have – which might be quantified by a value and brings us to the concept of a \textit{random variable}.
+
+\begin{theorem}[Random Variables]
+	%
+	A random variable is a measurable function $f:X \to E$ from a set of possible outcomes $X$ to a measurable space $E$, i.e., it assigns values (from $E$) to the outcomes $X$ of an experiment. I can be either discrete (countable image set, e.g. $E = \Z$) or continuous (uncountable image set, e.g. $E = \R$)
+
+	% A random variable takes values in a set $X$, e.g. a set of measurement outcomes, that cannot be predicted, e.g. due to a lack/uncertainty of initial conditions, too large complexity of the system or other factors. Here, $X$ may be discrete (e.g. $X = \Z$) or continuous (e.g. $X = \R$).
+	%
 \end{theorem}
-% TODO: can this be made simpler? BMF was surprised how tricky it actually is to define the term 'independent' in mathematically correct form
+%
+Unlike an algebraic variable, whose value is well-determined by an equation, a random variable cannot be predicted, for example due to a lack/uncertainty of initial conditions, too large complexity of the system or other factors. 
+
+Examples for a random variable include 
+%
+\begin{itemize}
+	\item the measurement outcome itself, i.e. 'head' or 'tail' for flipping a coin, when $X = E$
+	\item combinations of measurement outcomes: e.g. the sum of rolling two dices 
+	\item in practice: stock prices, heart rate, $\dots$ 
+\end{itemize}
+%
+
+An important concept is the independence of two random variables:
+
+\begin{theorem}[Independent Random Variables]
+	%
+	Suppose a random experiment yields a random outcome $x_1\in X_1$, while another experiment yields $x_2\in X_2$. We can combine these into a single random variable $x=(x_1,x_2)$ that takes values in the product set $X=X_1 \times X_2$ and consider the probability $P(A)$ defined on subsets $A\subseteq X$. 
+	
+	The probability $P(x_1)$ of $x_1$ is then given by the \textit{marginal} probability $P(x_1)=P(\{x_1\}\times X_2)$, i.e.,  the probability of the set of all $x=(x_1,x_2)$, where the first component has the definite value $x_1$ and the second component $x_2$ is arbitrary. The probability $P(x_2)$ of $x_2$ is defined analogously.  
+	
+	We say the random variables $x_1$ and $x_2$ are \textit{independent} if and only if
+	%
+	\begin{equation}
+	P(x_1,x_2) = P(x_1)P(x_2) \quad. 
+	\end{equation}
+	%
+\end{theorem}
+
+% BMF: can this be made simpler? BMF was surprised how tricky it actually is to define the term 'independent' in mathematically correct form
+% BW: I think the definition is fine, I added some intuition below. 
+
+Thus, two random variables are independent if the values assumed by one do not influence the values taken by the other one – they convey no information about each other. Considering random variables as elements of a function vector space, e.g. $L^2$ the space of all square integrable functions, being independent of each other means that their orthogonal with respect to the norm $||.||$ on that space. 
+
+% As $||x + y||^2 = ||x||^2 + ||y||^2$ holds if $x \perp y$ with $||.||$ being the norm on $L^2$, the variance is additive for two independent random variables: $\sigma_{12}^2 = \sigma_1^2 + \sigma_2^2$. 
 
 \Example: 
 Two subsequent tosses of an ideal coin are independent.
@@ -113,6 +136,9 @@ Show that
 $\langle x_1 x_2 \rangle = \langle x_1 \rangle \langle x_2 \rangle$
 for independent random variables $x_1$ and $x_2$.
 Find a counter-example if $x_1$ and $x_2$ are not independent.
+
+
+\subsection*{Probability Density}
 
 If $X = \R$ (real numbers), we can consider a \textit{probability density} 
 as a function $p(x) : \R \to \R^+$, which relates to the probability by
@@ -160,11 +186,15 @@ moments and cumulants, which provide important characteristics of a probability 
 	\label{eq:def_moment}
 	\mu_n = \expval{x^n} = \int^{\infty}_{-\infty}{x^n p(x)} \quad.
 	\end{equation}
+	%
 	The moments $\mu_n$ are the Taylor coefficients of the so-called \textit{characteristic function}
+	%
 	\begin{equation}
 	\expval{\exp(t x)} = \sum^{\infty}_{n = 0}{\mu_n \frac{t^n}{n!}}\quad.
 	\end{equation}
+	%
 \end{theorem}
+
 \Remark: One may think of the characteristic function as an abstract function that conveniently encodes 
 (almost) all information about a probability distribution $p(x)$ on the real line $\R$.
 
@@ -180,16 +210,10 @@ The \textit{cumulants} are given by the mean value $k_1 = \mu_1$, the variance $
 	%
 \end{theorem}
 
-\Remark: Moments and cumulants contain the same information:
-To relate cumulants and moments, 
-one can insert Eq.~(\ref{eq:def_cumulant}) into the Taylor series of the exponential function, and 
-collect equal powers of $t$ (after applying the binomial formula to expand powers);
-thereby, one obtains complicated formulas expressing the $n$th moment $\mu_n$ in terms of all $k_k$, $k\le n$.
-The series of moments ``almost'' uniquely determines the underlying probability density function $p(x)$
+\Remark: Moments and cumulants contain the same information: To relate cumulants and moments,  one can insert Eq.~(\ref{eq:def_cumulant}) into the Taylor series of the exponential function, and  collect equal powers of $t$ (after applying the binomial formula to expand powers); thereby, one obtains complicated formulas expressing the $n$th moment $\mu_n$ in terms of all $k_k$, $k\le n$. The series of moments ``almost'' uniquely determines the underlying probability density function $p(x)$
 (yet there are some mathematical delicacies for which we refer the reader to the mathematics literature%
 % TODO reference to literature should be added here
-). 
-Often, moments can be computed more directly, while cumulants allow to read off relevant information more readily.
+).  Often, moments can be computed more directly, while cumulants allow to read off relevant information more readily.
 
 \Example: For the normal distribution (discussed below)
 $p_\mathrm{norm}(x) = (2\pi \sigma^2)^{-1/2} \exp[ - (x-\mu)^2/(2\sigma^2) ]$
@@ -205,7 +229,7 @@ i.e., $k_n=0$ for $n \ge 3$, is necessarily a normal distribution.
 
 In physics, probability is usually estimated as 
 the \textit{relative frequency} of an outcome $A$ in an experiment
-that can be repeated indefinetely often with the same initial macrostate:
+that can be repeated indefinitely often with the same initial macrostate:
 If $N_A$ is the number of realizations of the experiment resulting in $A$ 
 and $N$ the total number of realizations, the probability $P(A)$ of $A$ is estimated as
 \begin{equation}
@@ -249,21 +273,20 @@ and imprecise knowledge of initial conditions.
 \subsection*{Normal Distribution}
 Probably the most important probability distribution is the \textit{normal distribution}.
 If a random variable $x$ is distributed according to a normal distribution with mean $\mu$ and variance $\sigma^2$,
-we write $x\sim\N(\mu, \sigma^2)$; 
-the corresponding probability density reads
+we write $x\sim\N(\mu, \sigma^2)$;  the corresponding probability density reads
+%
 \begin{equation}
 p_\mathrm{normal}(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp[- \frac{(x- \mu)^2}{2 \sigma^2}] \quad.
 \end{equation}
+%
 The moments and cumulants of the normal distribution are given by
+%
 \begin{gather*}
 	\mu_1 = \mu, \, \mu_2 = \mu^2 + \sigma^2, \, \mu_3 = \mu^3 + 3 \mu \sigma^2 \\
 	k_1 = \mu, \, k_2 = \sigma^2, \, k_j = 0 \quad \mathrm{for} \quad j \geq 3 \quad.
 \end{gather*}
-The cumulative probability distribution function CDF of the normal distribution 
-with mean zero, $\mu=0$, and unit variance, $\sigma^2=1$,
-has its own name, \textit{error function}, abbreviated $\mathrm{erf}(x)$.
-The importance of the normal distribution stems from the fact that 
-many other probability distributions can be approximated by a normal distribution in a suitable limit.
+%
+The cumulative probability distribution function CDF of the normal distribution  with mean zero, $\mu=0$, and unit variance, $\sigma^2=1$, has its own name, \textit{error function}, abbreviated $\mathrm{erf}(x)$. The importance of the normal distribution stems from the fact that  many other probability distributions can be approximated by a normal distribution in a suitable limit.
 
 \Exercise: Compute the characteristic function 
 $\langle \exp(tx) \rangle$
@@ -347,8 +370,7 @@ such as a divergent variance $\sigma^2 \to \infty $ for $\alpha < 3$.
 
 \subsection{Empirical mean and empirical standard deviation}
 
-We consider a sequence $n$ of $x_1, ... x_n$ of independent, identically distributed, random variables with mean $\mu$ and variance $\sigma^2$.  (One may think of the same experiment repeated $n$ times under identical conditions.)
-We define the \textit{empirical mean} by
+We consider a sequence $n$ of $x_1, ... x_n$ of independent, identically distributed, random variables with mean $\mu$ and variance $\sigma^2$.  (One may think of the same experiment repeated $n$ times under identical conditions.) We define the \textit{empirical mean} by
 %
 \begin{equation}
 \bar{x} = \frac{1}{n}(x_1 + \dots + x_n) = \text{empirical mean} \quad,
@@ -385,41 +407,29 @@ $\widehat{\sigma}^2$ often gives a useful approximation of the true variance.
 
 \subsection{The Central-Limit Theorem}
 
-We present the famous central-limit theorem, 
-which states that the sum of many random variables will be approximately normal distributed.
-We sketch the idea for its proof based on the convergence of characteristic functions.
-As an application,
-the normal approximation for the Bionomial distribution discussed above
-can be considered a corrolary of the central-limit theorem.
+We present the famous central-limit theorem,  which states that the sum of many random variables will be approximately normal distributed. We sketch the idea for its proof based on the convergence of characteristic functions. As an application, the normal approximation for the Binomial distribution discussed above can be considered a corollary of the central-limit theorem.
 
 \begin{theorem}[Central-Limit-Theorem]
 	%
-	Consider a sequence of $x_1, ... x_n$ of independent, identically distributed, random variables (Bernoulli trials)
-	with mean $\mu$ and variance $\sigma^2$. We define the empirical mean by
+	Consider a sequence of $x_1, \dots, x_n$ of independent, identically distributed, random variables (Bernoulli trials) with mean $\mu$ and variance $\sigma^2$. We define the empirical mean by
 	%
 	\begin{equation}
 	\bar{x} = \frac{1}{n}(x_1 + \dots + x_n) = \mathrm{empirical \, mean}
 	\end{equation}
 	%
 	We normalize it to a random variable with expectation value zero
+	%
 	\begin{equation}
 	z = \frac{\bar{x}-\mu}{\sigma/\sqrt{n}} \quad.
 	\end{equation}
-Then the probability distribution $p(z) \to N(0,1)$ for large $n$ (``convergence in distribution''), 
-or, equivalently, 
-$\mathrm{CDF}(z) \to \mathrm{Erf}(z)$ for almost all $z \in \R$	
+	%
+	Then the probability distribution $p(z) \to N(0,1)$ for large $n$ (``convergence in distribution''), or, equivalently, $\mathrm{CDF}(z) \to \mathrm{Erf}(z)$ for almost all $z \in \R$	
 \end{theorem}
 
+
+
+
 \textit{Idea of proof:}
-% We consider $n$ independent random variables $x_j$ with $j = 1,...,n$, and
-% \begin{equation}
-% x_j = \begin{cases} 1 \, | \, \mathrm{with \, probability \,} p \\ 0 \, | \, \mathrm{with \, probability \, } q = 1 - p \end{cases}
-% \end{equation}
-% The empirical mean
-% \begin{equation}
-% \bar{x} = \frac{1}{n}(x_1 + \dots + x_n) = \mathrm{empirical \, mean}
-% \end{equation}
-% is directly related to the number $k$ of positive outcomes $k = n\bar{x}$. We get $p(k,n) = p(\bar{x}) \sim N(np,npq)$ by the Central-Limit-Theorem. 
 
 The idea of the proof is to compute the cumulants of $x_j$
 \begin{equation}
