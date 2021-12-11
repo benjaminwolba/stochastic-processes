@@ -169,14 +169,22 @@ The \textit{cumulative density function} is defined as
 \mathrm{CDF}(x) = \int^x_{-\infty}{\dd{x'} p(x')} \quad.
 \end{equation}
 
-The \textit{expectation value} of a function $f(x)$ with respect to a probability density $p(x)$ is defined as
+The \textit{expectation value} of a random variable $X$ with respect to a probability density $p(x)$ is defined as
+%
 \begin{equation}
-\langle f(x) \rangle = \int \dd{x} f(x)\,p(x) \quad.
+\langle X \rangle = \int \dd{x} x \, p(x) \quad,
+\label{eq:expvalue}
 \end{equation}
-\Example: The normalization axiom immediately implies $\langle 1 \rangle = 1$; 
-while $\langle x\rangle$ is the usual mean.
-More generally, we can define special expectation values known as
-moments and cumulants, which provide important characteristics of a probability distribution. 
+%
+and its variance is defined as
+%
+\begin{equation}
+	\text{Var}(X) = \int \dd{x} x^2 \, p(x) - \langle X \rangle^2 \quad .
+	\label{eq:variance}
+\end{equation}
+%
+
+\Example: The normalization axiom immediately implies $\langle 1 \rangle = 1$, whereas $\langle x\rangle$ is the usual mean. More generally, we can define special expectation values known as moments and cumulants, which provide important characteristics of a probability distribution. 
 
 \begin{theorem}[Moments]
 	%
@@ -201,7 +209,7 @@ moments and cumulants, which provide important characteristics of a probability 
 \Remark: For some probability distributions (e.g., probability distributions with polynomial tails, also called `fat tails'), higher moments may be infinite.
 
 \begin{theorem}[Cumulants]
-The \textit{cumulants} are given by the mean value $k_1 = \mu_1$, the variance $k_2 = \mu_2 - \mu^2_1$ and higher order cumulants such as $ k_3 = \mu_3 - 3 \mu_2 \mu_1 + 2 \mu_1^3$. More generally we have
+The \textit{cumulants} are given by the mean value $k_1 = \mu_1$, the variance $k_2 = \mu_2 - \mu^2_1$ and higher order cumulants such as $ k_3 = \mu_3 - 3 \mu_2 \mu_1 + 2 \mu_1^3$. More generally, we have
 	%
 	\begin{equation}
 	\label{eq:def_cumulant}
@@ -259,18 +267,20 @@ which demonstrates how uncertainty in initial conditions leads to effectively st
 One may philosophize whether true randomness occurs in quantum systems or not.
 (The answer depends on which interpretation of quantum mechanics one favors.)
 Yet, for macroscopic ``random experiments'', such as tossing a coin or throwing a dice, 
-quantum effects are negligible and the apparent randomness arises solely from chaotic deterministic dynamics
-and imprecise knowledge of initial conditions.
+quantum effects are negligible and the apparent randomness arises solely from chaotic deterministic dynamics and imprecise knowledge of initial conditions.
 
 % \subsection*{Example Weather Forecast: improve}
 % For an event R $=$ "rain tomorrow" we know that it is raining 116 out of 365 days in Dresden: $P(R \, | \, \mathrm{Dresden}) = \frac{116}{365} = 18 \%$. Our forecast is getting more accurate if we consider also seasonal changes and thus specify the month being October with 8 days of rain out of 31 in total: $P(R \, | \, \mathrm{Dresden, October}) = \frac{8}{31} = 25.8 \%$
 % Another approach is based on persistence of conditions, i.e. to make a rain prediction for tomorrow based on the weather today. E.g. according to Caskey 1963 we have $P(R \, | \, \mathrm{current \, local \, weather}) = x$ and $P(R \, | \, \mathrm{rain \, today}) = 44 \%$, $P(R \, | \, \mathrm{dry \, today}) = 17 \%$
 % Last but not least we can sample macrostates that are consistent with measurement data and calculate the probabilities for rain from deterministic models (Navier-Stokes-equations / mathematical forecasting) $P(R \, | \, \mathrm{current \, global \, weather})$.
 % TODO: maybe include better example later
+% Benjamin Question: What should be improved for this example? 
+
 
 \section{Important Probability Distributions}
 
 \subsection*{Normal Distribution}
+
 Probably the most important probability distribution is the \textit{normal distribution}.
 If a random variable $x$ is distributed according to a normal distribution with mean $\mu$ and variance $\sigma^2$,
 we write $x\sim\N(\mu, \sigma^2)$;  the corresponding probability density reads
@@ -292,12 +302,12 @@ The cumulative probability distribution function CDF of the normal distribution 
 $\langle \exp(tx) \rangle$
 of a normal distribution with $\mu=0$ and $\sigma^2=1$.
 By taking its logarithm, verify above formulas for the cumulants for this special case.
-Hint: 
-Start with the definition of the expectation value $\langle \exp(tx) \rangle$ as an integral,
+Hint: Start with the definition of the expectation value $\langle \exp(tx) \rangle$ as an integral,
 combine the exponentials and complete the square in its exponent;
 the resultant integral is already known.
 
 \subsection*{Binomial Distribution}
+
 A Bernoulli trial has two possible outcomes, say ``yes'' and ``no'', with respective probabilities $p$ and $1 - p$. 
 If we perform $n$ independent trials, the probability to obtain $k$-times the outcome ``yes'' is given by
 the so-called \textit{Binomial distribution}
@@ -368,9 +378,13 @@ or the distribution of jumps in idealized models of animals foraging for food (L
 Power-law distributions have some unpleasant mathematical properties,
 such as a divergent variance $\sigma^2 \to \infty $ for $\alpha < 3$.
 
-\subsection{Empirical mean and empirical standard deviation}
+\section{The Central-Limit Theorem}
 
-We consider a sequence $n$ of $x_1, ... x_n$ of independent, identically distributed, random variables with mean $\mu$ and variance $\sigma^2$.  (One may think of the same experiment repeated $n$ times under identical conditions.) We define the \textit{empirical mean} by
+Before exploring the famous central-limit theorem, we need to define two important quantities that characterize an ensemble of random variables. 
+
+\subsection{Empirical Mean and Empirical Standard Deviation}
+
+We consider a sequence $n$ of $x_1, \dots, x_n$ of independent, identically distributed, random variables with mean $\mu$ and variance $\sigma^2$.  One may think of the same experiment repeated $n$ times under identical conditions. For this sequence, we define the \textit{empirical mean} by
 %
 \begin{equation}
 \bar{x} = \frac{1}{n}(x_1 + \dots + x_n) = \text{empirical mean} \quad,
@@ -385,27 +399,40 @@ and the \textit{empirical variance} by
 	= \text{empirical variance} \quad.
 \end{equation}
 %
-Of course, $\bar{x}$ and $\widehat{\sigma}^2$ are now themselves random variables.
-
-Obviously, 
+Both, $\bar{x}$ and $\widehat{\sigma}^2$ are now themselves random variables. Since the expectation value of a random variable is linear
+%
+\begin{equation*}
+\left\langle \frac{x_1 + \dots + x_n}{n} \right\rangle 
+= \frac{\left\langle(x_1 + \dots + x_n)  \right\rangle}{n}
+= n \frac{\left\langle x_1 \right\rangle}{n} = \left\langle x_1 \right\rangle = \mu
+\end{equation*}
+%
+we have 
+%
 \begin{equation}
 \left\langle \bar{x} \right\rangle = \mu \quad,
 \end{equation}
-i.e., the expectation value of the empirical mean equals the true mean. One says that $\bar{x}$ is \textit{faithful} estimator of $\mu$.
-
-Similarly, for the special case that the $x_j$ are normally distributed, 
-$x_j\sim\mathcal{N}(\mu,\sigma^2)$,
-we have
+%
+i.e., the expectation value of the empirical mean equals the true mean. One says that $\bar{x}$ is \textit{faithful} estimator of $\mu$. Similarly, for the special case that the $x_j$ are normally distributed, $x_j\sim\mathcal{N}(\mu,\sigma^2)$, we have
+%
 \begin{equation}
 \left\langle \widehat{\sigma}^2 \right\rangle = \sigma^2 \quad,
 \end{equation}
-i.e., the expectation values of the empirical variance equals the true variance.
-Even in a general case, where the $x_j$ are not normally distributed, 
-$\widehat{\sigma}^2$ often gives a useful approximation of the true variance.
+%
+i.e., the expectation values of the empirical variance equals the true variance. Even in the general case, where the $x_j$ are not normally distributed, $\widehat{\sigma}^2$ often gives a useful approximation of the true variance.
+
+\begin{comment}
+so the variance adds up $\sigma_{XY}^2 = \sigma_X^2 + \sigma_Y^2$ like lengths of orthogonal vectors (generalization of the Pythagorean theorem): $||x + y||^2 = ||x||^2 + ||y||^2$ if $x \perp y$)
+
+variance one: variance is normalized / tends to the variance of the entire sample: $Var(aX + bY) = a^2 Var(X) + b^2 Var(Y)$ 
+
+and thus $Var((x_1 + \dots + x_n)/n) = Var((x_1 + \dots + x_n))/n^2 = n Var(x)/n^2 = Var(x)/n$
+\end{comment}
 
 % TODO: add proof, state var(\bar{x}) = \sigma^2/n
 
-\subsection{The Central-Limit Theorem}
+
+\subsection{Definition and Intuition of the Central-Limit Theorem}
 
 We present the famous central-limit theorem,  which states that the sum of many random variables will be approximately normal distributed. We sketch the idea for its proof based on the convergence of characteristic functions. As an application, the normal approximation for the Binomial distribution discussed above can be considered a corollary of the central-limit theorem.
 
@@ -487,6 +514,7 @@ p(k,n) \approx \frac{1}{\sqrt{2 \pi \sigma^2}} \exp(-\frac{(k-np)^2}{2 \sigma^2}
 \end{equation}
 %
 with $\sigma^2 = npq$.
+
 
 \subsection*{Proof I Using Stirling's Approximation}
 
