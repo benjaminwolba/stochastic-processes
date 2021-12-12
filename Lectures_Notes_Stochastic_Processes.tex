@@ -387,49 +387,80 @@ Before exploring the famous central-limit theorem, we need to define two importa
 We consider a sequence $n$ of $x_1, \dots, x_n$ of independent, identically distributed, random variables with mean $\mu$ and variance $\sigma^2$.  One may think of the same experiment repeated $n$ times under identical conditions. For this sequence, we define the \textit{empirical mean} by
 %
 \begin{equation}
-\bar{x} = \frac{1}{n}(x_1 + \dots + x_n) = \text{empirical mean} \quad,
+\bar{x} = \frac{1}{n}(x_1 + \dots + x_n) \quad,
 \end{equation}
 %
-and the \textit{empirical variance} by 
+and the \textit{(biased) empirical variance} by 
 %
 \begin{equation}
-\widehat{\sigma}^2 = \frac{1}{n-1} \left(
+	\widehat{\sigma}^2 = \frac{1}{n} \left(
 	\left(x_1-\bar{x}\right)^2  + \dots + \left(x_n-\bar{x}\right)^2
-	\right)
-	= \text{empirical variance} \quad.
+	\right) \quad.
 \end{equation}
 %
 Both, $\bar{x}$ and $\widehat{\sigma}^2$ are now themselves random variables. Since the expectation value of a random variable is linear
 %
 \begin{equation*}
-\left\langle \frac{x_1 + \dots + x_n}{n} \right\rangle 
-= \frac{\left\langle(x_1 + \dots + x_n)  \right\rangle}{n}
-= n \frac{\left\langle x_1 \right\rangle}{n} = \left\langle x_1 \right\rangle = \mu
+	\left\langle \frac{x_1 + \dots + x_n}{n} \right\rangle 
+	= \frac{\left\langle(x_1 + \dots + x_n)  \right\rangle}{n}
+	= n \frac{\left\langle x_1 \right\rangle}{n} = \left\langle x_1 \right\rangle = \mu
 \end{equation*}
 %
 we have 
 %
 \begin{equation}
-\left\langle \bar{x} \right\rangle = \mu \quad,
+	\left\langle \bar{x} \right\rangle = \mu \quad,
 \end{equation}
 %
-i.e., the expectation value of the empirical mean equals the true mean. One says that $\bar{x}$ is \textit{faithful} estimator of $\mu$. Similarly, for the special case that the $x_j$ are normally distributed, $x_j\sim\mathcal{N}(\mu,\sigma^2)$, we have
+i.e., the expectation value of the empirical mean equals the true mean. One says that $\bar{x}$ is \textit{faithful} estimator of $\mu$. 
+
+The variances of independent random variables $X$ and $Y$ add up following the Pythagorean theorem
 %
 \begin{equation}
-\left\langle \widehat{\sigma}^2 \right\rangle = \sigma^2 \quad,
+\text{Var}(aX + bY) = a^2 \text{Var}(X) + b^2 \text{Var}(Y)
 \end{equation}
 %
-i.e., the expectation values of the empirical variance equals the true variance. Even in the general case, where the $x_j$ are not normally distributed, $\widehat{\sigma}^2$ often gives a useful approximation of the true variance.
+like the lengths of orthogonal vectors  $||x + y||^2 = ||x||^2 + ||y||^2$ if $x \perp y$. Thus, it is 
+%
+\begin{equation}
+\text{Var}\left(\frac{x_1 + \dots + x_n}{n}\right) = \frac{\text{Var}(x_1 + \dots + x_n)}{n^2} = \frac{n \text{Var}(x_1)}{n^2} = \frac{\text{Var}(x)}{n}
+\end{equation}
+%
+For independent, identically-distributed random variables, the expectation value of the sample variance one gets
+%
+\begin{equation}
+	\left\langle \widehat{\sigma}^2 \right\rangle = \frac{n-1}{n} \sigma^2 \quad,
+\end{equation}
+%
+i.e. it is biased by a factor of $\frac{n-1}{n}$. Therefore, one defines in addition the \textit{unbiased sample variance}
+%
+\begin{equation}
+	s^2 = \frac{1}{n-1} \widehat{\sigma}^2 = \frac{1}{n-1} \left(
+	\left(x_1-\bar{x}\right)^2  + \dots + \left(x_n-\bar{x}\right)^2
+	\right) \quad.
+\end{equation}
+%
+whose expectation value equals the true variance. 
+%
+\begin{equation}
+	\left\langle s^2 \right\rangle = \sigma^2 \quad,
+\end{equation}
+%
+Both, $s^2$ and $\widehat{\sigma}^2$, yield equivalent results for large samples, $n \to \infty$. 
+
+
 
 \begin{comment}
-so the variance adds up $\sigma_{XY}^2 = \sigma_X^2 + \sigma_Y^2$ like lengths of orthogonal vectors (generalization of the Pythagorean theorem): $||x + y||^2 = ||x||^2 + ||y||^2$ if $x \perp y$)
-
-variance one: variance is normalized / tends to the variance of the entire sample: $Var(aX + bY) = a^2 Var(X) + b^2 Var(Y)$ 
-
-and thus $Var((x_1 + \dots + x_n)/n) = Var((x_1 + \dots + x_n))/n^2 = n Var(x)/n^2 = Var(x)/n$
+	Benjamin: As far as I can see this applies to all independent, identically-distributed random variables – please let me know, if I am wrong, and why. 
+	
+	Similarly, for the special case that the $x_j$ are normally distributed, $x_j\sim\mathcal{N}(\mu,\sigma^2)$, we have
+	%
+	\begin{equation}
+		\left\langle \widehat{\sigma}^2 \right\rangle = \sigma^2 \quad,
+	\end{equation}
+	%
+	i.e., the expectation values of the empirical variance equals the true variance. Even in the general case, where the $x_j$ are not normally distributed, $\widehat{\sigma}^2$ often gives a useful approximation of the true variance.
 \end{comment}
-
-% TODO: add proof, state var(\bar{x}) = \sigma^2/n
 
 
 \subsection{Definition and Intuition of the Central-Limit Theorem}
