@@ -199,6 +199,7 @@ and its variance is defined as
 	%
 	\begin{equation}
 	\expval{\exp(t x)} = \sum^{\infty}_{n = 0}{\mu_n \frac{t^n}{n!}}\quad.
+	\label{eq:characteristicfunction}
 	\end{equation}
 	%
 \end{theorem}
@@ -426,7 +427,7 @@ like the lengths of orthogonal vectors  $||x + y||^2 = ||x||^2 + ||y||^2$ if $x 
 \text{Var}\left(\frac{x_1 + \dots + x_n}{n}\right) = \frac{\text{Var}(x_1 + \dots + x_n)}{n^2} = \frac{n \text{Var}(x_1)}{n^2} = \frac{\text{Var}(x)}{n}
 \end{equation}
 %
-For independent, identically-distributed random variables, the expectation value of the sample variance one gets
+For independent, identically-distributed random variables, the expectation value of the sample variance reads
 %
 \begin{equation}
 	\left\langle \widehat{\sigma}^2 \right\rangle = \frac{n-1}{n} \sigma^2 \quad,
@@ -448,8 +449,6 @@ whose expectation value equals the true variance.
 %
 Both, $s^2$ and $\widehat{\sigma}^2$, yield equivalent results for large samples, $n \to \infty$. 
 
-
-
 \begin{comment}
 	Benjamin: As far as I can see this applies to all independent, identically-distributed random variables – please let me know, if I am wrong, and why. 
 	
@@ -465,71 +464,97 @@ Both, $s^2$ and $\widehat{\sigma}^2$, yield equivalent results for large samples
 
 \subsection{Definition and Intuition of the Central-Limit Theorem}
 
-We present the famous central-limit theorem,  which states that the sum of many random variables will be approximately normal distributed. We sketch the idea for its proof based on the convergence of characteristic functions. As an application, the normal approximation for the Binomial distribution discussed above can be considered a corollary of the central-limit theorem.
+We present the famous central-limit theorem, which states that the sum of many random variables will be approximately normal distributed, thereby explaining the ubiquity of the normal distribution in nature. We sketch the idea for its proof based on the convergence of characteristic functions and discuss the the normal approximation for the Binomial distribution, which can be considered a corollary of the central-limit theorem.
 
 \begin{theorem}[Central-Limit-Theorem]
 	%
-	Consider a sequence of $x_1, \dots, x_n$ of independent, identically distributed, random variables (Bernoulli trials) with mean $\mu$ and variance $\sigma^2$. We define the empirical mean by
+	Consider a sequence of $x_1, \dots, x_n$ of independent, identically distributed, random variables (Bernoulli trials) with mean $\mu$ and variance $\sigma^2$. Normalizing the empirical mean
 	%
 	\begin{equation}
-	\bar{x} = \frac{1}{n}(x_1 + \dots + x_n) = \mathrm{empirical \, mean}
+	\bar{x} = \frac{1}{n}(x_1 + \dots + x_n)
 	\end{equation}
 	%
-	We normalize it to a random variable with expectation value zero
+	to a random variable with expectation value zero
 	%
 	\begin{equation}
 	z = \frac{\bar{x}-\mu}{\sigma/\sqrt{n}} \quad.
 	\end{equation}
 	%
-	Then the probability distribution $p(z) \to N(0,1)$ for large $n$ (``convergence in distribution''), or, equivalently, $\mathrm{CDF}(z) \to \mathrm{Erf}(z)$ for almost all $z \in \R$	
+	it's the probability distribution $p(z) \to N(0,1)$ for large $n$ (``convergence in distribution''). Or, equivalently, $\mathrm{CDF}(z) \to \mathrm{Erf}(z)$ for almost all $z \in \R$	
 \end{theorem}
 
-
-
-
-\textit{Idea of proof:}
+\textit{Idea of proof}
 
 The idea of the proof is to compute the cumulants of $x_j$
+%
 \begin{equation}
-k_1 = \mu, \, k_2 = \sigma^2 \dots
+k_{x,1} = \mu, \, k_{x,2} = \sigma^2, \dots
+\label{eq:cumulants_x}
 \end{equation}
+%
 and then to show that the cumulants of $z_j$ are given by
+%
 \begin{equation}
-k_1 = 0, \, k_2 = 1, \, k_3 \sim \frac{1}{\sqrt{n}}, \, k_4 \sim \frac{1}{n} \dots
+k_1 = 0, \, k_2 = 1, \, k_3 \sim \frac{1}{\sqrt{n}}, \, k_4 \sim \frac{1}{n}, \dots
+\label{eq:cumulants_z}
 \end{equation}
+%
 and
+%
 \begin{equation}
 \lim_{n \to \infty} \ln \expval{zt} 
 = \lim_{n \to \infty} \sum_{l=0}^{\infty} k_l t^l = 1 + \frac{1}{2} t^2 \quad.
 % NOTE: BMF corrected sign error in characteristic function for normal distribution (and reverted minus sign in second cumulant that he errorneously introduced as a wrong correction
 \end{equation}
-Then we have $p(z) \to N(0,1)$. 
-To show this behavior of the cumulants, we take a look at the function
+%
+In this case, we have $p(z) \to N(0,1)$. To show this behavior of the cumulants, we take a look at the characteristic function (\ref{eq:characteristicfunction})
+%
 \begin{equation}
 C_x(t) = \exp(\expval{xt}) \text{ with } C_{\alpha x}(t) = C_x(\alpha t), \, \alpha \in \R
 \end{equation}
 %
-which satisfy $\expval{(\alpha x)^j} = \alpha^j \expval{x^j}$ and $k_{\alpha x, j} = \alpha^j k_{x,j}$ for all cumulants, i.e. $\forall j \in \N$. Use this for $\bar{x}, z$:
+which satisfies $\expval{(\alpha x)^j} = \alpha^j \expval{x^j}$ and $k_{\alpha x, j} = \alpha^j k_{x,j}$ for all cumulants, i.e. $\forall j \in \N$. The characteristic functions for $\bar{x}, z$
 %
 \begin{gather*}
-	C_{\bar{x}}(t) = C_{x_1}\left( \frac{t}{n} \right) C_{x_2}\left( \frac{t}{n} \right) \dots C_{x_n}\left( \frac{t}{n} \right) = \left(C\left( \frac{t}{n} \right) \right)^n  \\ \\
+	C_{\bar{x}}(t) = C_{x_1}\left( \frac{t}{n} \right) C_{x_2}\left( \frac{t}{n} \right) \dots C_{x_n}\left( \frac{t}{n} \right) = \left(C_x \left( \frac{t}{n} \right) \right)^n  \\ \\
 	C_z(t) = C_{\bar{x}} \left( \frac{t}{\sigma/\sqrt{n}} \right) \exp(-\frac{\mu t}{\sigma/\sqrt{n}}) = \left( C_x \left( \frac{t}{\sigma/\sqrt{n}} \right) \right)^n  \exp(-\frac{\mu t}{\sigma/\sqrt{n}})
 \end{gather*}
 %
-giving us
+give us
 %
 \begin{equation}
 \ln(C_z(t)) = n \ln(C_x \left( \frac{t}{\sigma/\sqrt{n}} \right)) - \frac{\mu t}{\sigma/\sqrt{n}}
 \end{equation}
 %
-and so we get
+and thus, we get
 %
 \begin{equation}
 k_{z,j} = n \left( \frac{1}{\sigma \sqrt{n}} \right)^j k_{x,j}
 \end{equation}
 %
+Since the cumulants $k_{x,j}$ are finite, real numbers (\ref{eq:cumulants_x}), the cumulants $k_{z,j} $ fulfill the requirement (\ref{eq:cumulants_z}). 
 
-\subsection{Normal Approximation}
+\textit{Intuition}
+
+The marvel of the central limit theorem is that a normal distribution emerges from adding up many random variables that don't have to be normally distributed themselves. Let's understand first, why $z$ has a limiting distribution with mean zero and variance one: 
+
+Since the expectation value of the empirical mean $\bar{x}$ is the same $\mu$ as for the random variables (because they are identically distributed!), shifting $\bar{x}$ by $\mu$ yields mean zero for $z$.
+
+In addition, as the variance adds up for independent random variables according to the Pythagorean theorem, we have 
+%
+\begin{equation}
+\text{Var}\left(\frac{x_1 + \dots + x_n}{n}\right) = \frac{\text{Var}((x_1 + \dots + x_n))}{n^2} = \frac{n \text{Var}(x)}{n^2} = \frac{\text{Var}(x)}{n}
+\end{equation}
+%
+and, therefore, dividing by $\frac{\sigma}{\sqrt{n}}$ ensures that $z$ has variance one.
+
+What is then truly remarkable is that this limiting distribution is a normal distribution. Besides the proof sketch above, we give two intuitive arguments:
+
+\textbf{1) Elementary Explanation:} Intuitively, the central limit theorem states that the sum $(x_1 + \dots + x_n)/\sqrt{n}$ of random variables $x_i$ converges to a normal distribution for $n \to \infty$, independent of the individual $x_i$. It does not matter if we mix or replace some of the random variables, as long as they have the same first and second moments. Especially, if we replace the $x_i$ by a corresponding normal distribution, the stability of the Gaussian guarantees that adding two Gaussians will again be a Gaussian. Thus, it can be shown that for the central limit theorem to be true, it requires the individual $x_i$ to be dependent only on the first and second moment.
+
+\textbf{2) Maximum Entropy Principle:} Following the principle of maximum entropy, the distribution governing $z$ should be the one with the maximum possible entropy consistent with the constraints that the mean being $\mu$ and the variance being $\sigma^2$. This is the case for a normal distribution with mean $\mu$ and variance $\sigma^2$, which can be shown using calculus of variations. 
+
+\subsection{Extra: Normal Approximation}
 % TODO: make this an advanced track that students can study on 2nd reading
 
 In this section we are going to show, that the Bernoulli distribution 
@@ -544,10 +569,7 @@ can be approximated by using a normal distribution
 p(k,n) \approx \frac{1}{\sqrt{2 \pi \sigma^2}} \exp(-\frac{(k-np)^2}{2 \sigma^2})
 \end{equation}
 %
-with $\sigma^2 = npq$.
-
-
-\subsection*{Proof I Using Stirling's Approximation}
+with $\sigma^2 = npq$. 
 
 For this proof we introduce a small deviation $\varepsilon$ such that $q = 1-p$, $k = np + n \varepsilon$ and $p(k,n) \approx 0$ for $\varepsilon \gg \frac{1}{\sqrt{N}}$. The first trick is then to use Stirling's approximation 
 %
@@ -569,9 +591,7 @@ The second trick is to apply $x^k = \exp(k \ln(x))$, so we need to evaluate the 
 	\ln(\frac{nq}{n-k}) = \hdots \approx \frac{\varepsilon}{p} - \frac{1}{2} \left( \frac{\varepsilon}{q} \right)^2
 \end{gather*}
 %
-
 which implies
-
 %
 \begin{align*}
 	\left( \frac{np}{k} \right)^k \left( \frac{nq}{n-k} \right)^{n-k} &\approx \exp(k \left[ - \frac{\varepsilon}{p} + \frac{1}{2} \left( \frac{\varepsilon}{q} \right)^2 \right] + (n-k) \left[ \frac{\varepsilon}{p} - \frac{1}{2} \left( \frac{\varepsilon}{q} \right)^2 \right]) \\
@@ -590,17 +610,16 @@ with $\sigma^2 = npq$.
 
 \section{Stochastic Processes}
  
-Stochastic processes describe the stochastic evolution of a random variable as function of time $t$.
-Stochastic processes have applications 
-in physics, e.g., to model the effect of thermal fluctuations, 
-in chemistry, e.g., to model chemical reactions when the number of interacting molecules is small, 
-in biology, e.g., to model population dynamics of cells in a tissue,
-and finance, e.g., to forcast the variability of stock prices.
- 
+Stochastic processes describe the stochastic evolution of a random variable as function of time $t$. Stochastic processes have applications  in physics, e.g., to model the effect of thermal fluctuations,  in chemistry, e.g., to model chemical reactions when the number of interacting molecules is small,  in biology, e.g., to model population dynamics of cells in a tissue, and finance, e.g., to forcast the variability of stock prices.
+%
 \begin{theorem}[Stochastic Process]
 	A stochastic process is a random function $f(t):\R \to \R$, 
 	i.e. a family of random variables parameterized by $t \in \R$.
 \end{theorem}
+%
+
+% Type of dynamical system which unfolds probabilistically, i.e. is subject to noise.
+
 
 \underline{Terminology}
 
@@ -646,7 +665,7 @@ Note that $r dt$ is dimensionless, thus $r dt \ll 1$ is meaningful.
 \subsection*{Example: Gaussian White Noise}
 
 %
-\begin{theorem}[Gaussian white noise]
+\begin{theorem}[Gaussian White Noise]
 	Gaussian white noise is a (generalized) function $\xi(t):\R \to \R$ with the following properties
 	%
 	\begin{itemize}
