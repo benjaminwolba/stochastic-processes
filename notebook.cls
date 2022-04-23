@@ -121,8 +121,19 @@ captions=tableheading, 														% table heading above the table
 	}
 	\begin{mdframed}[] \relax%
 		}{\end{mdframed}}
+	
+\newenvironment{caveat}[1][]{%
+	\mdfsetup{topline=false, bottomline=false, rightline=false,%
+		linecolor= red!40, linewidth=3pt,%
+		frametitleaboveskip=10pt,
+		frametitle={%
+			\color{red!60} \strut #1
+		}
+	}
+	\begin{mdframed}[] \relax%
+	}{\end{mdframed}}
 
-\newenvironment{remark}[1][]{%
+\newenvironment{exercise}[1][]{%
 	\mdfsetup{innertopmargin=10pt,innerbottommargin=12pt,linecolor=blueback,%
 		linewidth=2pt,topline=true,backgroundcolor=blueback,%
 		frametitleaboveskip=10pt,

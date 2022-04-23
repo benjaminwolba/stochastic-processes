@@ -12,8 +12,9 @@
 	
 \addbibresource{ref.bib} 										   % integration of .bib-file
 
+% @Benjamin Wolba: please change as you deem appropriate
 \newcommand{\blue}[1]{{\color{bluebase}#1}}
-\newcommand{\Remark}{\textit{Remark}} % @Benjamin Wolba: please change as you deem appropriate
+\newcommand{\Caveat}{\textit{Caveat}} 
 \newcommand{\Example}{\textit{Example}}
 \newcommand{\Exercise}{\textit{Exercise}}
 
@@ -50,16 +51,16 @@
 \chapter{Prerequisites: Probability Theory}
 
 \section{Mathematical Foundations}
+\label{sec:1_1}
 
 \subsection*{Probability}
 
-\textit{Probability} is a concept based on an idealization, namely the idea of a random experiment.  An \textit{ideal random experiment} can be repeated indefinitely often; for each realization, the outcome is unpredictable, but each specific outcome occurs with a constant relative frequency, the \textit{probability} of this outcome. Examples include tossing a fair coin or a perfect dice.
+\textit{Probability} is a concept based on an idealization, namely the idea of a random experiment.  An \textit{ideal random experiment} can be repeated indefinitely often. For each realization, the outcome is unpredictable, but each specific outcome occurs with a constant relative frequency, the \textit{probability} of this outcome. Examples include tossing a fair coin or throwing a perfect dice.
 
-Usually, real physical experiments can only be approximated as random experiments,  but this approximation is nonetheless surprisingly useful, see Sec.~\ref{X}. In mathematics, an axiomatic definition of probability ignores these nuances  and just gives the necessary calculation rules. 
+Usually, real physical experiments can only be approximated as random experiments,  but this approximation is nonetheless surprisingly useful, see Sec.~\ref{sec:1_2}. In mathematics, an axiomatic definition of probability ignores these nuances  and just gives the necessary calculation rules. 
 
 \begin{theorem}[Concept: Probability]
-	Let $X$ be a set of outcomes of a random experiment, 
-	then we have the following axioms of probability:
+	Let $X$ be a set of outcomes of a random experiment. Then we have the following axioms of probability:
 	%
 	\begin{enumerate}
 		\item{$P(A)$ is a function with $0 \leq P(A) \leq 1$ defined for every `nice' subset $A \subseteq X$}
@@ -69,12 +70,11 @@ Usually, real physical experiments can only be approximated as random experiment
 	%
 \end{theorem}
 
-\Example 1: For a fair coin, the set of possible outcomes is $X=\{\text{head},\text{tail}\}$
-with $P(\{\text{head}\})=P(\{\text{tail}\})=1/2$. 
-(We will often use sloppy notation $p(\text{head})$ for sets $A$ with only single element.)\\
-\Example 2: Perfect dice: $X=\{1,2,3,4,5,6\}$, $P(\{1,2\})=P(1)+P(2)=1/3$
+\Example: For a fair coin, the set of possible outcomes is $X=\{\text{head},\text{tail}\}$ with $P(\{\text{head}\})=P(\{\text{tail}\})=1/2$.  (We will often use sloppy notation $P(\text{head})$ for sets $A$ with only single element.)
 
-\Remark: The above axioms apply to `nice' subsets $A \subset X$. If $X$ is a finite set, all subsets are `nice'; only if $X$ is uncountably infinite (like the set of real numbers $\R$), there are subsets that are too `wild' and need to be excluded.
+\Example: Perfect dice: $X=\{1,2,3,4,5,6\}$, $P(\{1,2\})=P(1)+P(2)=1/3$
+
+\Caveat: The above axioms apply to `nice' subsets $A \subset X$. If $X$ is a finite set, all subsets are `nice'; only if $X$ is uncountably infinite, like the set of real numbers $\R$, there are subsets that are too `wild' and need to be excluded.
 
 
 \subsection*{Random Variables}
@@ -83,22 +83,15 @@ Usually, we are not only interested in the outcomes of a random experiment or co
 
 \begin{theorem}[Random Variables]
 	%
-	A random variable is a measurable function $f:X \to E$ from a set of possible outcomes $X$ to a measurable space $E$, i.e., it assigns values (from $E$) to the outcomes $X$ of an experiment. I can be either discrete (countable image set, e.g. $E = \Z$) or continuous (uncountable image set, e.g. $E = \R$)
+	A random variable is a measurable function $f:X \to E$ from a set of possible measurement outcomes $X$ to a measurable space $E$, i.e., it assigns values (from $E$) to the outcomes $X$ of an experiment. It can be either discrete (countable image set, e.g. $E = \Z$) or continuous (uncountable image set, e.g. $E = \R$).
 
 	% A random variable takes values in a set $X$, e.g. a set of measurement outcomes, that cannot be predicted, e.g. due to a lack/uncertainty of initial conditions, too large complexity of the system or other factors. Here, $X$ may be discrete (e.g. $X = \Z$) or continuous (e.g. $X = \R$).
 	%
 \end{theorem}
-%
-Unlike an algebraic variable, whose value is well-determined by an equation, a random variable cannot be predicted, for example due to a lack/uncertainty of initial conditions, too large complexity of the system or other factors. 
 
-Examples for a random variable include 
-%
-\begin{itemize}
-	\item the measurement outcome itself, i.e. 'head' or 'tail' for flipping a coin, when $X = E$
-	\item combinations of measurement outcomes: e.g. the sum of rolling two dices 
-	\item in practice: stock prices, heart rate, $\dots$ 
-\end{itemize}
-%
+If "X = E", we will identify the random variable with the set of possible measurement outcomes and simply write "the random variable X". However, a random variable may be also e.g. a combination of measurement outcomes – like the sum of rolling two dices.
+
+Unlike an algebraic variable, whose value is well-determined by an equation, a random variable cannot be predicted. This is, for example, due to a lack/uncertainty of initial conditions, too large complexity of the system or other factors. 
 
 An important concept is the independence of two random variables:
 
@@ -150,14 +143,14 @@ P(A) = \int_A{\dd{x} p(x)}
 %
 for $A \subseteq \R$. 
 
-\Remark: Note that $p(x)$ is also called \textit{probability density function} 
+\Caveat: Note that $p(x)$ is also called \textit{probability density function} 
 and sometimes written as $\mathrm{PDF}(x) = p(x)$. 
 Also, note the physical units: 
 if, for example, $x$ has units of a length, $[x] = \si{\meter}$, 
 then the probability density $p(x)$ has units of an inverse length, $[p] = \si{\per \meter}$. 
 Knowing the physical units is extremely useful as it allows to tell apart different objects.
 
-\Remark: As a mathematical caveat, Eq.~\eqref{eq:def_P} cannot be defined for arbitrarily ``wild'' sub-sets $A \subset \R$, but only for sufficiently `nice' subsets (similar to the restriction of `nice' subsets in the axiomatic definition of probability). 
+\Caveat: As a mathematical caveat, Eq.~\eqref{eq:def_P} cannot be defined for arbitrarily ``wild'' sub-sets $A \subset \R$, but only for sufficiently `nice' subsets (similar to the restriction of `nice' subsets in the axiomatic definition of probability). 
 Specifically, these subsets need to be measurable. 
 In particular, (countable) unions and intersections of intervals are measurable, 
 forming a so-called $\sigma$-algebra. 
@@ -204,10 +197,10 @@ and its variance is defined as
 	%
 \end{theorem}
 
-\Remark: One may think of the characteristic function as an abstract function that conveniently encodes 
+\Caveat: One may think of the characteristic function as an abstract function that conveniently encodes 
 (almost) all information about a probability distribution $p(x)$ on the real line $\R$.
 
-\Remark: For some probability distributions (e.g., probability distributions with polynomial tails, also called `fat tails'), higher moments may be infinite.
+\Caveat: For some probability distributions (e.g., probability distributions with polynomial tails, also called `fat tails'), higher moments may be infinite.
 
 \begin{theorem}[Cumulants]
 The \textit{cumulants} are given by the mean value $k_1 = \mu_1$, the variance $k_2 = \mu_2 - \mu^2_1$ and higher order cumulants such as $ k_3 = \mu_3 - 3 \mu_2 \mu_1 + 2 \mu_1^3$. More generally, we have
@@ -219,13 +212,13 @@ The \textit{cumulants} are given by the mean value $k_1 = \mu_1$, the variance $
 	%
 \end{theorem}
 
-\Remark: Moments and cumulants contain the same information: To relate cumulants and moments,  one can insert Eq.~(\ref{eq:def_cumulant}) into the Taylor series of the exponential function, and  collect equal powers of $t$ (after applying the binomial formula to expand powers); thereby, one obtains complicated formulas expressing the $n$th moment $\mu_n$ in terms of all $k_k$, $k\le n$. The series of moments ``almost'' uniquely determines the underlying probability density function $p(x)$
+\Caveat: Moments and cumulants contain the same information: To relate cumulants and moments,  one can insert Eq.~(\ref{eq:def_cumulant}) into the Taylor series of the exponential function, and  collect equal powers of $t$ (after applying the binomial formula to expand powers); thereby, one obtains complicated formulas expressing the $n$th moment $\mu_n$ in terms of all $k_k$, $k\le n$. The series of moments ``almost'' uniquely determines the underlying probability density function $p(x)$
 (yet there are some mathematical delicacies for which we refer the reader to the mathematics literature%
 % TODO reference to literature should be added here
 ).  Often, moments can be computed more directly, while cumulants allow to read off relevant information more readily.
 
 \Example: For the normal distribution (discussed below)
-$p_\mathrm{norm}(x) = (2\pi \sigma^2)^{-1/2} \exp[ - (x-\mu)^2/(2\sigma^2) ]$
+$$p_\mathrm{norm}(x) = (2\pi \sigma^2)^{-1/2} \exp[ - (x-\mu)^2/(2\sigma^2) ]$$
 with mean $\mu$ and variance $\sigma^2$, we have 
 $k_0 = \mu_0=1$ (this is just the normalization condition), 
 $k_1=\mu_1=\mu$ (mean), 
@@ -234,7 +227,8 @@ Conversely, a probability distribution whose higher cumulants vanish,
 i.e., $k_n=0$ for $n \ge 3$, is necessarily a normal distribution.
 
 
-\section{Probability in Physics}
+\section{Probability in Physics} 
+\label{sec:1_2}
 
 In physics, probability is usually estimated as 
 the \textit{relative frequency} of an outcome $A$ in an experiment
@@ -264,7 +258,7 @@ This is nicely illustrated in a talk entitled
 ``Gott w\"urfelt nicht. Oder doch?'' by Jan Nagel [https://youtu.be/q-ezpVF6cL4; in German], 
 which demonstrates how uncertainty in initial conditions leads to effectively stochastic outcomes.
 
-\Remark: 
+\Caveat: 
 One may philosophize whether true randomness occurs in quantum systems or not.
 (The answer depends on which interpretation of quantum mechanics one favors.)
 Yet, for macroscopic ``random experiments'', such as tossing a coin or throwing a dice, 
@@ -299,29 +293,26 @@ The moments and cumulants of the normal distribution are given by
 %
 The cumulative probability distribution function CDF of the normal distribution  with mean zero, $\mu=0$, and unit variance, $\sigma^2=1$, has its own name, \textit{error function}, abbreviated $\mathrm{erf}(x)$. The importance of the normal distribution stems from the fact that  many other probability distributions can be approximated by a normal distribution in a suitable limit.
 
-\Exercise: Compute the characteristic function 
-$\langle \exp(tx) \rangle$
-of a normal distribution with $\mu=0$ and $\sigma^2=1$.
-By taking its logarithm, verify above formulas for the cumulants for this special case.
-Hint: Start with the definition of the expectation value $\langle \exp(tx) \rangle$ as an integral,
-combine the exponentials and complete the square in its exponent;
-the resultant integral is already known.
+\Exercise: Compute the characteristic function $\langle \exp(tx) \rangle$ of a normal distribution with $\mu=0$ and $\sigma^2=1$. By taking its logarithm, verify above formulas for the cumulants for this special case. Hint: Start with the definition of the expectation value $\langle \exp(tx) \rangle$ as an integral, combine the exponentials and complete the square in its exponent; the resultant integral is already known.
+
 
 \subsection*{Binomial Distribution}
 
 A Bernoulli trial has two possible outcomes, say ``yes'' and ``no'', with respective probabilities $p$ and $1 - p$. 
 If we perform $n$ independent trials, the probability to obtain $k$-times the outcome ``yes'' is given by
 the so-called \textit{Binomial distribution}
+%
 \begin{equation}
 P_\mathrm{binom}(k) = \binom{n}{k} p^k (1 - p)^{n - k} \quad.
 \end{equation}
+%
 The proof counts the number $\binom{n}{k}$ of paths in a binary decision tree with exactly $k$-times ``yes'', 
 and multiplies this number with the constant probability $p^k(1-p)^{n-k}$ for each of these paths.
 The mean and variance read $\expval{k} = n p$ and $\expval{k^2} - \expval{k}^2 = n p (1 - p)$. 
 
-In practical applications with large $n$, one can do a normal approximation by 
-$k \sim \mathcal{N}(np, n p (1 - p))$. % TODO: harmonize notation on probability distributions in the end
+In practical applications with large $n$, one can do a normal approximation by $k \sim \mathcal{N}(np, n p (1 - p))$. 
 
+% TODO: harmonize notation on probability distributions in the end
 % TODO: add figure of decision tree
 
 \subsection*{Poisson Distribution}
@@ -353,7 +344,7 @@ Now take the limit $n \to \infty$ with $\lambda = \mathrm{const}$ and $p = \frac
 %
 with $\mu = \expval{k} = \lambda$, $\sigma^2 = \expval{k^2} - \expval{k}^2 = \lambda$. An approximation is $p(k,\lambda) = N(\lambda, \lambda)$, valid for very large $\lambda$.
 
-\begin{remark}[Remark: Why is the concept of time being used here?]
+\begin{caveat}[Caveat: Why is the concept of time being used here?]
 	The Poisson distribution is an example of a stochastic Poisson process 
 	%
 	\begin{equation}
@@ -361,7 +352,8 @@ with $\mu = \expval{k} = \lambda$, $\sigma^2 = \expval{k^2} - \expval{k}^2 = \la
 	\end{equation}
 	%
 	and so $k = \int^T_0{f(t)} $.	
-\end{remark}
+\end{caveat}
+
 Examples of Poisson-distributed random variables are 
 the number of radioactive decay events in a given time interval, 
 or photons arriving at a CCD sensor. 
@@ -648,7 +640,7 @@ Stochastic processes describe the stochastic evolution of a random variable as f
 %
 The last property can be proven as follows: 
 % TODO: CONTINUE HERE
-% @Ben: What to continue here? Is it a remark for the lecture? 
+% @BMF: What to continue here? Is it a remark for the lecture? 
 by taking a look at the \textit{survival probability} $P(t \geq \theta)$, 
 i.e., the probability that no event occured since $t=0$.
 CDF, for which we have 
@@ -678,7 +670,7 @@ Note that $r dt$ is dimensionless, thus $r dt \ll 1$ is meaningful.
 \end{theorem}
 %
 
-\begin{remark}[Remark: Gaussian White Noise and Mathematics]
+\begin{caveat}[Caveat: Gaussian White Noise and Mathematics]
 	Strictly speaking, $\xi$ itself cannot be defined mathematically. Instead mathematicians define a so-called Wiener process 
 	%
 	\begin{equation}
@@ -686,7 +678,7 @@ Note that $r dt$ is dimensionless, thus $r dt \ll 1$ is meaningful.
 	\end{equation}
 	%	 
 	so that $W(t)$ exists and is continuous with probability 1.
-\end{remark}
+\end{caveat}
 
 For the example of Brownian motion, which we will consider in the next chapter, Gaussian white noise can be considered an idealization of the random thermal force due to collisions of a colloid with solvent molecules (in the limit of vanishing correlation time $\tau \to 0$). 
 
@@ -826,9 +818,12 @@ This continuum limit exists if $D$ can be treated as a constant, i.e. if $\frac{
 	%
 \end{theorem}
 %
-Remark: The case of a position-dependent diffusion coefficient $D(\vec{x})$ is somewhat subtle, 
-and requires some microscopic knowledge of the underlying system, see also the section on Ito and Stratonovich calculus.
-% TODO: add text reference
+
+\begin{caveat}[Caveat: Position-dependent diffusion coefficient]
+	The case of a position-dependent diffusion coefficient $D(\vec{x})$ is somewhat subtle, 
+	and requires some microscopic knowledge of the underlying system, see also the chapter \ref{chap:7} on Ito and Stratonovich calculus. 
+\end{caveat}
+
 
 \subsection*{Solving the diffusion equation}
 
@@ -878,7 +873,7 @@ and their average velocity is characterized by the fluid's temperature $T$
 \end{equation}
 %
 
-\begin{remark}[Repetition: Equipartition Theorem]
+\begin{theorem}[Repetition: Equipartition Theorem]
 	At thermal equilibrium, the system's energy, given by a Hamiltonian $H$, is distributed on its degrees of freedom $x_n$ via
 	%
 	\begin{equation}
@@ -886,7 +881,7 @@ and their average velocity is characterized by the fluid's temperature $T$
 	\end{equation}
 	%
 	This holds for a microcanonical and canonical ensemble and relates temperature to the systems average energies.
-\end{remark}
+\end{theorem}
 
 %
 \begin{theorem}[Model: Random Forces]
@@ -1173,11 +1168,11 @@ The Euler-Maruyama scheme specifies the following update-rule
 	with independent normal distributed random numbers $\Delta W_j \sim N(0,1)$ having mean zero and variance one.
 \end{theorem}
 
-\Remark: 
+\Caveat: 
 For a finite time step $\dd{t}$, a numerical error on the order $\O{\dd{t}^{3/2}}$ occurs.
 In the limit $\dd{t}\rightarrow 0$, we may interpret solutions of this Euler-Maruyama scheme as a definition of a stochastic realization of the Langevin equation $\dot{x} = f(x) + \sqrt{2D} \, \xi(t)$.
 
-\Remark:
+\Caveat:
 For the numerical integration of ordinary differential equations, higher-order schemes (such as Runge-Kutta schemes) are often useful. 
 In contrast, for the numerical integration of stochastic differential equations, 
 the added complexity of higher-order schemes makes these less useful and the simple Euler-Maruyama scheme is often a good choice for practical applications. 
@@ -1247,7 +1242,7 @@ The left term captures the probability to have been at $x_n$ at $t = t_n$, the r
 
 This is already an implicit solution in terms of a convolution of the probability density with a family of normal distributions, but it is of little practical use. 
 %
-\begin{remark}[A Remark about Units]
+\begin{caveat}[Caveat: Units]
 	Unlike probabilities, probability densities for positions have units of inverse length! Therefore we are integrating over a two-point probability density which has units of inverse length squared
 	%
 	\begin{align*}
@@ -1255,7 +1250,7 @@ This is already an implicit solution in terms of a convolution of the probabilit
 		[p(x,t_{n+1},x_n,t_n|x_0,t_0)] &= \si{\per \meter \squared}
 	\end{align*}
 	%	 
-\end{remark}
+\end{caveat}
 %
 So, let us define the following abbreviations in order to evaluate this convolution further 
 %
@@ -1447,9 +1442,9 @@ No steady-state solution exists (non-trivial / normalizable to one) and all eige
 
 In the limit of long times $t \to \frac{1}{\lambda_1}$, the porbability density can be decomposed into $p(x,t) = a(t) p_1(x)$ with $a(t) \sim \exp(-\lambda_1 t)$. 
 
-\begin{remark}[Boundary Conditions and Functional Analysis]
+\begin{caveat}[Caveat: Boundary Conditions and Functional Analysis]
 	Changing the boundary conditions changes also the eigenvalues and the adjoint operator (boundary terms might pop up) and thus you will get each time a different operator in terms of functional analysis. 
-\end{remark}
+\end{caveat}
 
 
 \section{Master Equation}
@@ -1852,14 +1847,13 @@ with the properties
 	\expval{a(t)} = 0 \quad \expval{a(t)a(t')} = D_A \tau \exp{- \frac{|t-t'|}{\tau}} \quad \tau = \frac{1}{2 \mu A_0}
 \end{equation*}
 %
-\begin{remark}[Remark]
-	If we consider an ensemble average, the amplitude fluctuations will decay with $\tau$: 
-	%
-	\begin{equation*}
-		\bar{a}(t) = \expval{a(t)} \quad \mathrm{with} \quad \dv{d} \bar{a} = - \frac{\bar{a}}{\tau}
-	\end{equation*}
-	%
-\end{remark}
+
+If we consider an ensemble average, the amplitude fluctuations will decay with $\tau$: 
+%
+\begin{equation*}
+	\bar{a}(t) = \expval{a(t)} \quad \mathrm{with} \quad \dv{d} \bar{a} = - \frac{\bar{a}}{\tau}
+\end{equation*}
+
 
 \subsection*{Manifestation of Phase Noise}
 
@@ -1939,7 +1933,7 @@ we obtain the noises Adler equation for the phase difference $\delta = \varphi_1
 %
 Here, and Gaussian white noise $\xi(t)$ represents Gaussian white noise with $\expval{\xi(t)\xi(t')} = 2 (D_L + D_R) \delta(t-t')$.
 
-\begin{remark}[Remark: How to add two noise terms ]
+\begin{caveat}[Caveat: How to add two noise terms ]
 	%
 	\begin{equation*}
 		\xi(t) = \xi_L(t) - \xi_R(t)
@@ -1953,7 +1947,7 @@ Here, and Gaussian white noise $\xi(t)$ represents Gaussian white noise with $\e
 		&= 2 (D_L + D_R) \delta(t-t')
 	\end{align*}
 	%	
-\end{remark}
+\end{caveat}
 %
 We can reinterpret the noisy Adler equation as the overdamped dynamics of a diffusing particle in a potential $U(x)$
 %
@@ -2094,6 +2088,7 @@ Glimpse on Infotaxis: Infotaxis as a strategy for searching without gradients by
 
 
 \chapter{It$\bar{\mathrm{o}}$ versus Stratonovich Calculus}
+\label{chap:7}
 
 If we are given an ODE, e.g. $\dot{x} = f(x)$, what does this mean? To answer this question, we are going to take a constructive approach and interpret the ODE as a rule to construct the solution. So we estimate the values $x_i = x(i \dd{t})$ and then take the limit $\dd{t} \to 0$.
 
@@ -2551,7 +2546,7 @@ The derivative with respect to time reads
 %
 
 %
-\begin{remark}[Remark: Even and Odd Functions]
+\begin{caveat}[Caveat: Even and Odd Functions]
 	%
 	Every function $F(t)$ can be separated into an even and an odd part
 	%
@@ -2563,9 +2558,9 @@ The derivative with respect to time reads
 	\end{cases}
 	\end{equation*}
 	%
-	\underline{Caution:} The prime $'$ indicates the even part, not a derivative!
+	Here, the prime $'$ indicates the even part, not a derivative!
 	%
-\end{remark}
+\end{caveat}
 %
 
 so $C_A(t)$ is even, thus $\dv{t} C_A(t)$ is odd and as we take only the odd parts 
@@ -2718,7 +2713,7 @@ Then the time propagator $T$ fulfills the condition
 % 
 
 %
-\begin{remark}[Nota Bene]
+\begin{caveat}[Nota Bene]
 	We always have
 	%
 	\begin{equation}
@@ -2726,7 +2721,7 @@ Then the time propagator $T$ fulfills the condition
 	\end{equation}
 	% 	
 	as we can play backwards the dynamics in time.
-\end{remark}
+\end{caveat}
 %
 
 %
@@ -2916,7 +2911,7 @@ with $f = - \frac{1}{\gamma} \pdv{U}{x}$, $g = \sqrt{2D}$ so
 %
 so this is the correct generalization of Fick's law for equilibrium systems with $\gamma = \gamma(x)$. So at the steady state we must have $\dot{P}^* = 0$ and $fP) + D(x)\nab P = \mathrm{const}$ and we get the Boltzmann distribution $P^* \sim \exp(-\beta U)$.
 
-\begin{remark}[Nota Bene]
+\begin{caveat}[Nota Bene]
 In Ito interpretation with $\alpha = 0$ we would have obtained the Fokker-Planck equation 
 %
 \begin{equation}
@@ -2924,7 +2919,7 @@ In Ito interpretation with $\alpha = 0$ we would have obtained the Fokker-Planck
 \end{equation}
 %
 which gives rise to different physics and different steady state distributions. So it is really important where to write $D$!
-\end{remark}
+\end{caveat}
 
 \subsection*{Case ii): Position-dependent Temperature}
 
