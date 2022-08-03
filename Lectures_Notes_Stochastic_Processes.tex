@@ -1514,21 +1514,41 @@ and thus $N = N_0 \exp(-\gamma t)$.
 
 
 
-\chapter{Dynkin Equation}
+\chapter{Diffusion to Capture}
 
-\section{Mean First Passage Times and Dynkin Equation}
+In this chapter we consider diffusion when there is an absorbing boundary – once a diffusing particle reaches it, there is no return. This first-time hitting model can have a variety of applications, from describing an animal's search for food, a protein binding to a site, or the ruin problem where a gambler is loosing all his money. It may also, more generally, describe chemical reactions, in particular donor-bridge-acceptor systems, or a particle jumping between local minima in a potential landscape. 
 
-We consider diffusion in some potential landscape $\gamma \dot{x} = - \pdv{U}{x} + \xi(t)$ with initial conditions $p(x,0) = \delta(x-x_1)$ and absorbing boundary conditions $p(x_2,t) = 0$, i.e, $\dot{p} = -\nabla J$ where $J(x_2,t)$ is the current to the absorbing boundary conditions.
+\section{Mean First Passage Time and Dynkin Equation}
+
+\subsection*{Mean First Passage Time}
+
+An absorbing boundary introduces an characteristic time-scale to a system name the time it takes on average starting somewhere off the absorbing boundary to eventually get trapped at the absorbing boundary. Mathematically speaking, if we consider a bound domain $D$, how long will it take for a particle starting with that domain at $x_1 \in D$ to get trapped at the boundary $\partial D$? This brings us to the concept of the \textit{mean first passage time} (MFPT): The average time scale for a stochastic event, such as being trapped at a boundary, to occur for the first time. 
+
+Let's consider one specific example: Diffusion in some potential landscape $U(x)$ as described by the Langevin equation
+%
+\begin{equation}
+	\gamma \dot{x} = - \pdv{U}{x} + \xi(t)
+\end{equation}
+%
+with Gaussian white noise $\xi(t)$, the initial conditions $p(x,0) = \delta(x-x_1)$, and absorbing boundary conditions $p(x_2,t) = 0$. Here, $p(x,t)$ is the processes probability distribution and its time evolution $\dot{p} = -\nabla J$ gives rise to a current $J(x,t)$, with $J(x_2,t)$ being specifically the current to the absorbing boundary. The mean first passage time for this setup is 
 
 \begin{theorem}[Mean First Passage Time (MFPT)]
 	%
 	\begin{equation}
-	\tau(x_2|x_1) = \int_0^{\infty} \dd{t} t J(x_2,t|x_1,0)
+	\tau(x_2 | x_1) = \int_{-\infty}^{x_2} \dd{x} t \, p(x,t) =  \int_0^{\infty} \dd{t} t \, J(x_2,t | x_1,0)
 	\end{equation}
 	%
 \end{theorem}
 
+% - units: integral gives one time unit, t gives one time unit, J give one inverse time unit = one overall time unit as it should be 
+% 
+
+\subsection*{Example: MFPT for Chemical Reaction Systems}
+
 examples from chemistry and kinetic reaction systems: \cite{Polizzi2016}
+
+
+\subsection*{Dynkin Equation}
 
 Our goal is to derive an equation for $\tau$ in the process 
 %
@@ -1556,6 +1576,9 @@ and we get the \textit{Dynkin equation}
 -1 = \hat{L}^*_{x_1} \tau(x_2|x_1)
 \end{equation}
 %
+
+% \subsection*{Extra: General Form of Dynkin Equation}
+
 
 
 \subsection*{Application to Diffusion}
