@@ -143,19 +143,9 @@ P(A) = \int_A{\dd{x} p(x)}
 %
 for $A \subseteq \R$. 
 
-\Caveat: Note that $p(x)$ is also called \textit{probability density function} 
-and sometimes written as $\mathrm{PDF}(x) = p(x)$. 
-Also, note the physical units: 
-if, for example, $x$ has units of a length, $[x] = \si{\meter}$, 
-then the probability density $p(x)$ has units of an inverse length, $[p] = \si{\per \meter}$. 
-Knowing the physical units is extremely useful as it allows to tell apart different objects.
+\Caveat: Note that $p(x)$ is also called \textit{probability density function}  and sometimes written as $\mathrm{PDF}(x) = p(x)$.  Also, note the physical units:  if, for example, $x$ has units of a length, $[x] = \si{\meter}$,  then the probability density $p(x)$ has units of an inverse length, $[p] = \si{\per \meter}$.  Knowing the physical units is extremely useful as it allows to tell apart different objects.
 
-\Caveat: As a mathematical caveat, Eq.~\eqref{eq:def_P} cannot be defined for arbitrarily ``wild'' sub-sets $A \subset \R$, but only for sufficiently `nice' subsets (similar to the restriction of `nice' subsets in the axiomatic definition of probability). 
-Specifically, these subsets need to be measurable. 
-In particular, (countable) unions and intersections of intervals are measurable, 
-forming a so-called $\sigma$-algebra. 
-This technical issue is extensively studied in the mathematical sub-discipline of Measure and Integration Theory, but usually is not a concern in physical applications.
-For a reference, see e.g. \cite{Billingsley2012}.
+\Caveat: As a mathematical caveat, Eq.~\eqref{eq:def_P} cannot be defined for arbitrarily ``wild'' sub-sets $A \subset \R$, but only for sufficiently `nice' subsets (similar to the restriction of `nice' subsets in the axiomatic definition of probability).  Specifically, these subsets need to be measurable.  In particular, (countable) unions and intersections of intervals are measurable,  forming a so-called $\sigma$-algebra.  This technical issue is extensively studied in the mathematical sub-discipline of Measure and Integration Theory, but usually is not a concern in physical applications. For a reference, see e.g. \cite{Billingsley2012}.
 
 The \textit{cumulative density function} is defined as
 \begin{equation}
@@ -1516,7 +1506,7 @@ and thus $N = N_0 \exp(-\gamma t)$.
 
 \chapter{Diffusion to Capture}
 
-In this chapter we consider diffusion when there is an absorbing boundary – once a diffusing particle reaches it, there is no return. This first-time hitting model can have a variety of applications, from describing an animal's search for food, a protein binding to a site, or the ruin problem where a gambler is loosing all his money. It may also, more generally, describe chemical reactions, in particular donor-bridge-acceptor systems, or a particle jumping between local minima in a potential landscape. 
+In this chapter we consider diffusion when there is an absorbing boundary – once a diffusing particle reaches it, there is no return. This first-time hitting model can have a variety of applications, from describing an animal's search for food, a protein binding to a site, or the ruin problem where a gambler is loosing all his money. It may also, more generally, describe chemical reactions, in particular donor-bridge-acceptor systems, ground-state recovery after photoexcitation, or a particle jumping between local minima in a potential landscape. 
 
 \section{Mean First Passage Time and Dynkin Equation}
 
@@ -1543,10 +1533,38 @@ with Gaussian white noise $\xi(t)$, the initial conditions $p(x,0) = \delta(x-x_
 % - units: integral gives one time unit, t gives one time unit, J give one inverse time unit = one overall time unit as it should be 
 % 
 
-\subsection*{Example: MFPT for Chemical Reaction Systems}
+\subsection*{Example: MFPT for Donor-Bridge-Acceptor Systems}
 
-examples from chemistry and kinetic reaction systems: \cite{Polizzi2016}
+Let's consider one more example from chemistry, taken from the paper 'Mean First Passage Times in Biology' by Polizzi et al. \cite{Polizzi2016}: Donor-bridge-acceptor (DBA) systems, a particular type of kinetic reaction system, where a reaction occurs form an initial donor state D, via intermediate bridge states B, to a final acceptor state A. In the simplest case, there is just a single bridge state and one can think of it as a random walker jumping between donor and bridge, before eventually getting absorbed at the acceptor. In this example, the MFPT characterizes the average time it takes to get from the initial state $D$ to the final state $A$. 
 
+The MFPT is given by 
+%
+\begin{equation}
+	\tau = \int_0^\infty \dd{t} t \, p_{\mathrm{fp}}(t)  
+\end{equation}
+%
+where $p_{\mathrm{fp}}(t)$ is the probability density of the first passage to the final state $A$
+%
+\begin{equation}
+	p_{\mathrm{fp}}(t) = \dv{t} P_{\mathrm{fp}}(t)
+\end{equation}
+%
+and $P_{\mathrm{fp}}(t)$ is the corresponding probability of a first passage to the final state $A$, which is related to the probability $P_{1}(t) + P_{2}(t)$ to be found in either state D or B (after starting at D) at time $t$ via 
+%
+\begin{equation}
+	P_{\mathrm{fp}}(t) = 1 - \left[ P_{1}(t) + P_{2}(t) \right]
+\end{equation}
+%
+
+Doing the maths (see the paper by Polizzi et al. \cite{Polizzi2016}), one obtains for the MFPT
+%
+\begin{equation}
+	\tau = \sum_{i \neq D} \int_0^\infty \dd{t} P_i(t) = \sum_{i \neq 3} r_i
+\end{equation}
+%
+with $i \in \{D,B,A\}$ and where $r_i$ are the residence times for the respective states. Generalizing again from this expression one can see, that the MFPT increases with more bridge states and larger residence times. The inverse of the MFPT give the effective rate of the overall chemical reaction. 
+
+% TODO: how is this formalism related to what was discussed before? 
 
 \subsection*{Dynkin Equation}
 
